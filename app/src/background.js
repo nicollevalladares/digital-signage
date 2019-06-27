@@ -6,8 +6,6 @@ import { format as formatUrl } from 'url'
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib'
 import fs from 'fs'
 
-
-process.env.NODE_ENV = 'development'
 var configContent
 try {
   fs.statSync('/data/config.json')
