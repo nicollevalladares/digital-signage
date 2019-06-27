@@ -2,7 +2,7 @@ version: '2'
 services:
   signage:
     restart: always
-    build: ./vue
+    # build: ./vue
     # volumes: 
     #   - 'resin-data:/data'
     privileged: true
