@@ -9,7 +9,7 @@ export default {
   name: 'LandingPage',
   data(){
     return {
-      uuid : process.env.RESIN_DEVICE_UUID || 'No UUID - Development Machine'
+      uuid: process.env.RESIN_DEVICE_UUID || 'No UUID - Development Machine',
     }
   }
 }
