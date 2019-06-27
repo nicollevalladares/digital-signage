@@ -7,6 +7,7 @@
 
 <script>
 import axios from 'axios'
+var download = require('download-file')
 
 export default {
   name: 'LandingPage',
@@ -24,6 +25,16 @@ export default {
     .then(response => {
       this.prueba = response;
     })
+
+  var options = {
+      directory: "/home/benavidez25/Descargas/img",
+      filename: "cat.gif"
+  }
+
+  download("http://i.imgur.com/G9bDaPH.jpg", options, function(err){
+    if (err) throw err
+      console.log("meow")
+  }) 
   }
 }
 </script>
