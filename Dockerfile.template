@@ -96,7 +96,9 @@ COPY ./app/ ./
 RUN npm run build:pi
 
 ## uncomment if you want systemd
-ENV INITSYSTEM on
+# ENV INITSYSTEM on
+ENV UDEV=1
+
 
 # Start app
 CMD ["bash", "/usr/src/app/start.sh"]
