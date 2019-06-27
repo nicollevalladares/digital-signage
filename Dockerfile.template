@@ -8,11 +8,54 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   xserver-xorg-input-all \
   xserver-xorg-video-fbdev \
   xorg \
-  libxcb-image0 \
-  libxcb-util0 \
-  xdg-utils \
+  libegl1-mesa \
+  libegl1-mesa-dev \
+  libegl1-mesa-drivers \
+  libgbm-dev \
+  libgbm1 \
+  libgl1-mesa-dev \
+  libgl1-mesa-dri \
+  libgl1-mesa-glx \
+  libglapi-mesa \
+  libgles1-mesa \
+  libgles1-mesa-dev \
+  libgles2-mesa \
+  libgles2-mesa-dev \
+  libosmesa6 \
+  libosmesa6-dev \
+  libwayland-egl1-mesa \
+  libxatracker-dev \
+  libxatracker2 \
+  mesa-common-dev \
+  mesa-opencl-icd \
+  mesa-va-drivers \
+  mesa-vdpau-drivers \
+  mesa-vulkan-drivers \
+  # libegl1-mesa \
+  # libegl1-mesa-drivers \
+  # libgl1-mesa-dri \
+  # libgl1-mesa-glx \
+  # libglapi-mesa \
+  # libgles1-mesa \
+  # libgles2-mesa \
+  # libglu1-mesa \
+  # libopenvg1-mesa \
+  # libglx-mesa0 \ 
+  # mesa-vulkan-drivers \
   libdbus-1-dev \
-  libgtk-3-dev \
+  libgtk2.0-dev \
+  libgtk-3.0 \
+  libnotify-dev \
+  libtxc-dxtn-s2tc0 \
+  xserver-xorg-video-intel \
+  mesa-utils \
+  mesa-utils-extra \
+  libva-drm1 \
+  libgl1-mesa-dev \
+  libglu1-mesa-dev \
+  freeglut3-dev \
+  libdbus-1-dev \
+  libgtk2.0-dev \
   libnotify-dev \
   libgnome-keyring-dev \
   libgconf2-dev \
@@ -22,11 +65,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   libxtst-dev \
   libxss1 \
   libnss3-dev \
+  fluxbox \
   libsmbclient \
   libssh-4 \
   fbset \
-  nano \
-  libexpat-dev && rm -rf /var/lib/apt/lists/*
+  alsa-utils \
+  cups \
+  system-config-printer \
+libexpat-dev && rm -rf /var/lib/apt/lists/*
 
 RUN echo "#!/bin/bash" > /etc/X11/xinit/xserverrc \
   && echo "" >> /etc/X11/xinit/xserverrc \
