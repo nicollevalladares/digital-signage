@@ -1,6 +1,32 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <input style="display: none" type="text" id="listDirTxt">
+      <input style="display: none" type="text" id="rmVideo">
+      <div id="container">
+        <div id="header">
+          <h1>Digital Signage</h1>
+          <div id="log"></div>
+        </div>
+      </div>
+      <div id="logo-container">
+        <!-- <img style="width: 250px; height:250px;" src="./img/loading.svg"> -->
+        <!-- <progress value="6" max="10"></progress> -->
+        <div style="color: white;" id="output"></div>
+      </div>
+      <div id="fade"></div>
+      <video id="video" autoplay src=""></video>
+
+      <div id="newScreen">
+        <br>
+        <h2 id="newScreenTitle">CONFIGURACIÓN DE NUEVA PANTALLA</h2>
+        <h3 id="newScreenDescription">Esta pantalla no está vinculada a ninguna cuenta en digitalSignage </h3>
+        <h3>dirígase a <span style="color: rgb(21, 21, 192)">www.digitalsignage.com/addScreen</span> e ingrese el siguiente código para realizar la configuración</h3>
+        <div id="code">----------</div>
+        <h3 id="qr-text">o escanee el siguiente código QR:</h3>
+        <br>
+        <img id="barCode" src="" >
+		</div>
+    <!-- <h1>{{ msg }}</h1>
     <p>
       For guide and recipes on how to configure / customize this project,<br>
       check out the
@@ -26,7 +52,7 @@
       <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
       <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+    </ul> -->
   </div>
 </template>
 
