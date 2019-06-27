@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{uuid}}
+    <h2>UUID: {{uuid}}</h2>
   </div>
 </template>
 
@@ -9,7 +9,7 @@ export default {
   name: 'LandingPage',
   data(){
     return {
-      uuid : RESIN_DEVICE_UUID
+      uuid : process.env.RESIN_DEVICE_UUID || 'No UUID - Development Machine'
     }
   }
 }
