@@ -15,7 +15,7 @@ try {
   console.log('Error while reading config.json: ', err)
 }
 
-const isDevelopment = process.env.NODE_ENV !== 'production'
+const isDevelopment = process.env.NODE_ENV == 'production'
 
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
 let mainWindow
