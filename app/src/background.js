@@ -6,7 +6,7 @@ import { format as formatUrl } from 'url'
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib'
 import fs from 'fs'
 
-process.env.NODE_ENV = 'production'
+process.env.NODE_ENV = "production"
 
 var configContent
 try {
