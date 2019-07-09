@@ -24,18 +24,18 @@ export default {
   created(){
     axios.get('http://connect.dev.hn/playlists')
     .then(response => {
-      this.prueba = response;
+      this.prueba = response + process.env.BALENA_DEVICE_UUID;
     })
 
-  var options = {
-      // directory: "/home/benavidez25/Descargas/img",
-      filename: "cat.gif"
-  }
+  // var options = {
+  //     // directory: "/home/benavidez25/Descargas/img",
+  //     filename: "cat.gif"
+  // }
 
-    download("http://i.imgur.com/G9bDaPH.jpg", options, function(err){
-      if (err) throw err
-        console.log("meow") // eslint-disable-next-line
-    }) 
+  //   download("http://i.imgur.com/G9bDaPH.jpg", options, function(err){
+  //     if (err) throw err
+  //       console.log("meow") // eslint-disable-next-line
+  //   }) 
   }
 }
 </script>
