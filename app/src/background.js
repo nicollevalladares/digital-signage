@@ -1,5 +1,5 @@
 'use strict'
-
+const electron = require('electron')
 import { app, protocol, BrowserWindow } from 'electron'
 import * as path from 'path'
 import { format as formatUrl } from 'url'
@@ -18,6 +18,7 @@ try {
 const isDevelopment = process.env.NODE_ENV !== 'production'
 console.log( 'isDevelopment: '+ isDevelopment);
 console.log('process.env.NODE_ENV: '+ process.env.NODE_ENV);
+console.log(electron.screen.getAllDisplays());
 
 
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
