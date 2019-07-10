@@ -1,5 +1,4 @@
 'use strict'
-const electron = require('electron')
 import { app, protocol, BrowserWindow } from 'electron'
 import * as path from 'path'
 import { format as formatUrl } from 'url'
@@ -122,8 +121,6 @@ function createMainWindow() {
     createProtocol('app')
     //   Load the index.html when not in development
     window.loadURL(electronConfig.URL_LAUNCHER_URL)
-    console.log(electron.screen.getAllDisplays());
-
 
   }
 
