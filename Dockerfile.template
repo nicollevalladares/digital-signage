@@ -31,7 +31,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   mesa-va-drivers \
   mesa-vdpau-drivers \
   mesa-vulkan-drivers \
-  
+
   # libegl1-mesa \
   libegl1-mesa-drivers \
   # libgl1-mesa-dri \
@@ -50,6 +50,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   libnotify-dev \
   libtxc-dxtn-s2tc0 \
   xserver-xorg-video-intel \
+  xserver-xorg-video-modesetting \
   mesa-utils \
   mesa-utils-extra \
   libva-drm1 \

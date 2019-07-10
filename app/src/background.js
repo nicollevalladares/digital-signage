@@ -18,8 +18,6 @@ try {
 const isDevelopment = process.env.NODE_ENV !== 'production'
 console.log( 'isDevelopment: '+ isDevelopment);
 console.log('process.env.NODE_ENV: '+ process.env.NODE_ENV);
-console.log(electron.screen.getAllDisplays());
-
 
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
 let mainWindow
@@ -65,7 +63,6 @@ if (electronConfig.URL_LAUNCHER_TOUCH_SIMULATE) {
 if (isDevelopment) {
   // Don't load any native (external) modules until the following line is run:
   require('module').globalPaths.push(process.env.NODE_MODULES_PATH)
-
   /*eslint no-console:0*/
   console.log('Running in development mode')
   Object.assign(electronConfig, {
@@ -125,6 +122,9 @@ function createMainWindow() {
     createProtocol('app')
     //   Load the index.html when not in development
     window.loadURL(electronConfig.URL_LAUNCHER_URL)
+    console.log(electron.screen.getAllDisplays());
+
+
   }
 
   window.on('closed', () => {
