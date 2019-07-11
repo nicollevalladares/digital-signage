@@ -1,6 +1,7 @@
 <template>
   <div>
       <img src="@/assets/loading.svg">
+      uuid: {{uuid}}
   </div>
 </template>
 
@@ -14,7 +15,8 @@ export default {
   name: 'LandingPage',
   data(){
     return {
-       prueba : null
+       prueba : null,
+       uuid : process.env.RESIN_DEVICE_UUID
     }
   },
   methods:{
