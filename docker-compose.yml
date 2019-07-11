@@ -1,0 +1,13 @@
+version: '2'
+services:
+  signage:
+    restart: always
+    build: ./vue
+    # volumes: 
+    #   - 'resin-data:/data'
+    privileged: true
+    labels:
+      io.balena.features.dbus: '1'
+      io.balena.features.kernel-modules: '1'
+      io.balena.features.firmware: '1'
+      io.balena.features.balena-socket: '1'
