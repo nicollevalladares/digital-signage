@@ -10,17 +10,17 @@ const router =  new Router({
         {
             path: '/',
             name: 'Preloader',
-            component: () => import('@/components/Preloader.vue')
+            component: require('@/components/Preloader').default
         },
         {
             path: '/landingPage',
             name: 'LandingPage',
-            component: () => import('@/components/LandingPage.vue')
+            component: require('@/components/LandingPage').default
         },
         {
             path: '/addScreen',
             name: 'AddScreen',
-            component: () => import('@/components/AddScreen.vue')
+            component: require('@/components/AddScreen').default
         },
     ]
 })
