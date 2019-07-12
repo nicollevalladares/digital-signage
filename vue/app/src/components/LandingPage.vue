@@ -16,7 +16,7 @@ export default {
   data(){
     return {
        prueba : null,
-       uuid : process.env.RESIN_DEVICE_UUID
+       uuid : process.env.RESIN_DEVICE_UUID || 'No UUID'
     }
   },
   methods:{
