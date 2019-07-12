@@ -34,10 +34,10 @@ export default {
   created(){
       this.getUUID()
 
-      axios.get('http://connect.dev.hn/playlists')
-      .then(response => {
-        this.prueba = response;
-      })
+      // axios.get('http://connect.dev.hn/playlists')
+      // .then(response => {
+      //   this.prueba = response;
+      // })
 
       // var options = {
       //     // directory: "/home/benavidez25/Descargas/img",

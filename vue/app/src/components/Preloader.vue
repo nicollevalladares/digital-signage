@@ -55,19 +55,12 @@ import router from '../router'
                 console.log(reachable);
                 if (!reachable) {
                 //   this.$router.push({name: 'offline-screen'})
-<<<<<<< HEAD
-                  this.state = false
+                  this.state = false;
                   this.$router.push({name: 'LandingPage'})
                     // window.location ='/'
                 } else {
-                  this.state = false
+                  this.state = false;
                   this.$router.push({name: 'LandingPage'})
-=======
-                    //  this.$router.push({name: 'LandingPage'})
-                    // window.location ='/'
-                } else {
-                    //  this.$router.push({name: 'LandingPage'})
->>>>>>> baaa1cf76f53b5191a9b539d5716aca4b9384664
                     //    window.location ='/landingPage'
                 }
               });
