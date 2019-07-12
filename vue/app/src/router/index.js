@@ -13,10 +13,15 @@ const router =  new Router({
             component: () => import('@/components/Preloader.vue')
         },
         {
-        path: '/landingPage',
-        name: 'LandingPage',
-        component: () => import('@/components/LandingPage.vue')
-        }
+            path: '/landingPage',
+            name: 'LandingPage',
+            component: () => import('@/components/LandingPage.vue')
+        },
+        {
+            path: '/addScreen',
+            name: 'AddScreen',
+            component: () => import('@/components/AddScreen.vue')
+        },
     ]
 })
 
