@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Preloader></Preloader>
-    <!-- <router-view></router-view> -->
+    <router-view></router-view>
   </div>
 </template>
 
