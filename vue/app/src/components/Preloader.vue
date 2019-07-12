@@ -1,6 +1,6 @@
 <template>
   <div id="wrapper">
-    <div class="loader">
+    <div v-if="state" class="loader">
       <svg viewBox="0 0 334.04 361.77">
         <path id="fLeft" d="M713.68,275a21.19,21.19,0,0,1-1,16.2c-9.33,19.06-34.25,70.17-45.43,95.09-4.48,10-2.65,14.68,7.2,19.66C705.51,421.68,793,465.2,804.52,473.4c5.87,4.2,9.58,10,12.65,16.18,0,0,21,43.23,31.5,65.16,3.86,8-4.77,12-9.62,9.51L581,434.62c-4.13-2.33-6-7.66-3.91-13.46L678,206.5c2.75-3.94,8.84-2.46,10.7,2.16C688.67,208.66,706.83,254.92,713.68,275Z" transform="translate(-516.1 -203.73)"/>
         <path id="fRight" d="M527.65,562.4a7.75,7.75,0,0,1-10.89-8.56c1.06-5.26,31.19-68.58,42.72-95.76,2.69-6.35,7.77-8.63,13.93-5.56q36.09,18,72,36.46c6.1,3.14,5.56,9.9,1.45,12.39C646.83,501.37,541.56,555.89,527.65,562.4Z" transform="translate(-516.1 -203.73)"/>
@@ -21,7 +21,8 @@ import router from '../router'
     },
     data() {
       return {
-          name : ''
+          name : '',
+          state: true
       }
 
     },
@@ -54,10 +55,12 @@ import router from '../router'
                 console.log(reachable);
                 if (!reachable) {
                 //   this.$router.push({name: 'offline-screen'})
-                     this.$router.push({name: 'LandingPage'})
+                  this.state = false
+                  this.$router.push({name: 'LandingPage'})
                     // window.location ='/'
                 } else {
-                     this.$router.push({name: 'LandingPage'})
+                  this.state = false
+                  this.$router.push({name: 'LandingPage'})
                     //    window.location ='/landingPage'
                 }
               });

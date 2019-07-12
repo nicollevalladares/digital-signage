@@ -1,17 +1,17 @@
 <template>
   <div id="app">
-    <!-- <Preloader></Preloader> -->
+    <Preloader></Preloader>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
 
-// import Preloader from './components/Preloader.vue'
+import Preloader from './components/Preloader.vue'
 export default {
   name: 'App',
   components: {
-    // Preloader
+    Preloader
   }
 }
 </script>
