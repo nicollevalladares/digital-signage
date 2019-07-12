@@ -11,6 +11,7 @@
 
 <script>
 import axios from 'axios'
+import { mapActions, mapState } from 'vuex';
 var download = require('download-file')
 
 export default {
@@ -25,25 +26,32 @@ export default {
     }
   },
   methods: {
-    verUuid(){
-      this.uuid = process.env.RESIN_DEVICE_UUID || 'no uuid';
-    }
+    ...mapActions(['getUUID']),
+    // verUuid(){
+    //   this.uuid = process.env.RESIN_DEVICE_UUID || 'no uuid';
+    // }
   },
   created(){
-    axios.get('http://connect.dev.hn/playlists')
-    .then(response => {
-      this.prueba = response;
-    })
+      this.getUUID()
 
-  // var options = {
-  //     // directory: "/home/benavidez25/Descargas/img",
-  //     filename: "cat.gif"
-  // }
+      axios.get('http://connect.dev.hn/playlists')
+      .then(response => {
+        this.prueba = response;
+      })
 
-  //   download("http://i.imgur.com/G9bDaPH.jpg", options, function(err){
-  //     if (err) throw err
-  //       console.log("meow") // eslint-disable-next-line
-  //   }) 
+      // var options = {
+      //     // directory: "/home/benavidez25/Descargas/img",
+      //     filename: "cat.gif"
+      // }
+
+      //   download("http://i.imgur.com/G9bDaPH.jpg", options, function(err){
+      //     if (err) throw err
+      //       console.log("meow") // eslint-disable-next-line
+      //   }) 
+  
+  },
+  computed: {
+    ...mapState(['uuid'])
   }
 }
 </script>
