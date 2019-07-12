@@ -21,19 +21,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    uuid: ''
+    uuid: process.env.RESIN_DEVICE_UUID
   },
   mutations: {
-    setUUID(state, uuid){
-        state.uuid =  uuid;
-        console.log(state.uuid);
-    }
+    
   },
   actions: {
-      getUUID({commit}){
-        const uuid = process.env.UUID;
-        commit('setUUID', uuid);
-      }
+    
   },
   getters: {
 

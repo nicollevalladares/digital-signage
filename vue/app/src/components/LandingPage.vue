@@ -26,13 +26,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getUUID']),
     // verUuid(){
     //   this.uuid = process.env.RESIN_DEVICE_UUID || 'no uuid';
     // }
   },
   created(){
-      this.getUUID()
 
       // axios.get('http://connect.dev.hn/playlists')
       // .then(response => {
