@@ -1,7 +1,7 @@
 <template>
   <div>
-      <img src="@/assets/loading.svg">
-      uuid: {{uuid}}
+      <!-- <img src="@/assets/loading.svg"> -->
+      <h1>Pantalla de configuración</h1>
   </div>
 </template>
 
@@ -13,15 +13,20 @@ var download = require('download-file')
 
 export default {
   name: 'LandingPage',
+     components: {
+    
+    },
   data(){
     return {
        prueba : null,
        uuid : process.env.RESIN_DEVICE_UUID || 'No UUID'
     }
   },
-  methods:{
-    
-  },
+      data() {
+      return {
+      
+      }
+    },
   created(){
     axios.get('http://connect.dev.hn/playlists')
     .then(response => {
@@ -44,7 +49,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style >
  body {
-   background-color: rgb(240, 245, 224)
+   background-color: rgb(56, 73, 146)
  }
 
  img {

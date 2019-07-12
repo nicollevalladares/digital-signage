@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import jsonconfig from '../config.json'
+import router from './router'
 
 Vue.config.productionTip = false
 
@@ -17,5 +18,8 @@ if (ELECTRON_DETECTED) {
 export const config = tmpConfig
 
 new Vue({
+  el: '#app',
+  router,
+  // store,
   render: h => h(App)
 }).$mount('#app')

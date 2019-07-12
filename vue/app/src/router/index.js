@@ -8,7 +8,12 @@ const router =  new Router({
     base: process.env.BASE_URL,
     routes: [
         {
-        path: '/',
+            path: '/',
+            name: 'Preloader',
+            component: () => import('@/components/Preloader.vue')
+        },
+        {
+        path: '/landingPage',
         name: 'LandingPage',
         component: () => import('@/components/LandingPage.vue')
         }
