@@ -2,6 +2,8 @@
   <div>
       <!-- <img src="@/assets/loading.svg"> -->
       <h1>Pantalla de configuración</h1>
+      <button @click="verUuid">uuid</button>
+      uuid : {{uuid}}
   </div>
 </template>
 
@@ -19,14 +21,14 @@ export default {
   data(){
     return {
        prueba : null,
-       uuid : process.env.RESIN_DEVICE_UUID || 'No UUID'
+       uuid : null
     }
   },
-      data() {
-      return {
-      
-      }
-    },
+  methods: {
+    verUuid(){
+      this.uuid = process.env.RESIN_DEVICE_UUID || 'ni mergas';
+    }
+  },
   created(){
     axios.get('http://connect.dev.hn/playlists')
     .then(response => {
