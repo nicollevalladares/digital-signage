@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     verUuid(){
-      this.uuid = process.env.RESIN_DEVICE_UUID || 'ni mergas';
+      this.uuid = process.env.RESIN_DEVICE_UUID || 'no uuid';
     }
   },
   created(){
