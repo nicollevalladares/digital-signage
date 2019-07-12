@@ -2,7 +2,7 @@
   <div>
       <!-- <img src="@/assets/loading.svg"> -->
       <h1>Pantalla de configuración</h1>
-      <button @click="verUuid">uuid</button>
+      <!-- <button @click="verUuid">uuid</button> -->
       uuid : {{uuid}}
   </div>
 </template>

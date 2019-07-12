@@ -31,7 +31,6 @@ export default new Vuex.Store({
   actions: {
       getUUID({commit}){
         const uuid = process.env.RESIN_DEVICE_UUID;
-
         commit('setUUID', uuid);
       }
   },
