@@ -1,6 +1,6 @@
 <template>
   <div>
-      <video src="@assets/videos/video1.mp4" autoplay></video>
+      <video src="@/assets/videos/video1.mp4" autoplay></video>
   </div>
 </template>
 
