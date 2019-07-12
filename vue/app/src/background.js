@@ -6,6 +6,11 @@ import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-buil
 import fs from 'fs'
 
 var configContent
+process.env.UUID = process.env.RESIN_DEVICE_UUID
+
+console.log('UUID : ' + process.env.UUID);
+
+
 try {
   fs.statSync('/data/config.json')
   configContent = fs.readFileSync('/data/config.json', 'utf8')
