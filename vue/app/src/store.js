@@ -26,6 +26,7 @@ export default new Vuex.Store({
   mutations: {
     setUUID(state, uuid){
         state.uuid =  uuid;
+        console.log(state.uuid);
     }
   },
   actions: {
