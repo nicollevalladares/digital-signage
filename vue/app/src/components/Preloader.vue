@@ -48,16 +48,16 @@ import router from '../router'
         step: (state, bar, attachment) => {
           if(state.offset == 0){
             document.querySelector('.loader').classList.add('finished');
-            this.name = 'Digital Signage'
+            this.name = 'DIGITAL SIGNAGE'
             setTimeout(()=>{
               isReachable(['beanar.io', 'https://canihazip.com', 'https://www.bancatlan.hn', 'https://dashboard.resin.io', 'https://status.resin.io']).then(reachable => {
                 console.log(reachable);
                 if (!reachable) {
                 //   this.$router.push({name: 'offline-screen'})
-                     this.$router.push({name: 'LandingPage'})
+                    //  this.$router.push({name: 'LandingPage'})
                     // window.location ='/'
                 } else {
-                     this.$router.push({name: 'LandingPage'})
+                    //  this.$router.push({name: 'LandingPage'})
                     //    window.location ='/landingPage'
                 }
               });
@@ -84,19 +84,22 @@ import router from '../router'
 .name {
     color: white;
     font-weight: bold;
+    margin-top: -50px;
+    font-size: 3rem;
+    letter-spacing: 10px;
 }
 .loader{
-    position: absolute;
-    width: 300px;
-    height: 300px;
-    top: 50%;
-    left: 50%;
-    margin: -150px;
+    width: 50%;
+    height: 50%;
+    /* top: 20%; */
+    /* left: 50%; */
+    /* margin: -150px; */
+    margin-left: auto;
+    margin-right: auto;
 }
 .loader svg{
   width: 60%;
-  margin: 20%;
-  margin-bottom: 0;
+  margin: 0%;
   transition: 0.3s all;
 }
 .loader svg path{
