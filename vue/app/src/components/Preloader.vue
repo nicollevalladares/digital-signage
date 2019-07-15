@@ -56,11 +56,11 @@ import router from '../router'
                 if (!reachable) {
                 //   this.$router.push({name: 'offline-screen'})
                   this.state = false;
-                  this.$router.push({name: 'LandingPage'})
+                  this.$router.push({name: 'AddScreen'})
                     // window.location ='/'
                 } else {
                   this.state = false;
-                  this.$router.push({name: 'LandingPage'})
+                  this.$router.push({name: 'AddScreen'})
                     //    window.location ='/landingPage'
                 }
               });
