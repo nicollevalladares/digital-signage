@@ -22,6 +22,11 @@ const router =  new Router({
             name: 'AddScreen',
             component: require('@/components/AddScreen').default
         },
+        {
+            path: '/player',
+            name: 'Player',
+            component: require('@/components/player').default
+        },
     ]
 })
 

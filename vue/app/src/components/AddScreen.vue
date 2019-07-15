@@ -1,5 +1,8 @@
 <template>
     <div id="newScreen">
+        <button>
+            <router-link :to="{name: 'Player'}">Player</router-link>
+        </button>
         <h1 id="newScreenTitle">CONFIGURACIÓN DE NUEVA PANTALLA</h1>
         <hr>
         <h3 id="newScreenDescription">Esta pantalla no está vinculada a ninguna cuenta en Digital Signage.</h3>
