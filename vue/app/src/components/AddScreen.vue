@@ -1,15 +1,13 @@
 <template>
-    <div>
-		<div id="newScreen">
-			<br>
-			<h2 id="newScreenTitle">CONFIGURACIÓN DE NUEVA PANTALLA</h2>
-			<h3 id="newScreenDescription">Esta pantalla no está vinculada a ninguna cuenta en Digital Signage </h3>
-			<h3>dirígase a <span style="color: rgb(21, 21, 192)">www.digitalsignage.com/configuration</span> e ingrese el siguiente código para realizar la configuración</h3>
-			<div>1695805997</div>
-			<h3 id="qr-text">o escanee el siguiente código QR:</h3>
-			<br>
-			<img id="barCode" :src="src" >
-		</div>
+    <div id="newScreen">
+        <h1 id="newScreenTitle">CONFIGURACIÓN DE NUEVA PANTALLA</h1>
+        <hr>
+        <h3 id="newScreenDescription">Esta pantalla no está vinculada a ninguna cuenta en Digital Signage.</h3>
+        <h3>Diríjase a <span id="url">www.digitalsignage.com/configuration</span> e ingrese el siguiente código para realizar la configuración</h3>
+        <div id="idScreen">1695805997</div>
+        <h3 id="qr-text">o escanee el siguiente código QR:</h3>
+        <br>
+        <img id="barCode" :src="src" >
     </div>
 </template>
 
@@ -36,6 +34,17 @@ export default {
 }
 </script>
 
-<style >
+<style>
+    #newScreen{
+        color: white;
+    }
+
+    #url{
+        color: rgb(0, 0, 107);
+    }
+
+    #idScreen{
+        font-style: italic;
+    }
 
 </style>
