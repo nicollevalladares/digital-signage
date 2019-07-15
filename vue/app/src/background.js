@@ -4,11 +4,14 @@ import * as path from 'path'
 import { format as formatUrl } from 'url'
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib'
 import fs from 'fs'
+// const {dialog} = require('electron').remote;
 
 var configContent
-process.env.UUID = process.env.RESIN_DEVICE_UUID
 
-console.log('UUID : ' + process.env.UUID);
+ // Load remote compnent that contains the dialog dependency
+// var dialog = remote.require('dialog'); // Load the dialogs component of the OS
+
+// console.log('UUID : ' + process.env.UUID);
 
 
 try {
@@ -21,11 +24,10 @@ try {
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 console.log( 'isDevelopment: '+ isDevelopment);
-console.log('process.env.NODE_ENV: '+ process.env.RESIN_DEVICE_UUID);
+console.log('process.env.NODE_ENV: '+ process.env.NODE_ENV);
 
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
 let mainWindow
-
 // simple parameters initialization
 const electronConfig = {
   URL_LAUNCHER_TOUCH: process.env.URL_LAUNCHER_TOUCH === '1' ? 1 : 0,

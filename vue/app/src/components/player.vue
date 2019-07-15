@@ -1,14 +1,15 @@
 <template>
   <div id="div-player" >
-    <video loop id='player' width="1920" height="1080"  src="@/assets/video1.mp4" ></video> 
+    <input type="file" multiple accept="video/*"/>
+    <video id='player' width="100%" height="100%"  ></video> 
   </div>
 </template>
 
-
-
 <script>
 import axios from 'axios'
-
+import { log } from 'util';
+var filesList = new Array();
+var currentFile = 0;
 export default {
   name: 'Player',
      components: {
@@ -16,8 +17,9 @@ export default {
     },
   data(){
     return {
-      videosList : [{name: 'Video 1', url : '@/assets/video1.mp4', type: 'video/mp4' }],
-      videoElement : null
+      videoElement : null,
+      fileURL: null, 
+      input : null
     }
   },
   methods: {
@@ -32,27 +34,48 @@ export default {
 
     changeVideo : function (videoURL){
       this.videoElement.src = videoURL; 
+    },
+    playNextFile : function (){
+      console.log('Vamos a reproc');
     }
   },
   mounted(){
-    //get the player element
-    this.videoElement= document.getElementById('player');
-
-    this.videoElement.play();
-  //listeners for player
-    this.videoElement.onended = function() {  
-        console.log("The actually video has ended, play next video");
-    }
+    this.input = document.querySelector('input');
+    this.input.addEventListener('change', function(){
+      for (let i = 0; i < this.files.length; i++) {
+             filesList[i]=this.files[i];
+        }
+        this.videoElement = document.getElementById('player');
+        this.videoElement.src = URL.createObjectURL(filesList[0]);
+        this.videoElement.play();
+       
+         this.videoElement.onended = function() {
+              console.log("The audio has ended");
+              if (currentFile >= filesList.length)
+                currentFile = 0;
+              else
+                currentFile++;
+              this.videoElement = document.getElementById('player');
+              console.log(currentFile);
+              
+              this.videoElement.src = URL.createObjectURL(filesList[currentFile]);
+              this.videoElement.play();
+          }
+    }, false)
+  
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style >
+<style scoped>
  #div-player{
    top: 0;
    left: 0;
    position: absolute;
+   overflow: hidden;
+   max-height: 100%;
+   min-height : 100%
  }
 
 </style>
