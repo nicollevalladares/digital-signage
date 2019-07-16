@@ -101,7 +101,7 @@ RUN JOBS=MAX npm install && npm cache clean --force
 COPY ./app/ ./
 
 RUN npm run build:pi
-RUN pm2 start index.js
+RUN npm run start
 
 
 ## uncomment if you want systemd
