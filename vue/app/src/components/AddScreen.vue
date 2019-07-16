@@ -1,6 +1,9 @@
 <template>
     <div id="newScreen">
+        <button @click="showUUID">UUID</button>
         UUID: {{uuid}}
+        <br>
+        <br>
         <button>
             <router-link :to="{name: 'Player'}">Play</router-link>
         </button>
@@ -63,7 +66,16 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['getScreenInfo'])
+        ...mapActions(['getScreenInfo']),
+        showUUID(){
+            console.log('Mostrar uuid');
+            
+            axios.get("http://localhost:3331/uuid")
+            .then(response => {
+                console.log(response.data);
+                this.uuid = response.data
+            })
+        }
     },
     created(){
         this.getScreenInfo({idScreen: this.idScreen}),
@@ -77,11 +89,6 @@ export default {
                 this.configured = true
             }
             // store.dispatch('updateScreens',{ data })
-        }),
-        axios.get("http://localhost:3331/uuid")
-        .then(response => {
-            // console.log(response.data);
-            this.uuid = response.data
         }),
         this.src = "https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://signage.dev.hn/configQR/9437618452"
     },
