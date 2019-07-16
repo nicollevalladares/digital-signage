@@ -15,16 +15,14 @@ var configContent
 
 
 try {
-  fs.statSync('/data/config.json')
-  configContent = fs.readFileSync('/data/config.json', 'utf8')
+  fs.statSync('config.json')
+  configContent = fs.readFileSync('config.json', 'utf8')
   console.log('Config found')
 } catch (err) {
   console.log('Error while reading config.json: ', err)
 }
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
-console.log( 'isDevelopment: '+ isDevelopment);
-console.log('process.env.NODE_ENV: '+ process.env.NODE_ENV);
 
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
 let mainWindow

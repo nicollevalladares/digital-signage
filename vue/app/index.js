@@ -17,6 +17,17 @@ app.get('/uuid', function (req, res) {
 })
 
 
+//delete a file
+app.delete('/delete/:name', function (req, res) {
+  //delete a file
+})
+
+//get list of files in storage
+app.get('/list', function (req, res) {
+  //delete a file
+})
+
+
 server.listen('3331', function () {
   console.log('Server successfully running at 3331 port');
 })

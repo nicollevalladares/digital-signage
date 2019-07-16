@@ -1,7 +1,6 @@
 <template>
   <div id="div-player" >
-    <!-- <input type="file" multiple accept="video/*"/> -->
-    <video id='player' loop width="100%" src="http://localhost:3331/videos/video1.mp4" height="100%" ></video> 
+    <video id='player' loop width="100%" src="" height="100%" ></video> 
   </div>
 </template>
 
@@ -9,9 +8,7 @@
 import axios from 'axios'
 import { log } from 'util';
 import fs from 'fs';
-
-var filesList = new Array();
-var currentFile = 0;
+var player;
 export default {
   name: 'Player',
      components: {
@@ -42,33 +39,19 @@ export default {
     }
   },
   mounted(){
-    this.videoElement = document.getElementById('player');
-    // this.videoElement.src = ''
-    this.videoElement.play();
+    player = document.getElementById('player');
+    // // this.videoElement = 
+    // this.videoElement.src = 'http://127.0.0.1:3331/videos/video1.mp4';
+    // this.videoElement.play();
+    player.src = 'http://127.0.0.1:3331/videos/video1.mp4';
+    player.play();
 
-    // fs.readFile('./videos/video1.mp4');
-    // this.input = document.querySelector('input');
-    // this.input.addEventListener('change', function(){
-    //   for (let i = 0; i < this.files.length; i++) {
-    //          filesList[i]=this.files[i];
-    //     }
-    //     this.videoElement = document.getElementById('player');
-    //     this.videoElement.src = URL.createObjectURL(filesList[0]);
-    //     this.videoElement.play();
-       
-    //      this.videoElement.onended = function() {
-    //           console.log("The audio has ended");
-    //           if (currentFile >= filesList.length)
-    //             currentFile = 0;
-    //           else
-    //             currentFile++;
-    //           this.videoElement = document.getElementById('player');
-    //           console.log(currentFile);
-              
-    //           this.videoElement.src = URL.createObjectURL(filesList[currentFile]);
-    //           this.videoElement.play();
-    //       }
-    // }, false)
+   player.onended = function() {
+      console.log('se termino');
+        // this.videoElement = document.getElementById('player');
+        // this.videoElement.src = 'http://127.0.0.1:3331/videos/video1.mp4';
+        // this.videoElement.play();
+    }
   
   }
 }
@@ -82,7 +65,8 @@ export default {
    position: absolute;
    overflow: hidden;
    max-height: 100%;
-   min-height : 100%
+   min-height : 100%;
+   background: black
  }
 
 </style>
