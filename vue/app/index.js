@@ -11,12 +11,13 @@ app.use(bodyParser.json({limit: '50mb'}))
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}))
 app.use(express.static(path.join(__dirname, 'files')))
 
+//http://127.0.0.1:3331/uuid ------get
 app.get('/uuid', function (req, res) {
   res.send(process.env.RESIN_DEVICE_UUID || 'No UUID-Development machine')
 })
 
 
 server.listen('3331', function () {
-  console.log('Server successfully running at 3331 port',);
+  console.log('Server successfully running at 3331 port');
 })
 

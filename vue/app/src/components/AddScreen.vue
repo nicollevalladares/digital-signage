@@ -1,5 +1,6 @@
 <template>
     <div id="newScreen">
+        UUID: {{uuid}}
         <button>
             <router-link :to="{name: 'Player'}">Play</router-link>
         </button>
@@ -49,7 +50,8 @@ export default {
             src: null,
             idScreen: '9437618452',
             scanned: false,
-            configured: false
+            configured: false,
+            uuid: null
         }
     },
     sockets: {
@@ -78,7 +80,8 @@ export default {
         }),
         axios.get("http://localhost:3331/uuid")
         .then(response => {
-            console.log(response.data);
+            // console.log(response.data);
+            this.uuid = response.data
         }),
         this.src = "https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://signage.dev.hn/configQR/9437618452"
     },
