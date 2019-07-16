@@ -11,9 +11,10 @@
 </template>
 
 <script>
-const isReachable = require('is-reachable');
-import ProgressBar from 'progressbar.js';
+const isReachable = require('is-reachable')
+import ProgressBar from 'progressbar.js'
 import router from '../router'
+import axios from 'axios'
 
   export default {
     name: 'preloader',
@@ -22,7 +23,8 @@ import router from '../router'
     data() {
       return {
           name : '',
-          state: true
+          state: true,
+          screen: false
       }
 
     },
@@ -52,17 +54,45 @@ import router from '../router'
             this.name = 'DIGITAL SIGNAGE'
             setTimeout(()=>{
               isReachable(['beanar.io', 'https://canihazip.com', 'https://www.bancatlan.hn', 'https://dashboard.resin.io', 'https://status.resin.io']).then(reachable => {
-                console.log(reachable);
-                if (!reachable) {
-                //   this.$router.push({name: 'offline-screen'})
-                  this.state = false;
-                  this.$router.push({name: 'AddScreen'})
-                    // window.location ='/'
-                } else {
-                  this.state = false;
-                  this.$router.push({name: 'AddScreen'})
-                    //    window.location ='/landingPage'
-                }
+                axios.get("http://localhost:3333/uuid")
+                .then(response => {
+                    // console.log(response.data);
+                    var uuid = response.data
+                    axios.get("http://192.168.100.89:3331/screens")
+                    .then(response => {
+                      // console.log(response.data);
+                      response.data.forEach(doc => {
+                        console.log(doc.uuid);
+                        if(doc.uuid == uuid){
+                          console.log('prueba');
+                          this.state = false;
+                          this.$router.push({name: 'Player'});
+                          this.screen = true
+                        }
+                      })
+
+                      console.log('salio');
+                    })
+
+                    if(this.screen == false){
+                      this.state = false;
+                      this.$router.push({name: 'AddScreen'})
+                    }
+                })
+                .catch(err => {
+                  console.log(err);
+                })
+                // console.log(reachable);
+                // if (!reachable) {
+                // //   this.$router.push({name: 'offline-screen'})
+                //   this.state = false;
+                //   this.$router.push({name: 'AddScreen'})
+                //     // window.location ='/'
+                // } else {
+                //   this.state = false;
+                //   this.$router.push({name: 'AddScreen'})
+                //     //    window.location ='/landingPage'
+                // }
               });
             },2000)
           } else {

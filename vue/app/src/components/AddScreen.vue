@@ -1,18 +1,14 @@
 <template>
     <div id="newScreen">
-        <button @click="showUUID">UUID</button>
-        UUID: {{uuid}}
-        <br>
-        <br>
-        <button>
+        <!-- <button>
             <router-link :to="{name: 'Player'}">Play</router-link>
-        </button>
+        </button> -->
         <div v-if="!scanned">
              <h1 id="newScreenTitle">CONFIGURACIÓN DE NUEVA PANTALLA</h1>
             <hr>
             <h3 id="newScreenDescription">Esta pantalla no está vinculada a ninguna cuenta en Digital Signage.</h3>
             <h3>Diríjase a <span id="url">www.digitalsignage.com/configuration</span> e ingrese el siguiente código para realizar la configuración</h3>
-            <div id="idScreen">9437618452</div>
+            <h3 id="idScreen">9437618452</h3>
             <h3 id="qr-text">o escanee el siguiente código QR:</h3>
             <br>
             <img id="barCode" :src="src">
@@ -42,6 +38,7 @@
 <script>
 import axios from 'axios'
 import { mapActions, mapState } from 'vuex'
+var download = require('download-file')
 
 export default {
     name: 'AddScreen',
@@ -51,10 +48,9 @@ export default {
     data(){
         return {
             src: null,
-            idScreen: '9437618452',
+            idScreen: '9437618472',
             scanned: false,
-            configured: false,
-            uuid: null
+            configured: false
         }
     },
     sockets: {
@@ -66,29 +62,24 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['getScreenInfo']),
-        showUUID(){
-            console.log('Mostrar uuid');
-            
-            axios.get("http://localhost:3331/uuid")
-            .then(response => {
-                console.log(response.data);
-                this.uuid = response.data
-            })
-        }
+        ...mapActions(['getScreenInfo'])
     },
     created(){
         this.getScreenInfo({idScreen: this.idScreen}),
         this.sockets.subscribe(this.idScreen, (data) => {
-            console.log(data.type);
             if (data.type=='scanned'){
                 this.scanned = true
             }
 
             else if(data.type=='configured'){
                 this.configured = true
+                
             }
             // store.dispatch('updateScreens',{ data })
+        }),
+        axios.get("http://localhost:3331/uuid")
+        .then(response => {
+            console.log(response.data);
         }),
         this.src = "https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://signage.dev.hn/configQR/9437618452"
     },
@@ -101,7 +92,7 @@ export default {
 <style>
     #newScreen{
         color: white;
-        margin-top: 10%;
+        margin-top: 5%;
         text-align: center;
     }
 

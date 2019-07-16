@@ -28,7 +28,7 @@ app.get('/list', function (req, res) {
 })
 
 
-server.listen('3331', function () {
+server.listen('3333', function () {
   console.log('Server successfully running at 3331 port');
 })
 
