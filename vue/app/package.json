@@ -17,18 +17,22 @@
         "url": "https://github.com/Lurow/balena-electron-vuecli3"
     },
     "scripts": {
-        "serve": "vue-cli-service serve",
+        "start": "node index.js",
+        "serve": "vue-cli-service serve ",
         "build": "vue-cli-service build",
         "lint": "vue-cli-service lint",
-        "build:electron": "vue-cli-service electron:build",
-        "serve:electron": "vue-cli-service electron:serve",
-        "postinstall": "electron-builder install-app-deps",
+        "build:electron": "vue-cli-service electron:build ",
+        "serve:electron": "vue-cli-service electron:serve ",
+        "postinstall": "electron-builder install-app-deps && node index.js",
         "build:pi": "vue-cli-service electron:build --legacy --armv7l"
     },
     "dependencies": {
         "axios": "^0.19.0",
+        "cors": "^2.8.5",
+        "curl": "^0.1.4",
         "dialog": "^0.3.1",
         "download-file": "^0.1.5",
+        "filedownloader": "^1.2.7",
         "fs": "0.0.1-security",
         "h5-video-player": "^1.1.2",
         "is-reachable": "^3.1.0",
