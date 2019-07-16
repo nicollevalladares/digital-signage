@@ -21,9 +21,8 @@
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build",
         "lint": "vue-cli-service lint",
-        "build:electron": "vue-cli-service electron:build ",
+        "build:electron": "vue-cli-service electron:build",
         "serve:electron": "vue-cli-service electron:serve",
-        "postinstall": "electron-builder install-app-deps && node index.js",
         "build:pi": "vue-cli-service electron:build --legacy --armv7l"
     },
     "dependencies": {
