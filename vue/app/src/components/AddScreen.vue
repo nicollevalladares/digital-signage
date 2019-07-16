@@ -76,6 +76,10 @@ export default {
             }
             // store.dispatch('updateScreens',{ data })
         }),
+        axios.get("http://localhost:3331/uuid")
+        .then(response => {
+            console.log(response.data);
+        }),
         this.src = "https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://signage.dev.hn/configQR/9437618452"
     },
     computed: {

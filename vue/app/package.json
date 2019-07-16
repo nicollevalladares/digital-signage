@@ -18,11 +18,11 @@
     },
     "scripts": {
         "start": "node index.js",
-        "serve": "vue-cli-service serve ",
+        "serve": "vue-cli-service serve && node index.js",
         "build": "vue-cli-service build",
         "lint": "vue-cli-service lint",
         "build:electron": "vue-cli-service electron:build ",
-        "serve:electron": "vue-cli-service electron:serve ",
+        "serve:electron": "vue-cli-service electron:serve && node index.js",
         "postinstall": "electron-builder install-app-deps && node index.js",
         "build:pi": "vue-cli-service electron:build --legacy --armv7l"
     },
