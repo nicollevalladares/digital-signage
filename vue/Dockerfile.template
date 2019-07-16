@@ -101,8 +101,6 @@ RUN JOBS=MAX npm install && npm cache clean --force
 COPY ./app/ ./
 
 RUN npm run build:pi
-RUN npm run start
-
 
 ## uncomment if you want systemd
 # ENV INITSYSTEM on
