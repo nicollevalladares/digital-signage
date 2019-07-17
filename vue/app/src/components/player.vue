@@ -14,9 +14,9 @@ import { log } from 'util';
 import fs from 'fs';
 import {mixin as VueTimers} from 'vue-timers';
 
-var player;
-var currrentFile=0;
-var fileLists = new Array();
+// var player;
+// var currrentFile=0;
+// var fileLists = new Array();
 
 export default {
   mixins: [VueTimers],
@@ -36,12 +36,16 @@ export default {
   },
   methods: {
     playNextFile : function (){
-      console.log('playing next files');
         if (this.currrentFile >= (this.playList.length-1))
           this.currrentFile=0;
         else 
            this.currrentFile++;
-  
+
+        if (this.playList.length ==1){
+            if(this.mediaPlaying == 0){
+               this.videoPlayer.play();
+            }
+        }else{
         if (this.playList[this.currrentFile].type == 'mp4'){
             this.mediaPlaying = 0;
             this.imagenPlayer.style.display = 'none';
@@ -55,27 +59,15 @@ export default {
             this.imagenPlayer.src = this.playList[this.currrentFile].url;
             this.imagenPlayer.style.display = 'block'; 
         }
+      }
         this.waitingFinish();
     },
    
-    // timeChanged : function (){
-        
-    //     if ((this.videoPlayer.duration-this.videoPlayer.currentTime)<1){
-    //       this.playNextFile();
-    //     }
-
-    //     if (this.videoPlayer.error){
-    //       this.playNextFile();
-    //     }
-    // },
     waitingFinish : function (){
       // console.log('Waiting to finish actually file');
       if (this.mediaPlaying == 0){
           this.videoPlayer.onended =  this.playNextFile;
           this.videoPlayer.onerror =  this.playNextFile;
-
-          // this.videoPlayer.ontimeupdate = this.timeChanged;
-
       }else if (this.mediaPlaying == 1){
           this.$options.interval= setTimeout(this.playNextFile, 5000);
       }
