@@ -3,6 +3,9 @@
         <button>
             <router-link :to="{name: 'DownloadFiles'}">Download Files</router-link>
         </button>
+        <button>
+            <router-link :to="{name: 'Player'}">Play</router-link>
+        </button>
         <div v-if="!scanned">
              <h1 id="newScreenTitle">CONFIGURACIÓN DE NUEVA PANTALLA</h1>
             <hr>
