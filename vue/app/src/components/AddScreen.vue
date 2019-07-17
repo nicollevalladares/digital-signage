@@ -1,8 +1,8 @@
 <template>
     <div id="newScreen">
-        <!-- <button>
-            <router-link :to="{name: 'Player'}">Play</router-link>
-        </button> -->
+        <button>
+            <router-link :to="{name: 'DownloadFiles'}">Download Files</router-link>
+        </button>
         <div v-if="!scanned">
              <h1 id="newScreenTitle">CONFIGURACIÓN DE NUEVA PANTALLA</h1>
             <hr>
@@ -21,15 +21,6 @@
                 <h1>Esperando Configuración</h1>
             </div>
         </div>
-
-        <div v-if="configured">
-			<div style="color: white;" id="output">
-                <h1>Configuración Finalizada</h1>
-                <hr>
-                <h2>Descargando Archivos...</h2>
-            </div>
-        </div>
-       
     </div>
 </template>
 
@@ -38,7 +29,6 @@
 <script>
 import axios from 'axios'
 import { mapActions, mapState } from 'vuex'
-var download = require('download-file')
 
 export default {
     name: 'AddScreen',
@@ -48,7 +38,6 @@ export default {
     data(){
         return {
             src: null,
-            idScreen: '9437618452',
             scanned: false,
             configured: false,
             key: null,
@@ -67,38 +56,32 @@ export default {
         ...mapActions(['getScreenInfo', 'getUUID'])
     },
     created(){
-        this.getScreenInfo({idScreen: this.idScreen}),
-        this.sockets.subscribe(this.idScreen, (data) => {
-            if (data.type=='scanned'){
-                this.scanned = true
-            }
-
-            else if(data.type=='configured'){
-                this.configured = true
-
-                
-            }
-            // store.dispatch('updateScreens',{ data })
-        }),
-        axios.get("http://localhost:3331/uuid")
+        axios.get("http://localhost:3333/uuid")
         .then(response => {
             console.log(response.data);
+            this.uuid = response.data
         }),
         axios.get("http://192.168.100.89:3331/screens/generateKey")
         .then(response => {
             // console.log(response.data.key);
             this.key = response.data.key;
-            
-            axios.get("http://localhost:3333/uuid")
+            axios.post("http://192.168.100.89:3331/screens/addNew",{
+                idScreen:  this.key,
+                uuid: this.uuid
+            })
             .then(response => {
-                this.uuid = response.data;
+                // console.log(response);
+                this.getScreenInfo({uuid: this.uuid}),
+                this.sockets.subscribe(this.key, (data) => {
+                    if (data.type=='scanned'){
+                        this.scanned = true
+                    }
 
-                axios.post("http://192.168.100.89:3331/screens/addNew",{
-                    idScreen:  this.key,
-                    uuid: this.uuid
-                })
-                .then(response => {
-                    console.log(response);
+                    else if(data.type=='configured'){
+                        this.configured = true
+                        this.$router.push({name: 'DownloadFiles'})
+                    }
+                    // store.dispatch('updateScreens',{ data })
                 })
             })
         }),

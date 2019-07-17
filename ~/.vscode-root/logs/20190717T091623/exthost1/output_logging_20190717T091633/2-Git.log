@@ -125,3 +125,50 @@ Open repository: /home/nikol/Desktop/signage
 > git rev-list --left-right master...refs/remotes/origin/master
 > git for-each-ref --format %(refname) %(objectname) --sort -committerdate
 > git remote --verbose
+> git show :vue/app/src/components/Preloader.vue
+> git show :vue/app/src/store.js
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+> git rev-list --left-right master...refs/remotes/origin/master
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+> git rev-list --left-right master...refs/remotes/origin/master
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git show :vue/app/src/components/downloadFiles.vue
+> git show :vue/app/src/components/AddScreen.vue
+> git show :vue/app/src/components/downloadFiles.vue
+> git show :vue/app/src/components/AddScreen.vue
+> git check-ignore -v -z --stdin
+> git show :vue/app/src/store.js
+> git show :vue/app/src/components/downloadFiles.vue
+> git show :vue/app/src/store.js
+> git show :vue/app/src/components/downloadFiles.vue
+> git show :vue/app/src/store.js
+> git show :vue/app/src/components/downloadFiles.vue
+> git show :vue/app/src/store.js
+> git show :vue/app/src/components/downloadFiles.vue
+> git show :vue/app/src/store.js
+> git show :vue/app/src/components/downloadFiles.vue
+> git show :vue/app/src/components/AddScreen.vue
+> git show :vue/app/src/components/downloadFiles.vue
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+> git rev-list --left-right master...refs/remotes/origin/master
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+> git rev-list --left-right master...refs/remotes/origin/master
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose

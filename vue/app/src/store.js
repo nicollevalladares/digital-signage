@@ -39,13 +39,13 @@ export default new Vuex.Store({
   },
   actions: {
     getScreenInfo({commit}, payload){
-      const id = payload.idScreen;
+      const uuid = payload.uuid;
       const screenInfo = [];
 
       axios.get("http://connect.dev.hn/screens")
       .then(response => {
           response.data.forEach(doc => {
-            if(doc.idScreen == id){
+            if(doc.uuid == uuid){
               let screen = doc;
               screenInfo.push(screen);
             }
@@ -69,6 +69,8 @@ export default new Vuex.Store({
         uuid.push(response.data)
       })
 
+      console.log(uuid);
+      
       commit('setUUID', uuid)
     }
   },

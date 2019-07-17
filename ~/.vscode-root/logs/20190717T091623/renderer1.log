@@ -159,3 +159,4 @@ TypeError: Cannot read property 'emitNode' of undefined
 	at Socket.Readable.push (_stream_readable.js:219:10)
 	at Pipe.onStreamRead [as onread] (internal/stream_base_commons.js:94:17)
 [2019-07-17 09:40:52.715] [renderer1] [error] Error: [File Watcher (chockidar)] Inotify limit reached (ENOSPC)
+[2019-07-17 09:40:52.724] [renderer1] [error] [File Watcher (chockidar)] Inotify limit reached (ENOSPC)
