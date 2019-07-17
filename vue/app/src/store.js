@@ -22,7 +22,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     uuid:'',
-    screen: ''
+    screen: '',
+    key: ''
   },
   mutations: {
     setScreenInfo(state, screenInfo){
@@ -35,11 +36,14 @@ export default new Vuex.Store({
     // }
     setUUID(state, uuid){
       state.uuid = uuid;
+    },
+    setIdScreen(state, key){
+      state.key = key;
     }
   },
   actions: {
     getScreenInfo({commit}, payload){
-      const uuid = payload.uuid;
+      const uuid = payload.id;
       const screenInfo = [];
 
       axios.get("http://connect.dev.hn/screens")
@@ -62,7 +66,7 @@ export default new Vuex.Store({
     //   commit('updateScreen', data)
     // },
     getUUID({commit}){
-      const uuid = ''
+      const uuid = []
 
       axios.get("http://localhost:3333/uuid")
       .then(response => {
@@ -72,6 +76,13 @@ export default new Vuex.Store({
       console.log(uuid);
       
       commit('setUUID', uuid)
+    },
+    getIdScreen({commit}){
+      axios.get("http://192.168.100.89:3331/screens/generateKey")
+      .then(response => {
+        const key = response.data
+        commit('setIdScreen', key)
+      })
     }
   },
   getters: {
