@@ -18,32 +18,57 @@ app.get('/uuid', function (req, res) {
 })
 
 
-//delete a file
-app.delete('/delete/:name', function (req, res) {
-  //delete a file
-})
-
 //get list of files in storage
 app.get('/playlist', function (req, res) {
   var data = [];
   //reading videos folder
-    fs.readdir('files/files/', function(err, files) {
-      if (err) 
-          res.json ({code : 0, data : 'No directory found.'})
-    files.forEach(file => {
-      if (file.indexOf(".mp4") > -1)
-         data.push({name: file , url : 'http://127.0.0.1:3333/files/'+file, type :'mp4'})
-      else 
-          data.push({name: file , url : 'http://127.0.0.1:3333/files/'+file, type :'img'})
-
+   try {
+      fs.readdir('files/files/', function(err, files) {
+        if (err) 
+          return res.json ({code : 0, data : 'No directory found.'})
+      files.forEach(file => {
+        if (file.indexOf(".mp4") > -1)
+          data.push({name: file , url : 'http://127.0.0.1:3333/files/'+file, type :'mp4'})
+        else 
+            data.push({name: file , url : 'http://127.0.0.1:3333/files/'+file, type :'img'})
+      })
+      res.json ({code : 1 , data : data})    
     })
-    res.json ({code : 1 , data : data})    
-  })
+   } catch (error) {
+      return res.json ({code : 0, data : 'An error ocurred'})
+   }
 })
 
+// delete a file
+app.delete("/delete/:fileName",function(req,res){
+    var fileName = req.params.fileName
+    try {
+      fs.unlink('files/files/'+fileName, (error)=>{
+        if (error)
+            return res.json ({code : 0 , message : 'An error occurred while deleting the file or it may no longer exist.'})
+        return res.json ({code : 1 , message : 'File deleted'})
+    })
+    } catch (error) {
+        return res.json ({code : 0 , message : 'An error occurred while deleting the file or it may no longer exist.'})
+    }
+})
+
+//file exist?
+app.get("/exist/:fileName",function(req,res){
+var fileName = req.params.fileName
+  try {
+    fs.exists('files/files/'+fileName,function(exists){
+      if(!exists)
+          return res.json ({code : 0 , message : 'File no exist.'})
+      return res.json ({code : 1 , message : 'File exist.'})  
+    })
+  } catch (error) {
+    return res.json ({code : 0 , message : 'An error occurred '})  
+  }
+})
 
 server.listen('3333', function () {
-  console.log('Server successfully running at 3331 port');
+  console.log('FTP Server running');
 })
 
 
