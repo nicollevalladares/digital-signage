@@ -8,7 +8,7 @@
             <hr>
             <h3 id="newScreenDescription">Esta pantalla no está vinculada a ninguna cuenta en Digital Signage.</h3>
             <h3>Diríjase a <span id="url">www.digitalsignage.com/configuration</span> e ingrese el siguiente código para realizar la configuración</h3>
-            <h3 id="idScreen">9437618452</h3>
+            <h3 id="idScreen">{{key}}</h3>
             <h3 id="qr-text">o escanee el siguiente código QR:</h3>
             <br>
             <img id="barCode" :src="src">
@@ -48,9 +48,11 @@ export default {
     data(){
         return {
             src: null,
-            idScreen: '9437618472',
+            idScreen: '9437618452',
             scanned: false,
-            configured: false
+            configured: false,
+            key: null,
+            uuid: null
         }
     },
     sockets: {
@@ -62,7 +64,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['getScreenInfo'])
+        ...mapActions(['getScreenInfo', 'getUUID'])
     },
     created(){
         this.getScreenInfo({idScreen: this.idScreen}),
@@ -73,6 +75,7 @@ export default {
 
             else if(data.type=='configured'){
                 this.configured = true
+
                 
             }
             // store.dispatch('updateScreens',{ data })
@@ -81,10 +84,28 @@ export default {
         .then(response => {
             console.log(response.data);
         }),
-        this.src = "https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://signage.dev.hn/configQR/9437618452"
+        axios.get("http://192.168.100.89:3331/screens/generateKey")
+        .then(response => {
+            // console.log(response.data.key);
+            this.key = response.data.key;
+            
+            axios.get("http://localhost:3333/uuid")
+            .then(response => {
+                this.uuid = response.data;
+
+                axios.post("http://192.168.100.89:3331/screens/addNew",{
+                    idScreen:  this.key,
+                    uuid: this.uuid
+                })
+                .then(response => {
+                    console.log(response);
+                })
+            })
+        }),
+        this.src = "https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://signage.dev.hn/configQR/" + this.key
     },
     computed: {
-      ...mapState(['screen'])
+      ...mapState(['screen', 'uuid'])
     }
 }
 </script>

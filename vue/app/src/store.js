@@ -21,7 +21,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    uuid: process.env.RESIN_DEVICE_UUID,
+    uuid:'',
     screen: ''
   },
   mutations: {
@@ -33,6 +33,9 @@ export default new Vuex.Store({
     //       // doc.active = data.screen.active
     //     }
     // }
+    setUUID(state, uuid){
+      state.uuid = uuid;
+    }
   },
   actions: {
     getScreenInfo({commit}, payload){
@@ -51,12 +54,23 @@ export default new Vuex.Store({
             
           });
       })
+
       commit('setScreenInfo', screenInfo);
     },
     // updateScreens({commit}, payload){
     //   const data = payload.data
     //   commit('updateScreen', data)
     // },
+    getUUID({commit}){
+      const uuid = ''
+
+      axios.get("http://localhost:3333/uuid")
+      .then(response => {
+        uuid.push(response.data)
+      })
+
+      commit('setUUID', uuid)
+    }
   },
   getters: {
 

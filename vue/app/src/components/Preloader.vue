@@ -62,16 +62,15 @@ import axios from 'axios'
                     .then(response => {
                       // console.log(response.data);
                       response.data.forEach(doc => {
-                        console.log(doc.uuid);
+                        // console.log(doc.uuid);
                         if(doc.uuid == uuid){
-                          console.log('prueba');
                           this.state = false;
-                          this.$router.push({name: 'Player'});
+                          // this.$router.push({name: 'Player'});
                           this.screen = true
                         }
                       })
 
-                      console.log('salio');
+                      // console.log('salio');
                     })
 
                     if(this.screen == false){
