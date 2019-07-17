@@ -1,8 +1,8 @@
 <template>
     <div id="newScreen">
-        <!-- <button>
+        <button>
             <router-link :to="{name: 'Player'}">Play</router-link>
-        </button> -->
+        </button>
         <div v-if="!scanned">
              <h1 id="newScreenTitle">CONFIGURACIÓN DE NUEVA PANTALLA</h1>
             <hr>
