@@ -11,10 +11,11 @@
 </template>
 
 <script>
-const isReachable = require('is-reachable')
-import ProgressBar from 'progressbar.js'
-import router from '../router'
-import axios from 'axios'
+  const isReachable = require('is-reachable')
+  import ProgressBar from 'progressbar.js'
+  import router from '../router'
+  import axios from 'axios'
+  import { mapActions, mapState } from 'vuex'
 
   export default {
     name: 'preloader',
@@ -29,6 +30,10 @@ import axios from 'axios'
 
     },
     methods: {
+      ...mapActions(['getIdScreen'])
+    },
+    created(){
+      this.getIdScreen()
     },
     mounted(){
       let playlistProgress = new ProgressBar.Path('#fLeft', {
@@ -74,8 +79,19 @@ import axios from 'axios'
                     })
 
                     if(this.screen == false){
-                      this.state = false;
-                      this.$router.push({name: 'AddScreen'})
+                      axios.post("http://192.168.100.89:3331/screens/addNew",{
+                        idScreen: this.key.key,
+                        uuid: uuid
+                      })
+                      .then(response => {
+                        // console.log(response);
+                        this.state = false;
+                        this.$router.push({name: 'AddScreen', 
+                          params: {
+                            idScreen: this.key.key
+                          }
+                        })
+                      })
                     }
                 })
                 .catch(err => {
@@ -108,6 +124,9 @@ import axios from 'axios'
       playlistProgress2.animate(1);
     },
     destroyed(){
+    },
+    computed: {
+      ...mapState(['key'])
     }
   }
 </script>

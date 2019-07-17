@@ -20,7 +20,8 @@ const router =  new Router({
         {
             path: '/addScreen',
             name: 'AddScreen',
-            component: require('@/components/AddScreen').default
+            component: require('@/components/AddScreen').default,
+            props: true
         },
         {
             path: '/player',

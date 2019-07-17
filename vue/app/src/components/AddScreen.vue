@@ -8,7 +8,7 @@
             <hr>
             <h3 id="newScreenDescription">Esta pantalla no está vinculada a ninguna cuenta en Digital Signage.</h3>
             <h3>Diríjase a <span id="url">www.digitalsignage.com/configuration</span> e ingrese el siguiente código para realizar la configuración</h3>
-            <h3 id="idScreen">{{key}}</h3>
+            <h3 id="idScreen">{{idScreen}}</h3>
             <h3 id="qr-text">o escanee el siguiente código QR:</h3>
             <br>
             <img id="barCode" :src="src">
@@ -35,12 +35,12 @@ export default {
     components: {
     
     },
+    props: ['idScreen'],
     data(){
         return {
             src: null,
             scanned: false,
             configured: false,
-            key: null,
             uuid: null
         }
     },
@@ -53,42 +53,40 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['getScreenInfo', 'getUUID'])
+        ...mapActions(['getScreenInfo'])
     },
     created(){
+        this.sockets.subscribe(this.idScreen, (data) => {
+            if (data.type=='scanned'){
+                this.scanned = true
+            }
+            else if(data.type=='configured'){
+                this.configured = true
+                this.$router.push({name: 'DownloadFiles'})
+            }
+            // store.dispatch('updateScreens',{ data })
+        }),
         axios.get("http://localhost:3333/uuid")
         .then(response => {
-            console.log(response.data);
             this.uuid = response.data
         }),
-        axios.get("http://192.168.100.89:3331/screens/generateKey")
-        .then(response => {
-            // console.log(response.data.key);
-            this.key = response.data.key;
-            axios.post("http://192.168.100.89:3331/screens/addNew",{
-                idScreen:  this.key,
-                uuid: this.uuid
-            })
-            .then(response => {
-                // console.log(response);
-                this.getScreenInfo({uuid: this.uuid}),
-                this.sockets.subscribe(this.key, (data) => {
-                    if (data.type=='scanned'){
-                        this.scanned = true
-                    }
-
-                    else if(data.type=='configured'){
-                        this.configured = true
-                        this.$router.push({name: 'DownloadFiles'})
-                    }
-                    // store.dispatch('updateScreens',{ data })
-                })
-            })
-        }),
-        this.src = "https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://signage.dev.hn/configQR/" + this.key
+        this.getScreenInfo({id: this.uuid}),
+        this.src = "https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://192.168.100.89:8081/configQR/" + this.idScreen
+    },
+    updated(){
+        // this.sockets.subscribe(document.getElementById('idScreen').firstChild, (data) => {
+        //     if (data.type=='scanned'){
+        //         this.scanned = true
+        //     }
+        //     else if(data.type=='configured'){
+        //         this.configured = true
+        //         this.$router.push({name: 'DownloadFiles'})
+        //     }
+        //     // store.dispatch('updateScreens',{ data })
+        // })
     },
     computed: {
-      ...mapState(['screen', 'uuid'])
+      ...mapState(['screen'])
     }
 }
 </script>
