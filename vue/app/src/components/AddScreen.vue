@@ -3,9 +3,6 @@
         <button>
             <router-link :to="{name: 'DownloadFiles'}">Download Files</router-link>
         </button>
-        <button>
-            <router-link :to="{name: 'Player'}">Play</router-link>
-        </button>
         <div v-if="!scanned">
              <h1 id="newScreenTitle">CONFIGURACIÓN DE NUEVA PANTALLA</h1>
             <hr>
@@ -59,7 +56,7 @@ export default {
         ...mapActions(['getScreenInfo'])
     },
     created(){
-        this.sockets.subscribe(this.idScreen, (data) => {
+        this.sockets.subscribe(this.idScreen.toString(), (data) => {
             if (data.type=='scanned'){
                 this.scanned = true
             }
@@ -74,7 +71,7 @@ export default {
             this.uuid = response.data
         }),
         this.getScreenInfo({id: this.uuid}),
-        this.src = "https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://192.168.100.89:8081/configQR/" + this.idScreen
+        this.src = "https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://signage.dev.hn/configQR/" + this.idScreen
     },
     updated(){
         // this.sockets.subscribe(document.getElementById('idScreen').firstChild, (data) => {

@@ -34,11 +34,11 @@ export default {
     }),
     this.getScreenInfo({uuid: this.uuid})
 
-    // var Dl = new Downloader({
-    //     url: "FILEURL"
-    // }).on("progress", function (progress){
-    //     console.log(progress); 
-    // });
+    var Dl = new Downloader({
+        url: "http://connect.dev.hn/files/videos/1060664345_1562876678317.mp4"
+    }).on("progress", function (progress){
+        console.log(progress); 
+    });
   },
    computed: {
       ...mapState(['screen'])

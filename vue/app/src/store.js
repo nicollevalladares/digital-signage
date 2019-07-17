@@ -78,7 +78,7 @@ export default new Vuex.Store({
       commit('setUUID', uuid)
     },
     getIdScreen({commit}){
-      axios.get("http://192.168.100.89:3331/screens/generateKey")
+      axios.get("http://connect.dev.hn/screens/generateKey")
       .then(response => {
         const key = response.data
         commit('setIdScreen', key)
