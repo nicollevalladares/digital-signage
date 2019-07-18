@@ -56,7 +56,7 @@ export default new Vuex.Store({
 
             // console.log(screenInfo);
             
-          });
+          })
       })
 
       commit('setScreenInfo', screenInfo);
