@@ -7,9 +7,9 @@
 
 <script>
 import axios from 'axios'
-import { log } from 'util';
-import fs from 'fs';
-import {mixin as VueTimers} from 'vue-timers';
+import {mixin as VueTimers} from 'vue-timers'
+import { mapActions, mapState } from 'vuex'
+
 
 export default {
   mixins: [VueTimers],
@@ -19,8 +19,8 @@ export default {
     },
   data(){
     return {
-      videoElement : null,
       playList : [],
+      defaultVideo : [],
       currrentFile : 0,
       videoPlayer : null,
       imagenPlayer : null,
@@ -36,6 +36,7 @@ export default {
         }
     },
   methods: {
+    ...mapActions(['getUUID']),
     playNextFile : function (){
         if (this.currrentFile >= (this.playList.length-1))
           this.currrentFile=0;
@@ -47,21 +48,21 @@ export default {
                this.videoPlayer.play();
             }
         }else{
-        if (this.playList[this.currrentFile].type == 'mp4'){
-            this.mediaPlaying = 0;
-            this.imagenPlayer.style.display = 'none';
-            this.videoPlayer.style.display = 'block';
-            this.videoPlayer.src = this.playList[this.currrentFile].url;
-            this.videoPlayer.play();
-        }else{
-            this.mediaPlaying = 1;
-            this.imagenPlayer.style.display = 'none'; 
-            this.videoPlayer.style.display = 'none';
-            this.imagenPlayer.src = this.playList[this.currrentFile].url;
-            this.imagenPlayer.style.display = 'block'; 
-        }
+          if (this.playList[this.currrentFile].type == 'mp4'){
+              this.mediaPlaying = 0;
+              this.imagenPlayer.style.display = 'none';
+              this.videoPlayer.style.display = 'block';
+              this.videoPlayer.src = this.playList[this.currrentFile].url;
+              this.videoPlayer.play();
+          }else{
+              this.mediaPlaying = 1;
+              this.imagenPlayer.style.display = 'none'; 
+              this.videoPlayer.style.display = 'none';
+              this.imagenPlayer.src = this.playList[this.currrentFile].url;
+              this.imagenPlayer.style.display = 'block'; 
+          }
       }
-        this.waitingFinish();
+        this.waitingFinish();    
     },
    
     waitingFinish : function (){
@@ -74,50 +75,78 @@ export default {
       }
     },
 
-    startPlaylist : function (){
-        console.log('Iniciando playlist');
+    playDefaultVideo : function (){
+       if (this.defaultVideo.length>=1){ 
+            if (this.defaultVideo[0].type == 'mp4'){                    
+              this.videoPlayer.src = this.defaultVideo[0].url;
+              this.imagenPlayer.style.display = 'none';
+              this.videoPlayer.play();
+              this.videoPlayer.onended =  this.loopDefaultVideo;
+              this.videoPlayer.onerror =  this.loopDefaultVideo;
+            } 
+        }else{
+            this.$router.push({name: 'AddScreen'})
+        }
+    },
+
+    loopDefaultVideo : function (){
+        this.videoPlayer.src = this.defaultVideo[0].url;
+        this.imagenPlayer.style.display = 'none';
+        this.videoPlayer.play();
+    },
+
+    startPlaylist : function (){   
+        // console.log('Iniciando playlist');
         this.videoPlayer = document.getElementById('player'); 
+        this.videoPlayer.muted = true; 
         this.imagenPlayer = document.getElementById('img'); 
       //get media from FTPserver
        axios.get("http://127.0.0.1:3333/playlist")
                 .then(response => {
-                    console.log(response.data.data);
-                    this.playList = response.data.data;   
-                    // start playing media
-                    if (this.playList.length>=1){ 
-                        if (this.playList[this.currrentFile].type == 'mp4'){    
-                          this.mediaPlaying = 0;                  
-                          this.videoPlayer.src = this.playList[this.currrentFile].url;
-                          this.imagenPlayer.style.display = 'none';
-                          this.videoPlayer.play();
-                        } else {
-                          //show images
-                          this.mediaPlaying = 1;   
-                          this.videoPlayer.style.display = 'none';
-                          this.imagenPlayer.src = this.playList[this.currrentFile].url;
-                        }
-                        this.waitingFinish();
-                    }else {
-                         axios.get("http://127.0.0.1:3333/defaultVideo")
+                    // console.log(response.data.data);
+                    this.playList = response.data.data;  
+                    //get default video
+                     axios.get("http://127.0.0.1:3333/defaultVideo")
                           .then(response => {
-                              console.log(response);
+                               this.defaultVideo = response.data.data;   
+                                // start playing media
+                                if (this.playList.length>=1){ 
+                                    if (this.playList[this.currrentFile].type == 'mp4'){    
+                                      this.mediaPlaying = 0;                  
+                                      this.videoPlayer.src = this.playList[this.currrentFile].url;
+                                      this.imagenPlayer.style.display = 'none';
+                                      this.videoPlayer.play();
+                                    } else {
+                                      //show images
+                                      this.mediaPlaying = 1;   
+                                      this.videoPlayer.style.display = 'none';
+                                      this.imagenPlayer.src = this.playList[this.currrentFile].url;
+                                    }
+                                    this.waitingFinish();
+                                } else {
+                                   this.playDefaultVideo();
+                                }
                           })
                           .catch(err => {
 
-                          })
-                    }
+                          }) 
                     //socket to listen changes in playlist
                     // this.sockets.subscribe(this.idScreen.toString(), (data) => {
                       
                     // })
                 })
                 .catch(err => {
-                    console.log('Ha ocurrido un error, inténtelo nuevamente.');
+                    this.$router.push({name: 'AddScreen'});
                 })
     }
   },
   mounted(){
     this.$options.interval = setTimeout(this.startPlaylist, 1000);
+    console.log('UUID: '+ this.uuid);
+    
+  },
+  computed: {
+    ...mapState(['uuid'])
   }
 }
 </script>

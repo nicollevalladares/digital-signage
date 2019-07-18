@@ -56,9 +56,10 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['getScreenInfo'])
+        ...mapActions(['getScreenInfo', 'getUUID'])
     },
     created(){
+        this.getUUID();
         this.sockets.subscribe(this.idScreen.toString(), (data) => {
             if (data.type=='scanned'){
                 this.scanned = true
