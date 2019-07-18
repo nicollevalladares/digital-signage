@@ -79,7 +79,7 @@
                     })
 
                     if(this.screen == false){
-                      axios.post("http://connect.dev.hn/screens/addNew",{
+                      axios.post("http://192.168.1.55:3331/screens/addNew",{
                         idScreen: this.key.key,
                         uuid: uuid
                       })
