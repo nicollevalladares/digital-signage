@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 // import firebase from 'firebase'
-import router from './router'
+// import router from './router'
 
 Vue.use(Vuex)
 
@@ -83,6 +83,9 @@ export default new Vuex.Store({
         const key = response.data
         commit('setIdScreen', key)
       })
+    },
+    saveFiles(){
+      
     }
   },
   getters: {

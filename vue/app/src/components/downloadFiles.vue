@@ -10,7 +10,6 @@
 </template>
 
 <script>
-// var Downloader = require("filedownloader");
 import axios from 'axios'
 import { mapActions, mapState } from 'vuex'
     
@@ -25,20 +24,15 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getScreenInfo'])
+    ...mapActions(['getScreenInfo', 'saveFiles'])
   },
   created(){
     axios.get("http://localhost:3333/uuid")
     .then(response => {
         this.uuid = response.data;
     }),
-    this.getScreenInfo({uuid: this.uuid})
-
-    // var Dl = new Downloader({
-    //     url: "http://connect.dev.hn/files/videos/1060664345_1562876678317.mp4"
-    // }).on("progress", function (progress){
-    //     console.log(progress); 
-    // });
+    this.getScreenInfo({uuid: this.uuid}),
+    this.saveFiles()
   },
    computed: {
       ...mapState(['screen'])
