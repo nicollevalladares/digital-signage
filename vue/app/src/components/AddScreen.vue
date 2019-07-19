@@ -43,8 +43,7 @@ export default {
         return {
             src: null,
             scanned: false,
-            configured: false,
-            uuid: null
+            configured: false
         }
     },
     sockets: {
@@ -56,25 +55,23 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['getScreenInfo', 'getUUID'])
+        ...mapActions(['getUUID', 'getScreenInfo'])
     },
     created(){
-        this.getUUID();
+        this.getUUID(),
         this.sockets.subscribe(this.idScreen.toString(), (data) => {
             if (data.type=='scanned'){
                 this.scanned = true
             }
             else if(data.type=='configured'){
-                this.configured = true
+                // this.configured = true
+                this.getScreenInfo({uuid: this.uuid, idScreen: this.idScreen})
                 this.$router.push({name: 'DownloadFiles'})
             }
             // store.dispatch('updateScreens',{ data })
         }),
-        axios.get("http://localhost:3333/uuid")
-        .then(response => {
-            this.uuid = response.data
-        }),
-        this.getScreenInfo({id: this.uuid}),
+        
+        // this.getScreenInfo({id: this.uuid}),
         this.src = "https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://192.168.1.55:8080/configQR/" + this.idScreen
     },
     updated(){
@@ -90,7 +87,7 @@ export default {
         // })
     },
     computed: {
-      ...mapState(['screen'])
+      ...mapState(['uuid', 'screen', 'files', 'key'])
     }
 }
 </script>

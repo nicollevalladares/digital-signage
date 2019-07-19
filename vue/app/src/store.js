@@ -3,8 +3,6 @@ import Vuex from 'vuex'
 import axios from 'axios'
 // import firebase from 'firebase'
 // import router from './router'
-const fs = require('fs')
-const dl = require('download-file-with-progressbar');
 
 Vue.use(Vuex)
 
@@ -27,7 +25,12 @@ export default new Vuex.Store({
     screen: '',
     key: '',
     progress: '',
-    files: []
+    files: [],
+    imagesDuration : '',
+    idPlaylist: '',
+    status: false,
+    downloadFile: '',
+    isDownloading: false
   },
   mutations: {
     setScreenInfo(state, screenInfo){
@@ -44,93 +47,99 @@ export default new Vuex.Store({
     setIdScreen(state, key){
       state.key = key;
     },
-    setProgress(state, progress){
-      state.progress = progress;
-    },
+    // setProgress(state, progress){
+    //   state.progress = progress;
+    // },
     setFiles(state, files){
       state.files = files;
-      // console.log(state.files);
-     
+      state.status = true;
     },
-    saveFiles(state){
-      // console.log('saveFiles');
-      state.files.forEach(file => {
-        // console.log(file);
-          var option = {
-            filename: file.dataName,
-            dir: 'files/files/',
-            onDone: (info)=>{
-                console.log('done', info);
-            },
-            onError: (err) => {
-                console.log('error', err);
-            },
-            onProgress: (curr, total) => {
-                // console.log('progress', (curr / total * 100).toFixed(2) + '%');
-                let progress = {
-                  progress: (curr / total * 100).toFixed(2),
-                  file: file.name}
-                  
-                state.progress = progress;
-            },
-          }
-        
-          var dd = dl(file.url, option);
-      })
+    setImagesDuration(state, imagesDuration){
+      state.imagesDuration = imagesDuration;
+    },
+    setIdPlaylist(state, idPlaylist){
+      state.idPlaylist = idPlaylist;
+    },
+    // startDownload (state , files){
+    //   for (let i = 0; i < state.files.length; i++) {
+    //     console.log('a descargar');
+    //     console.log(state.files[i]);
+    //   }
+    // },
+    // setDownloadFile(state, downloadFile){
+    //   state.downloadFile = downloadFile;
+    //   console.log(downloadFile);
+      
+    // },
+    // setStateDownload(state, isDownloading){
+    //   state.isDownloading = isDownloading;
+    // },
+    // saveFiles(state){
+    //   // console.log('saveFiles');
+    //   const files = state.files;
 
-      // var option = {
-      //   filename: state.screen.video.dataName,
-      //   dir: 'files/defaultVideo/',
-      //   onDone: (info)=>{
-      //       console.log('done', info);
-      //   },
-      //   onError: (err) => {
-      //       console.log('error', err);
-      //   },
-      //   onProgress: (curr, total) => {
-      //       // console.log('progress', (curr / total * 100).toFixed(2) + '%');
-      //       let progress = {
-      //         progress: (curr / total * 100).toFixed(2),
-      //         file: state.screen.video.name}
-              
-      //       state.progress = progress;
-      //   },
-      // }
-    
-      // var dd = dl(state.screen.video.url, option);
+    //   files.forEach(file => {
+    //     // console.log(file);
+    //       if(file.status == false){
+    //         var option = {
+    //           filename: file.dataName,
+    //           dir: 'files/files/',
+    //           onDone: (info)=>{
+    //               console.log('done', info);
+    //               file.status = true;
+    //               files.shift();
+    //               // console.log('files: ');
+    //               // console.log(files);
 
-    }
+    //               // files.push(file)
+    //               // console.log(files);
+    //           },
+    //           onError: (err) => {
+    //               console.log('error', err);
+    //           },
+    //           onProgress: (curr, total) => {
+    //               // console.log('progress', (curr / total * 100).toFixed(2) + '%');
+    //               let progress = {
+    //                 progress: (curr / total * 100).toFixed(2),
+    //                 file: file.name}
+                    
+    //               state.progress = progress;
+    //           },
+    //         }
+          
+    //         dl(file.url, option);
+    //       }
+    //   })
+    // }
   },
   actions: {
     getScreenInfo({commit}, payload){
       const uuid = payload.uuid;
-
+      const idScreen = payload.idScreen
+      // console.log(uuid);
+      // console.log(idScreen);
+      
       axios.get("http://connect.dev.hn/screens")
       .then(response => {
           response.data.forEach(doc => {
-            if(doc.uuid == uuid){
+            if(doc.uuid === uuid){
               let screenInfo = {
                 playlist: doc.configuration.defaultPlaylist,
                 video: doc.configuration.defaultVideo
               };
               commit('setScreenInfo', screenInfo);
 
-              axios.get("http://connect.dev.hn/playlists")
+              axios.post("http://connect.dev.hn/screens", {
+                idScreen: idScreen
+              })
               .then(response => {
-                response.data.forEach(doc => {
-                  // console.log(doc);
-                  const files = []
-                  if(doc.id == screenInfo.playlist){
-                    // console.log(doc.files);
-                    doc.files.forEach(file => {
-                      // console.log(file);
-                      files.push(file)
-                    })
-                  
-                    commit('setFiles', files)
-                    commit('saveFiles')
-                  }
-                })
+                let files = response.data.data.files;
+                let imagesDuration = response.data.data.imagesDuration;
+                let idPlaylist = response.data.idPlaylist;
+
+                commit('setFiles', files)
+                commit('setImagesDuration', imagesDuration)
+                commit('setIdPlaylist', idPlaylist)
               })
               
               // var option = {
@@ -175,7 +184,39 @@ export default new Vuex.Store({
         const key = response.data
         commit('setIdScreen', key)
       })
-    }
+    },
+    // saveFiles({commit}, payload){
+    //   const file = payload.file;
+
+    //   // console.log(file);
+    //   commit('setStateDownload', true);
+    //   var option = {
+    //     filename: file.dataName,
+    //     dir: 'files/files/',
+    //     onDone: (info)=>{
+    //         console.log('done', info);
+    //         commit('setStateDownload', false);
+    //         // let downloadFile = {
+    //         //   save: true,
+    //         //   id: file.id
+    //         // }
+    //         // commit('setDownloadFile', downloadFile)
+    //     },
+    //     onError: (err) => {
+    //         console.log('error', err);
+    //     },
+    //     onProgress: (curr, total) => {
+    //         // console.log('progress', (curr / total * 100).toFixed(2) + '%');
+    //         let progress = {
+    //           progress: (curr / total * 100).toFixed(2),
+    //           file: file.name}
+              
+    //           commit('setProgress', progress);
+    //     },
+    //   }
+    
+    //   dl(file.url, option);
+    // }
   },
   getters: {
 

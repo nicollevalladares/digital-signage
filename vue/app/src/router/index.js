@@ -31,7 +31,8 @@ const router =  new Router({
         {
             path: '/downloadFiles',
             name: 'DownloadFiles',
-            component: require('@/components/downloadFiles').default
+            component: require('@/components/downloadFiles').default,
+            props: true
         }
     ]
 })
