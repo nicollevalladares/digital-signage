@@ -7,11 +7,14 @@ var server = http.createServer(app)
 const path = require('path')
 const fs = require('fs')
 const rimraf = require("rimraf");
-
+const save = require('save-file')
+const axios = require('axios')
 app.use(cors())
 app.use(bodyParser.json({limit: '50mb'}))
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}))
 app.use(express.static(path.join(__dirname, 'files')))
+
+app.use('files/files/',express.static(__dirname+"files/files/"));
 
 //create folder to save media files
 fs.exists('files',function(exists){
@@ -114,6 +117,29 @@ app.delete("/deleteDefaultVideo",function(req,res){
             return res.json ({code : 1 , message : 'DefaultVideo deleted.'}) 
      })      
   })
+})
+
+app.post("/save",function(req,res){
+  axios({
+    method: 'get',
+    url: "http://connect.dev.hn/files/images/1877396290_1562876443534.jpeg",
+    responseType: 'arrayBuffer',
+     onDownloadProgress: (progressEvent) => {
+       console.log('ghjklñ');
+       
+        var percentCompleted = Math.round((progressEvent.loaded / progressEvent.total)* 100);
+        console.log(percentCompleted);
+        
+    },
+  })
+  .then(response => {
+    // console.log(response.data);
+    
+    // var blob = new Blob([response.data], {type: "image/jpeg"});
+    save(response, 'example.jpeg')
+     
+  })
+  .catch((e) => console.log('error occured '+ e))
 })
 
 server.listen('3333', function () {
