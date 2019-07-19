@@ -15,8 +15,8 @@ var configContent
 
 
 try {
-  fs.statSync('/data/config.json')
-  configContent = fs.readFileSync('/data/config.json', 'utf8')
+  fs.statSync('./config.json')
+  configContent = fs.readFileSync('./config.json', 'utf8')
   console.log('Config found')
 } catch (err) {
   console.log('Error while reading config.json: ', err)
@@ -67,7 +67,7 @@ if (electronConfig.URL_LAUNCHER_TOUCH_SIMULATE) {
 if (isDevelopment) {
   // Don't load any native (external) modules until the following line is run:
   require('module').globalPaths.push(process.env.NODE_MODULES_PATH)
-  /eslint no-console:0/
+
   console.log('Running in development mode')
   Object.assign(electronConfig, {
     URL_LAUNCHER_HEIGHT: 600,
