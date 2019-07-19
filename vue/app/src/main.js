@@ -4,6 +4,7 @@ import jsonconfig from '../config.json'
 import router from './router'
 import store from './store'
 import VueSocketIO from 'vue-socket.io'
+import VuePlayerPlugin from 'vue-youtube-iframe-api'
 
 Vue.config.productionTip = false
 
@@ -18,6 +19,10 @@ if (ELECTRON_DETECTED) {
   tmpConfig = jsonconfig
 }
 export const config = tmpConfig
+
+Vue.use(VuePlayerPlugin, {
+  loadComponent: true // create the global player component <vytia-player></vytia-player>
+})
 
 new Vue({
   el: '#app',

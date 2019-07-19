@@ -48,8 +48,11 @@
         "save-file": "^2.3.1",
         "vue": "^2.5.17",
         "vue-router": "^3.0.7",
+        "vue-screen-size": "^1.0.0",
         "vue-socket.io": "^3.0.7",
         "vue-timers": "^2.0.2",
+        "vue-youtube": "^1.3.5",
+        "vue-youtube-iframe-api": "^0.1.2",
         "vuex": "^3.1.1"
     },
     "devDependencies": {
