@@ -75,7 +75,7 @@ export default {
             this.uuid = response.data
         }),
         this.getScreenInfo({id: this.uuid}),
-        this.src = "https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://signage.dev.hn/configQR/" + this.idScreen
+        this.src = "https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://192.168.1.55:8080/configQR/" + this.idScreen
     },
     updated(){
         // this.sockets.subscribe(document.getElementById('idScreen').firstChild, (data) => {
