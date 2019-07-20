@@ -63,10 +63,6 @@ export default {
   },
   async created(){
     this.$options.interval = await setImmediate(this.startPlay);
-    while (!this.ready) {
-      console.log('Waiting configuration');
-    }
-    // this.$options.interval = setInterval(this.prueba, 1000);
   },
   mounted (){
     console.log('montado');
