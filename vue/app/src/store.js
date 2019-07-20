@@ -23,7 +23,14 @@ export default new Vuex.Store({
   state: {
     uuid:'',
     screen: '',
-    key: ''
+    key: '',
+    userConfig : {
+      type: 'playlist' ,//can be a video, playlist, search, user_videos
+      videoId: 'lG0Ys-2d4MA',
+      list : 'RDRK1K2bCg4J8',
+      fullScreen : true,
+      loop : 1
+    },
   },
   mutations: {
     setScreenInfo(state, screenInfo){
