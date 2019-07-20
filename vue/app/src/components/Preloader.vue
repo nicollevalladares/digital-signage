@@ -63,7 +63,7 @@
                 .then(response => {
                     // console.log(response.data);
                     var uuid = response.data
-                    axios.get("http://connect.dev.hn/screens")
+                    axios.get("http://192.168.1.55:3331/screens")
                     .then(response => {
                       // console.log(response.data);
                       response.data.forEach(doc => {
@@ -79,7 +79,7 @@
                     })
 
                     if(this.screen == false){
-                      axios.post("http://connect.dev.hn/screens/addNew",{
+                      axios.post("http://192.168.1.55:3331/screens/addNew",{
                         idScreen: this.key.key,
                         uuid: uuid
                       })
