@@ -31,18 +31,22 @@ const router =  new Router({
         {
             path: '/downloadFiles',
             name: 'DownloadFiles',
-<<<<<<< HEAD
-            component: require('@/components/downloadFiles').default
+            component: require('@/components/downloadFiles').default,
+            props: true
         },
         {
             path: '/youtube',
             name: 'Youtube',
-            component: require('@/components/Youtube').default
-=======
-            component: require('@/components/downloadFiles').default,
+            component: require('@/components/Youtube').default,
             props: true
->>>>>>> 22ed60814ab4a6d1591296e6357d97cfc37d74a6
+        },
+        {
+            path: '/weather',
+            name: 'Weather',
+            component: require('@/components/Weather').default,
+            props: true
         }
+
     ]
 })
 

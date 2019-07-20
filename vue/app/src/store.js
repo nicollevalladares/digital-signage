@@ -24,23 +24,18 @@ export default new Vuex.Store({
     uuid:'',
     screen: '',
     key: '',
-<<<<<<< HEAD
-    userConfig : {
-      type: 'playlist' ,//can be a video, playlist, search, user_videos
-      videoId: 'lG0Ys-2d4MA',
-      list : 'RDRK1K2bCg4J8',
-      fullScreen : true,
-      loop : 1
-    },
-=======
     progress: '',
     files: [],
     imagesDuration : '',
     idPlaylist: '',
     status: false,
     downloadFile: '',
-    isDownloading: false
->>>>>>> 22ed60814ab4a6d1591296e6357d97cfc37d74a6
+    isDownloading: false,
+    youtubeUserConfig : {
+        type : 'playlist',
+        list : 'RDRK1K2bCg4J8',
+        ytVideoId : 'R2vVrWsis6I'
+    },
   },
   mutations: {
     setScreenInfo(state, screenInfo){

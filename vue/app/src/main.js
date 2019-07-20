@@ -21,7 +21,7 @@ if (ELECTRON_DETECTED) {
 export const config = tmpConfig
 
 Vue.use(VuePlayerPlugin, {
-  loadComponent: true // create the global player component <vytia-player></vytia-player>
+  loadComponent : true // create the global player component <vytia-player></vytia-player>
 })
 
 new Vue({

@@ -7,7 +7,7 @@
             <router-link :to="{name: 'Player'}">Player</router-link>
         </button>
          <button>
-            <router-link :to="{name: 'Youtube'}">youtube</router-link>
+            <router-link :to="{name: 'Weather'}">weather</router-link>
         </button>
         <div v-if="!scanned">
              <h1 id="newScreenTitle">CONFIGURACIÓN DE NUEVA PANTALLA</h1>
