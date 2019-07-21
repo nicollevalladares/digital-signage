@@ -1,24 +1,44 @@
 <template>
-  <div id="div-weather">
+  <!-- <div id="div-weather">
     <div id="div-data">
       <div id="hour">{{hour}}
         <span id="m">{{formate}}</span>
       </div>
       <div id="minutes">{{minutes}}</div>
-      <h1 id="temp">22° C</h1>
-      <h1 id="city"> {{today}}</h1>
+      <h1 id="temp">° C</h1>
+      <h1 id="date"> {{today}}</h1>
+      <span id="city"> {{city}}</span>
+    </div> 
+  </div> -->
+  <div id="div-weather">
+    <div id="div-data">
+      <v-container grid-list-md text-xs-center>
+        <v-layout align-center justify-center>
+          <v-flex xs6>
+            <div id="hour">{{hour}}
+              <span id="m">{{formate}}</span>
+            </div>
+            <div id="minutes">{{minutes}}</div>
+            <h1 id="date"> {{today}}</h1>
+          </v-flex>
+          <v-flex >
+            <h1 id="temp">° C</h1>
+            <h1 id="city"> {{city}}</h1>
+          </v-flex>
+        </v-layout>
+      </v-container>
     </div> 
   </div>
 </template>
+
 
 <script>
 import { mapActions, mapState } from 'vuex'
 import moment from 'moment'
 import {mixin as VueTimers} from 'vue-timers'
-import { setInterval } from 'timers';
+import { setInterval, setTimeout } from 'timers'
 import axios from 'axios'
-
-
+import weather from 'openweather-apis'
 export default {
     mixins: [VueTimers],
     name: 'Weather',
@@ -30,7 +50,9 @@ export default {
           today : '' ||moment().format('dddd, D MMMM YYYY'),
           minutes: '' || moment().format('mm'),
           hour: '' || moment().format('h'),
-          formate: '' || moment().format('A')
+          formate: '' || moment().format('A'),
+          temp: '',
+          city : 'Tegucigalpa' || 'Honduras'
         }
   },
   methods :{
@@ -39,41 +61,27 @@ export default {
           this.minutes= moment().format('mm');
           this.hour = moment().format('h'); 
           this.formate = moment().format('A'); 
-
-
-
       },
-      updateTemp(){
-        axios.get("http://api.apixu.com/v1/current.json?key=7c257385079849e2af631538191907&q=Honduras")
-        .then(response => {
-          console.log(respose);
-          
-        })
-        .catch(err => {
-          
+      updateTemp (){
+         weather.getTemperature(function(err, tempC){
+            console.log(tempC);
+            document.getElementById('temp').innerHTML = Math.round(tempC-1) + ' °C';
         })
       }
   },
    computed: {
       ...mapState([''])
   },
-  created (){
-
-  },
   mounted (){
     moment.locale('es');
     this.$options.interval = setInterval(this.updateInfo, 1000);
-    this.$options.interval = setInterval(this.updateTemp, 600000);
-     axios.get("http://api.apixu.com/v1/current.json?key=7c257385079849e2af631538191907&q=Honduras")
-        .then(response => {
-          console.log(respose);
-          
-        })
-        .catch(err => {
-          console.log('err');
-          
-        })
+    // this.$options.interval = setInterval(this.updateTemp, 500000);
+    // this.$options.interval = setTimeout(this.updateTemp, 1000);
 
+    weather.setLang('es');
+    weather.setCoordinate(14.0932, -87.2013);
+    weather.setUnits('metric');
+    weather.setAPPID('2259f69889076f587bb92ac8d0d9c046');
   }
 }
 
@@ -96,26 +104,26 @@ export default {
     font-size: 50px;
     color: white;
     font-weight: bold;
-    margin-left: 70%;
+    /* margin-left: 70%; */
   }
- #city{
+ #date{
     font-size: 20px;
     color: white;
-    margin-left: 2%;
-    margin-top: 8%;
+    float: left;
+    margin-top: 10px;
+    margin-left: 10px;
+    text-align: center;
  }
  #div-data {
-    background-color: rgba(0,0,0,0.5);
-    z-index: 100;
-    border-radius: 5px;
+    background-color: rgba(0,0,0,0.6);
+    border-radius: 8px;
     padding: 5px;
+    width: 80%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 10%;
-    width: 80%;
     height: 250px;
-    text-align: left;
-
+    margin-top: 15%;
+    /* overflow: hidden; */
  }
 
 #hour, #minutes{
@@ -123,7 +131,7 @@ export default {
   height: 150px;
   background-color: rgba(255, 255, 255, 0.733);
   z-index: 100;
-  margin-top: -25px;
+  margin-top: -70px;
   border-radius: 5px;
   color: black;
   font-size: 120px;
@@ -139,5 +147,10 @@ export default {
     margin-left: 5%;
 }
 
+#city {
+  font-size: 30px;
+  color: white;
+  font-weight: bold;
+}
 
 </style>

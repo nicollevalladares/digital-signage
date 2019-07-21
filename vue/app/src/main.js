@@ -5,6 +5,9 @@ import router from './router'
 import store from './store'
 import VueSocketIO from 'vue-socket.io'
 import VuePlayerPlugin from 'vue-youtube-iframe-api'
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
+
 
 Vue.config.productionTip = false
 
@@ -23,7 +26,7 @@ export const config = tmpConfig
 Vue.use(VuePlayerPlugin, {
   loadComponent : true // create the global player component <vytia-player></vytia-player>
 })
-
+Vue.use(Vuetify)
 new Vue({
   el: '#app',
   router,
