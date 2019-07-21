@@ -1,15 +1,4 @@
 <template>
-  <!-- <div id="div-weather">
-    <div id="div-data">
-      <div id="hour">{{hour}}
-        <span id="m">{{formate}}</span>
-      </div>
-      <div id="minutes">{{minutes}}</div>
-      <h1 id="temp">° C</h1>
-      <h1 id="date"> {{today}}</h1>
-      <span id="city"> {{city}}</span>
-    </div> 
-  </div> -->
   <div id="div-weather">
     <div id="div-data">
       <v-container grid-list-md text-xs-center>

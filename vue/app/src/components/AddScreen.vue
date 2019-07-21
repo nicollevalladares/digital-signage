@@ -1,7 +1,5 @@
 <template>
     <v-container>
-                   <v-btn :to="{name: 'DownloadFiles'}" color="success">Download Files</v-btn> 
-
         <div id="newScreen">
             <!-- <v-btn :to="{name: 'Player'}" color="error">Player</v-btn>
             <v-btn :to="{name: 'Weather'}" color="success">Weather</v-btn>  -->
@@ -61,7 +59,8 @@ export default {
                 this.scanned = true
             }
             else if(data.type=='configured'){
-                // this.configured = true
+                console.log('configurado');
+                
                 this.getScreenInfo({uuid: this.uuid, idScreen: this.idScreen})
                 this.$router.push({name: 'DownloadFiles'})
             }
@@ -69,7 +68,7 @@ export default {
         }),
         
         // this.getScreenInfo({id: this.uuid}),
-        this.src = "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=http://192.168.1.55:8080/configQR/" + this.idScreen
+        this.src = "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=http://signage.dev.hn/configQR/" + this.idScreen
     },
     updated(){
         // this.sockets.subscribe(document.getElementById('idScreen').firstChild, (data) => {

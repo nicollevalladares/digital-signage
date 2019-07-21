@@ -109,7 +109,7 @@
     color: white;
     font-weight: bold;
     margin-top: 0px;
-    font-size: 3rem;
+    font-size: 3vw;
     letter-spacing: 10px;
 }
 .loader{

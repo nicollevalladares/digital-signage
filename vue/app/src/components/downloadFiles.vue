@@ -3,7 +3,7 @@
      <h2 id="download-title">DESCARGANDO ARCHIVOS</h2>
      <hr>
       <div id="files-progress" class="container" v-autoscroll="'bottom'">
-        
+
       </div>
   </v-container>
 </template>
@@ -32,8 +32,9 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['saveFiles', 'setProgress']),
     save(){
+      console.log(this.status);
+      
       if(this.status == true){
         this.startDownload()
         clearTimeout(this.$options.interval);
@@ -81,7 +82,7 @@ export default {
     ...mapState(['uuid', 'screen', 'files', 'key', 'status',])
   },
   mounted(){
-    this.$options.interval = setTimeout(this.save, 2000);
+    this.$options.interval = setTimeout(this.save, 5000);
   }
 }
 
