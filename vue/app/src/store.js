@@ -21,7 +21,23 @@ export default new Vuex.Store({
         list : 'RDRK1K2bCg4J8',
         ytVideoId : 'R2vVrWsis6I'
     },
+    marquee : {
+      news : 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna.      ',
+      backgroundColor: 'blue',
+      fontColor : 'white',
+      fontFamily: 'Verdana',
+      fontSize : '1.5vw' || null,
+      time : true,
+      timeConf :{
+        backgroundColor: 'rgb(180, 154, 3)',
+        fontColor: 'white',
+        fontSize : '1.5vw' || null,
+        left: null,
+        right : 0
+      }
+    }
   },
+
   mutations: {
     setScreenInfo(state, screenInfo){
       state.screen = screenInfo;

@@ -1,7 +1,9 @@
 <template>
   <div id="div-player" >
-    <video id='player' width="100%" src="" height="100%" ></video> 
-    <img id="img" width="100%" src="" height="100%">
+    <video v-show="this.visiblePlayer1" id='player' width="100%"  height="100%" ></video> 
+    <video v-show="this.visiblePlayer2" id='player2' width="100%"  height="100%" ></video> 
+    <img v-show="this.visibleImagenViewer" id="img" width="100%"  height="100%">
+    <marquee/>
   </div>
 </template>
 
@@ -9,13 +11,14 @@
 import axios from 'axios'
 import {mixin as VueTimers} from 'vue-timers'
 import { mapActions, mapState } from 'vuex'
+import marquee from './Marquee'
 
 
 export default {
   mixins: [VueTimers],
   name: 'Player',
      components: {
-    
+        marquee
     },
   data(){
     return {
@@ -23,8 +26,14 @@ export default {
       defaultVideo : [],
       currrentFile : 0,
       videoPlayer : null,
+      videoPlayer2 : null,
       imagenPlayer : null,
-      mediaPlaying : null //0 when is playing a video, 1 when is showing a picture
+      mediaPlaying : null ,//0 when is playing a video, 1 when is showing a picture
+      nextVideo : false,
+      playerUsed : 0, //1 player1, 2 player2
+      visiblePlayer1 : true,
+      visiblePlayer2 : true,
+      visibleImagenViewer :true
     }
   },
     sockets: {
@@ -38,38 +47,60 @@ export default {
   methods: {
     ...mapActions(['getUUID']),
     playNextFile : function (){
-        if (this.currrentFile >= (this.playList.length-1))
-          this.currrentFile=0;
-        else 
-           this.currrentFile++;
-
         if (this.playList.length ==1){
             if(this.mediaPlaying == 0){
                this.videoPlayer.play();
             }
         }else{
           if (this.playList[this.currrentFile].type == 'mp4'){
-              this.mediaPlaying = 0;
-              this.imagenPlayer.style.display = 'none';
-              this.videoPlayer.style.display = 'block';
-              this.videoPlayer.src = this.playList[this.currrentFile].url;
+            this.mediaPlaying = 0;
+            if (this.playerUsed == 1){
+              this.visibleImagenViewer = false;
+              this.visiblePlayer1 = false;
+              this.visiblePlayer2 = true;
+              this.videoPlayer2.play();
+              this.playerUsed = 2;
+            }else{
+              this.visibleImagenViewer=false;
+              this.visiblePlayer2 =false;
+              this.visiblePlayer1 = true;
               this.videoPlayer.play();
+              this.playerUsed = 1;
+            }
           }else{
               this.mediaPlaying = 1;
-              this.imagenPlayer.style.display = 'none'; 
-              this.videoPlayer.style.display = 'none';
+              // this.imagenPlayer.style.display = 'none'; 
+              this.visiblePlayer1 = false;
+              this.visiblePlayer2 = false;
               this.imagenPlayer.src = this.playList[this.currrentFile].url;
-              this.imagenPlayer.style.display = 'block'; 
+              this.visibleImagenViewer = true;
           }
       }
         this.waitingFinish();    
     },
    
     waitingFinish : function (){
+    //incremnt next media
+      if (this.currrentFile >= (this.playList.length-1))
+          this.currrentFile=0;
+        else 
+           this.currrentFile++;
+      //load next file if it's video
+      if (this.playList[this.currrentFile].type == 'mp4'){
+          if (this.playerUsed == 1)
+             this.videoPlayer2.src = this.playList[this.currrentFile].url;
+          else
+              this.videoPlayer.src = this.playList[this.currrentFile].url;
+      }
       // console.log('Waiting to finish actually file');
       if (this.mediaPlaying == 0){
+        if (this.playerUsed == 1){
           this.videoPlayer.onended =  this.playNextFile;
           this.videoPlayer.onerror =  this.playNextFile;
+        }else if (this.playerUsed == 2){
+          this.videoPlayer2.onended =  this.playNextFile;
+          this.videoPlayer2.onerror =  this.playNextFile;
+        }
       }else if (this.mediaPlaying == 1){
           this.$options.interval= setTimeout(this.playNextFile, 5000);
       }
@@ -97,8 +128,10 @@ export default {
 
     startPlaylist : function (){   
         // console.log('Iniciando playlist');
-        this.videoPlayer = document.getElementById('player'); 
+        this.videoPlayer = document.getElementById('player');
+        this.videoPlayer2 = document.getElementById('player2');  
         this.videoPlayer.muted = true; 
+        this.videoPlayer2.muted = true; 
         this.imagenPlayer = document.getElementById('img'); 
       //get media from FTPserver
        axios.get("http://127.0.0.1:3333/playlist")
@@ -114,13 +147,18 @@ export default {
                                     if (this.playList[this.currrentFile].type == 'mp4'){    
                                       this.mediaPlaying = 0;                  
                                       this.videoPlayer.src = this.playList[this.currrentFile].url;
-                                      this.imagenPlayer.style.display = 'none';
+                                      this.visibleImagenViewer = false;
+                                      this.visiblePlayer2 = false;
+                                      this.visiblePlayer1 = true;
                                       this.videoPlayer.play();
+                                      this.playerUsed = 1;
                                     } else {
                                       //show images
                                       this.mediaPlaying = 1;   
-                                      this.videoPlayer.style.display = 'none';
+                                      this.visiblePlayer1 = false;
+                                      this.visiblePlayer2 = false;
                                       this.imagenPlayer.src = this.playList[this.currrentFile].url;
+                                      this.visibleImagenViewer = true;
                                     }
                                     this.waitingFinish();
                                 } else {

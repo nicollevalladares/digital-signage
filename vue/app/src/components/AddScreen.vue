@@ -1,15 +1,15 @@
 <template>
     <v-container>
         <div id="newScreen">
-            <!-- <v-btn :to="{name: 'Player'}" color="error">Player</v-btn>
-            <v-btn :to="{name: 'Weather'}" color="success">Weather</v-btn>  -->
+          <v-btn :to="{name: 'Player'}" color="error">player</v-btn>
+              <!-- <v-btn :to="{name: 'Weather'}" color="success">Weather</v-btn>  -->
             <div v-if="!scanned">
-                <h1 id="newScreenTitle">CONFIGURACIÓN DE NUEVA PANTALLA</h1>
+                <div id="newScreenTitle">CONFIGURACIÓN DE NUEVA PANTALLA</div>
                 <hr>
                 <div id="newScreenDescription">Esta pantalla no está vinculada a ninguna cuenta en Digital Signage. Diríjase a <span id="url">www.digitalsignage.com/configuration:</span> e ingrese el siguiente código para realizar la configuración:</div>
-                <h3 id="idScreen">{{this.idScreen}}</h3>
+                <div id="idScreen">{{this.idScreen}}</div>
                 <div  class="qr-text">o escanee el siguiente código QR:</div>
-                <img id="barCode" :src="src">
+                <v-container id="barCode"><img :src="src"></v-container>
             </div>
 
             <div v-if="scanned && !configured">
@@ -119,14 +119,16 @@ export default {
         padding: 5px;
         margin-bottom: 5px;
         margin-top: 10px;
+        font-size: 2vw;
+        font-weight: bold
     }
     #newScreenTitle{
           letter-spacing: 10px;
           top: 0;
-          font-size: 30vw;
+          font-size: 2vw;
     }
     #newScreenDescription {
-        font-size: 30px;
+        font-size: 2vw;
         text-align: justify;
         margin: 5%;
         margin-top: 40px;
@@ -134,10 +136,14 @@ export default {
     }
     .qr-text {
         text-align: center;
-        font-size: 25px;
+        font-size: 1.8vw;
         margin: 10%;
         margin-top: 10px;
         margin-bottom: 20px;
+    }
+
+    #barCode{
+        bottom: 0;
     }
 
 </style>

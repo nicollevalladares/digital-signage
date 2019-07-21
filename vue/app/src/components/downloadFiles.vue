@@ -32,9 +32,7 @@ export default {
     }
   },
   methods: {
-    save(){
-      console.log(this.status);
-      
+    save(){      
       if(this.status == true){
         this.startDownload()
         clearTimeout(this.$options.interval);
@@ -50,14 +48,15 @@ export default {
           filename: this.files[this.actuallyFile].dataName,
           dir: 'files/files/',
           onDone: (info)=>{
-              console.log('done', info);
               document.getElementById('progress-'+this.actuallyFile).style.display = 'none';
-              document.getElementById('item-'+this.actuallyFile).innerHTML = `<v-icon class="icon-downloaded" dark right>check_circle_outline</v-icon>${this.files[this.actuallyFile].name} descargado correctamente`;
+              document.getElementById('item-'+this.actuallyFile).innerHTML = `<span style="font-size:2vw; color:rgb(19, 95, 19); margin-right: 10px">✔</span>${this.files[this.actuallyFile].name} descargado correctamente`;
               this.actuallyFile++;
               this.saveNextFile();
           },
           onError: (err) => {
-              console.log('error', err);
+              console.log('error', err); 
+              document.getElementById('item-'+this.actuallyFile).innerHTML = `Ha ocurrido un error al intentar descargar ${this.files[this.actuallyFile].name}`;
+
           },
           onProgress: (curr, total) => {
               let progress = (curr / total * 100).toFixed(2);
@@ -68,12 +67,12 @@ export default {
         
         dl(this.files[this.actuallyFile].url, option);
         document.getElementById('files-progress').innerHTML += 
-          `<h1 id='item-${this.actuallyFile}' class="item-downloading">Descargando ${this.files[this.actuallyFile].name}</h1>
-          <progress class="progress" id='progress-${this.actuallyFile}' value="" max="100">
+          `<h1 id='item-${this.actuallyFile}' style=' color: white; font-size: 1.5vw;margin-top: 2%;margin-bottom: 5px;' class="">Descargando ${this.files[this.actuallyFile].name}</h1>
+          <progress style="width: 30%;background-color:rgb(19, 95, 19);" id='progress-${this.actuallyFile}' value="" max="100">
             0%
           </progress>`
       }else{
-        this.$router.push({name : 'Player'})
+        setTimeout(this.$router.push({name : 'Player'}), 2000);
       }
   
     }

@@ -45,6 +45,12 @@ const router =  new Router({
             name: 'Weather',
             component: require('@/components/Weather').default,
             props: true
+        },
+        {
+            path: '/marquee',
+            name: 'Marquee',
+            component: require('@/components/Marquee').default,
+            props: true
         }
 
     ]

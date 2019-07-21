@@ -48,7 +48,10 @@ export default {
       updateInfo (){
           this.today = moment().format('dddd, D MMMM YYYY');
           this.minutes= moment().format('mm');
-          this.hour = moment().format('h'); 
+          if (moment().format('h')<10){
+              this.hour = '0'+ moment().format('h'); 
+          }else
+              this.hour = moment().format('h'); 
           this.formate = moment().format('A'); 
       },
       updateTemp (){
@@ -78,7 +81,7 @@ export default {
 
 <style scoped>
   #div-weather {
-    background-image: url('../assets/weather2.jpg');
+    /* background-image: url('../assets/weather.jpg'); */
     background-size: cover;
     top: 0;
     left: 0;
@@ -88,15 +91,19 @@ export default {
     min-height : 100%;
     max-width: 100%;
     min-width : 100%;
+    background-color: blue;
+    background: rgb(14, 1, 255);
+    background: linear-gradient(60deg, rgb(62, 56, 179) 0%, rgb(103, 103, 180) 35%, rgb(21, 149, 175) 100%);
+
   }
   #temp {
-    font-size: 50px;
+    font-size: 5vw;
     color: white;
     font-weight: bold;
     /* margin-left: 70%; */
   }
  #date{
-    font-size: 20px;
+    font-size: 2vw;
     color: white;
     float: left;
     margin-top: 10px;
@@ -110,34 +117,36 @@ export default {
     width: 80%;
     margin-left: auto;
     margin-right: auto;
-    height: 250px;
+    height: 20vw;
     margin-top: 15%;
     /* overflow: hidden; */
  }
 
 #hour, #minutes{
-  width: 150px;
-  height: 150px;
+  width: 12vw;
+  height: 12vw;
   background-color: rgba(255, 255, 255, 0.733);
   z-index: 100;
   margin-top: -70px;
   border-radius: 5px;
   color: black;
-  font-size: 120px;
+  font-size: 10vw;
   font-weight: bold;
   margin-left: 15px;
   float: left;
+  background: rgb(14, 1, 255);
+  background: linear-gradient(60deg, rgb(243, 243, 243) 0%, rgb(128, 128, 131) 35%, rgb(170, 170, 170) 100%);
 }
 
 #m{
-    font-size: 20px;
+    font-size: 1.5vw;
     float: left;
-    margin-top: -8%;
+    margin-top: -10%;
     margin-left: 5%;
 }
 
 #city {
-  font-size: 30px;
+  font-size: 3vw;
   color: white;
   font-weight: bold;
 }
