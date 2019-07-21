@@ -75,8 +75,8 @@ export default {
   mounted (){
     moment.locale('es');
     this.$options.interval = setInterval(this.updateInfo, 1000);
-    // this.$options.interval = setInterval(this.updateTemp, 500000);
-    // this.$options.interval = setTimeout(this.updateTemp, 1000);
+    this.$options.interval = setInterval(this.updateTemp, 500000);
+    this.$options.interval = setTimeout(this.updateTemp, 1000);
 
     weather.setLang('es');
     weather.setCoordinate(14.0932, -87.2013);

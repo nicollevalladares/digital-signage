@@ -1,33 +1,27 @@
 <template>
-    <div id="newScreen">
-        <button>
-            <router-link :to="{name: 'DownloadFiles'}">Download Files</router-link>
-        </button>
-        <button>
-            <router-link :to="{name: 'Player'}">Player</router-link>
-        </button>
-         <button>
-            <router-link :to="{name: 'Youtube'}">Youtube</router-link>
-        </button>
-        <div v-if="!scanned">
-             <h1 id="newScreenTitle">CONFIGURACIÓN DE NUEVA PANTALLA</h1>
-            <hr>
-            <h3 id="newScreenDescription">Esta pantalla no está vinculada a ninguna cuenta en Digital Signage.</h3>
-            <h3>Diríjase a <span id="url">www.digitalsignage.com/configuration</span> e ingrese el siguiente código para realizar la configuración</h3>
-            <h3 id="idScreen">{{idScreen}}</h3>
-            <h3 id="qr-text">o escanee el siguiente código QR:</h3>
-            <br>
-            <img id="barCode" :src="src">
-        </div>
+    <v-container>
+                   <v-btn :to="{name: 'DownloadFiles'}" color="success">Download Files</v-btn> 
 
-        <div v-if="scanned && !configured">
-            <img style="width: 250px; height:250px;" src="../assets/loading.svg">
-			<!-- <progress value="6" max="10"></progress> -->
-			<div style="color: white;" id="output">
-                <h1>Esperando Configuración</h1>
+        <div id="newScreen">
+            <!-- <v-btn :to="{name: 'Player'}" color="error">Player</v-btn>
+            <v-btn :to="{name: 'Weather'}" color="success">Weather</v-btn>  -->
+            <div v-if="!scanned">
+                <h1 id="newScreenTitle">CONFIGURACIÓN DE NUEVA PANTALLA</h1>
+                <hr>
+                <div id="newScreenDescription">Esta pantalla no está vinculada a ninguna cuenta en Digital Signage. Diríjase a <span id="url">www.digitalsignage.com/configuration:</span> e ingrese el siguiente código para realizar la configuración:</div>
+                <h3 id="idScreen">{{this.idScreen}}</h3>
+                <div  class="qr-text">o escanee el siguiente código QR:</div>
+                <img id="barCode" :src="src">
+            </div>
+
+            <div v-if="scanned && !configured">
+                <img style="width: 250px; height:250px;" src="../assets/loading.svg">
+                <div style="color: white;" id="output">
+                    <h1>Esperando Configuración</h1>
+                </div>
             </div>
         </div>
-    </div>
+    </v-container>
 </template>
 
 
@@ -75,7 +69,7 @@ export default {
         }),
         
         // this.getScreenInfo({id: this.uuid}),
-        this.src = "https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://192.168.1.55:8080/configQR/" + this.idScreen
+        this.src = "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=http://192.168.1.55:8080/configQR/" + this.idScreen
     },
     updated(){
         // this.sockets.subscribe(document.getElementById('idScreen').firstChild, (data) => {
@@ -98,7 +92,7 @@ export default {
 <style>
     #newScreen{
         color: white;
-        margin-top: 5%;
+        margin-top: 1%;
         text-align: center;
     }
 
@@ -117,6 +111,34 @@ export default {
 
     #idScreen{
         font-style: italic;
+        background-color: white;
+        border-radius: 5px;
+        color: rgb(7, 7, 7);
+        width: 30%;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 5px;
+        margin-bottom: 5px;
+        margin-top: 10px;
+    }
+    #newScreenTitle{
+          letter-spacing: 10px;
+          top: 0;
+          font-size: 30vw;
+    }
+    #newScreenDescription {
+        font-size: 30px;
+        text-align: justify;
+        margin: 5%;
+        margin-top: 40px;
+        margin-bottom: 20px;
+    }
+    .qr-text {
+        text-align: center;
+        font-size: 25px;
+        margin: 10%;
+        margin-top: 10px;
+        margin-bottom: 20px;
     }
 
 </style>

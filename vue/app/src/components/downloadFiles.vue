@@ -1,38 +1,27 @@
 <template>
-  <div>
-    <div style="color: white;" id="output">
-      <h1>Configuración Finalizada</h1>
-      <hr>
-      {{downloadFile}}
-      <h2>Descargando Archivos</h2>
-      <div v-for="file of files" :key="file.id">
-        <!-- <p :id="file.id">{{file}}</p> -->
-        <!-- {{progress}} -->
-        <div id="files-progress" style="display: block;">
-          <!-- <p>Descargando {{file.name}}</p>
-          <progress style="width: 100%" :value="progress.progress" max="100">
-            0%
-          </progress> -->
-        </div>
+  <v-container>
+     <h2 id="download-title">DESCARGANDO ARCHIVOS</h2>
+     <hr>
+      <div id="files-progress" class="container" v-autoscroll="'bottom'">
+        
       </div>
-    </div>
-  </div>
+  </v-container>
 </template>
 
 <script>
 import axios from 'axios'
 import { mapActions, mapState } from 'vuex'
 import {mixin as VueTimers} from 'vue-timers'
-import { clearLine } from 'readline';
-import { clearInterval } from 'timers';
-const fs = require('fs')
-const dl = require('download-file-with-progressbar');
-
-// import {ipcMain} from 'electron'
-// import { log } from 'util';
-// var timeout; 
+import { clearLine } from 'readline'
+import { clearInterval } from 'timers'
+import fs from 'fs'
+import dl from 'download-file-with-progressbar'
+import { autoscroll } from 'vue-autoscroll'
 
 export default {
+  directives: {
+    autoscroll
+  },
   mixins: [VueTimers],
   name: 'DownloadFiles',
   data(){
@@ -44,14 +33,6 @@ export default {
   },
   methods: {
     ...mapActions(['saveFiles', 'setProgress']),
-    //   forceFileDownload(response){
-    //   const url = window.URL.createObjectURL(new Blob([response.data]))
-    //   const link = document.createElement('a')
-    //   link.href = url
-    //   link.setAttribute('download', 'file.png') //or any other extension
-    //   document.body.appendChild(link)
-    //   link.click()
-    // }
     save(){
       if(this.status == true){
         this.startDownload()
@@ -64,12 +45,13 @@ export default {
     },
     saveNextFile(){
       if (this.actuallyFile <= (this.totalFiles-1)){
-        // this.saveFiles({file: this.files[this.actuallyFile]})
         var option = {
           filename: this.files[this.actuallyFile].dataName,
           dir: 'files/files/',
           onDone: (info)=>{
               console.log('done', info);
+              document.getElementById('progress-'+this.actuallyFile).style.display = 'none';
+              document.getElementById('item-'+this.actuallyFile).innerHTML = `<v-icon class="icon-downloaded" dark right>check_circle_outline</v-icon>${this.files[this.actuallyFile].name} descargado correctamente`;
               this.actuallyFile++;
               this.saveNextFile();
           },
@@ -77,7 +59,6 @@ export default {
               console.log('error', err);
           },
           onProgress: (curr, total) => {
-              // console.log('progress', (curr / total * 100).toFixed(2) + '%');
               let progress = (curr / total * 100).toFixed(2);
                document.getElementById('progress-'+this.actuallyFile).value = progress;
 
@@ -86,8 +67,8 @@ export default {
         
         dl(this.files[this.actuallyFile].url, option);
         document.getElementById('files-progress').innerHTML += 
-          `<h1>Descargando ${this.files[this.actuallyFile].name}</h1>
-          <progress id='progress-${this.actuallyFile}' style="width: 100%" value="" max="100">
+          `<h1 id='item-${this.actuallyFile}' class="item-downloading">Descargando ${this.files[this.actuallyFile].name}</h1>
+          <progress class="progress" id='progress-${this.actuallyFile}' value="" max="100">
             0%
           </progress>`
       }else{
@@ -96,11 +77,8 @@ export default {
   
     }
   },
-  created(){
-    // this.getUUID()
-  },
   computed: {
-    ...mapState(['uuid', 'screen', 'files', 'key', 'status', 'downloadFile', 'isDownloading'])
+    ...mapState(['uuid', 'screen', 'files', 'key', 'status',])
   },
   mounted(){
     this.$options.interval = setTimeout(this.save, 2000);
@@ -110,5 +88,66 @@ export default {
 </script>
 
 <style scoped>
+  #download-title{
+    color: white;
+    font-size: 2vw;
+    letter-spacing: 10px;
+  }
 
+  .item-downloading{
+    color: white;
+    font-size: 1.5vw;
+    margin-top: 2%;
+    margin-bottom: 5px;
+  }
+  .progress {
+    width: 30%;
+    background-color:rgb(19, 95, 19);
+  }
+
+  .icon-downloaded{
+    color: rgb(19, 95, 19);
+    margin-right: 10px;
+    font-size: 2vw;
+  }
+
+  #files-progress{
+    overflow-y: scroll;
+    margin-top: 40px;
+    height: 500px;
+  }
+
+  /* scrollbar */
+  .container::-webkit-scrollbar {
+    width: 8px;     /* Tamaño del scroll en vertical */
+    height: 8px;    /* Tamaño del scroll en horizontal */
+    display: none;  /* Ocultar scroll */
+}
+/* Ponemos un color de fondo y redondeamos las esquinas del thumb */
+.container::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+
+/* Cambiamos el fondo y agregamos una sombra cuando esté en hover */
+.container::-webkit-scrollbar-thumb:hover {
+    background: #b3b3b3;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Cambiamos el fondo cuando esté en active */
+.container::-webkit-scrollbar-thumb:active {
+    background-color: #999999;
+}
+
+.container::-webkit-scrollbar-track {
+    background: #e1e1e1;
+    border-radius: 4px;
+}
+
+/* Cambiamos el fondo cuando esté en active o hover */
+.container::-webkit-scrollbar-track:hover,
+.container::-webkit-scrollbar-track:active {
+  background: #d4d4d4;
+}
 </style>

@@ -49,6 +49,7 @@
         "rimraf": "^2.6.3",
         "save-file": "^2.3.1",
         "vue": "^2.5.17",
+        "vue-autoscroll": "^1.2.1",
         "vue-router": "^3.0.7",
         "vue-screen-size": "^1.0.0",
         "vue-socket.io": "^3.0.7",
