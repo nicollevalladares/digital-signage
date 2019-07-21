@@ -22,26 +22,24 @@ export default {
     },
   data(){
     return {
-      playList : [],
-      defaultVideo : [],
-      currrentFile : 0,
-      videoPlayer : null,
-      videoPlayer2 : null,
-      imagenPlayer : null,
+      playList : [],  // playlist media array
+      defaultVideo : [],  //defaultVideos array
+      currrentFile : 0,  //media actually
+      videoPlayer : null,  //video player 1 element
+      videoPlayer2 : null, //video player 2 element
+      imagenPlayer : null, // imagen element
       mediaPlaying : null ,//0 when is playing a video, 1 when is showing a picture
-      nextVideo : false,
       playerUsed : 0, //1 player1, 2 player2
-      visiblePlayer1 : true,
-      visiblePlayer2 : true,
-      visibleImagenViewer :true
+      visiblePlayer1 : true, //show or hide player1
+      visiblePlayer2 : true, //show or hide player2
+      visibleImagenViewer :true, //show o hide imagenViewer
+      updatingPlaylist : false  //notify when playlist is updating
     }
   },
     sockets: {
         connect: function () {
-            // console.log('socket connected')
         },
         customEmit: function (data) {
-            // console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
         }
     },
   methods: {
@@ -55,25 +53,18 @@ export default {
           if (this.playList[this.currrentFile].type == 'mp4'){
             this.mediaPlaying = 0;
             if (this.playerUsed == 1){
-              this.visibleImagenViewer = false;
-              this.visiblePlayer1 = false;
-              this.visiblePlayer2 = true;
+              this.showMedia (false, true, false);
               this.videoPlayer2.play();
               this.playerUsed = 2;
             }else{
-              this.visibleImagenViewer=false;
-              this.visiblePlayer2 =false;
-              this.visiblePlayer1 = true;
+              this.showMedia (true, false, false);
               this.videoPlayer.play();
               this.playerUsed = 1;
             }
           }else{
               this.mediaPlaying = 1;
-              // this.imagenPlayer.style.display = 'none'; 
-              this.visiblePlayer1 = false;
-              this.visiblePlayer2 = false;
+              this.showMedia(false, false, true);
               this.imagenPlayer.src = this.playList[this.currrentFile].url;
-              this.visibleImagenViewer = true;
           }
       }
         this.waitingFinish();    
@@ -102,37 +93,69 @@ export default {
           this.videoPlayer2.onerror =  this.playNextFile;
         }
       }else if (this.mediaPlaying == 1){
-          this.$options.interval= setTimeout(this.playNextFile, 5000);
+          this.$options.interval= setTimeout(this.playNextFile, this.imagesDuration || '10000');
       }
     },
 
     playDefaultVideo : function (){
+      if (!this.updatingPlaylist){
+        this.updatingPlaylist = true;
+         if (this.defaultVideo.length>=1){ 
+           this.showMedia(true, false , false);
+           this.videoPlayer.src = this.defaultVideo[0].url;
+           this.videoPlayer.play();
+           this.playerUsed = 1; 
+           this.loopDefaultVideo();
+         }else{
+            this.$router.push({name: 'AddScreen'})
+         }
+      }else {
        if (this.defaultVideo.length>=1){ 
-            if (this.defaultVideo[0].type == 'mp4'){                    
-              this.videoPlayer.src = this.defaultVideo[0].url;
-              this.imagenPlayer.style.display = 'none';
-              this.videoPlayer.play();
-              this.videoPlayer.onended =  this.loopDefaultVideo;
-              this.videoPlayer.onerror =  this.loopDefaultVideo;
+            if (this.defaultVideo[0].type == 'mp4'){  
+              if (this.playerUsed == 1){
+                this.showMedia(false, true, false);
+                this.videoPlayer2.play();
+                this.playerUsed = 2;
+              }else {
+                this.showMedia(true, false, false); 
+                this.videoPlayer.play();
+                this.playerUsed = 1;
+              }
             } 
+            this.loopDefaultVideo();
         }else{
             this.$router.push({name: 'AddScreen'})
         }
+      }
     },
 
     loopDefaultVideo : function (){
+      if (this.playerUsed == 1){
+        this.videoPlayer2.src = this.defaultVideo[0].url;
+      }else{
         this.videoPlayer.src = this.defaultVideo[0].url;
-        this.imagenPlayer.style.display = 'none';
-        this.videoPlayer.play();
+      }
+      if (this.playerUsed == 1){
+        this.videoPlayer.onended =  this.playDefaultVideo;
+        this.videoPlayer.onerror =  this.playDefaultVideo;
+      }else{
+        this.videoPlayer2.onended =  this.playDefaultVideo;
+        this.videoPlayer2.onerror =  this.playDefaultVideo;
+  
+      }
     },
-
+    showMedia(player1, player2, viewer){
+        this.visiblePlayer1 = player1;
+        this.visiblePlayer2 = player2;
+        this.visibleImagenViewer = viewer;
+    },
     startPlaylist : function (){   
         // console.log('Iniciando playlist');
         this.videoPlayer = document.getElementById('player');
-        this.videoPlayer2 = document.getElementById('player2');  
+        this.videoPlayer2 = document.getElementById('player2');
+        this.imagenPlayer = document.getElementById('img'); 
         this.videoPlayer.muted = true; 
         this.videoPlayer2.muted = true; 
-        this.imagenPlayer = document.getElementById('img'); 
       //get media from FTPserver
        axios.get("http://127.0.0.1:3333/playlist")
                 .then(response => {
@@ -147,18 +170,14 @@ export default {
                                     if (this.playList[this.currrentFile].type == 'mp4'){    
                                       this.mediaPlaying = 0;                  
                                       this.videoPlayer.src = this.playList[this.currrentFile].url;
-                                      this.visibleImagenViewer = false;
-                                      this.visiblePlayer2 = false;
-                                      this.visiblePlayer1 = true;
+                                      this.showMedia (true, false, false);
                                       this.videoPlayer.play();
                                       this.playerUsed = 1;
                                     } else {
                                       //show images
                                       this.mediaPlaying = 1;   
-                                      this.visiblePlayer1 = false;
-                                      this.visiblePlayer2 = false;
                                       this.imagenPlayer.src = this.playList[this.currrentFile].url;
-                                      this.visibleImagenViewer = true;
+                                      this.showMedia (false, false, true);
                                     }
                                     this.waitingFinish();
                                 } else {
@@ -179,12 +198,10 @@ export default {
     }
   },
   mounted(){
-    this.$options.interval = setTimeout(this.startPlaylist, 1000);
-    console.log('UUID: '+ this.uuid);
-    
+    this.$options.interval = setTimeout(this.startPlaylist, 1000);    
   },
   computed: {
-    ...mapState(['uuid'])
+    ...mapState(['uuid', 'imagesDuration'])
   }
 }
 </script>
