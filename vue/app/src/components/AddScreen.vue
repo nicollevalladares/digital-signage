@@ -6,7 +6,7 @@
             <div v-if="!scanned">
                 <div id="newScreenTitle">CONFIGURACIÓN DE NUEVA PANTALLA</div>
                 <hr>
-                <div id="newScreenDescription">Esta pantalla no está vinculada a ninguna cuenta en Digital Signage. Diríjase a <span id="url">www.digitalsignage.com/configuration </span> e ingrese el siguiente código para realizar la configuración:</div>
+                <div id="newScreenDescription">Esta pantalla no está vinculada a ninguna cuenta en Digital Signage. Diríjase a <span id="url">www.digitalsignage.com/configuration</span> e ingrese el siguiente código para realizar la configuración:</div>
                 <div id="idScreen">{{this.idScreen}}</div>
                 <div  class="qr-text">o escanee el siguiente código QR:</div>
                 <v-container id="barCode"><img id="imgCode" :src="src"></v-container>
@@ -27,6 +27,7 @@
 <script>
 import axios from 'axios'
 import { mapActions, mapState } from 'vuex'
+// import screenshot from 'screenshot-desktop'
 
 export default {
     name: 'AddScreen',
@@ -66,7 +67,7 @@ export default {
             }
             // store.dispatch('updateScreens',{ data })
         }),
-        
+        // screenshot({ filename: 'demo.png' })
         // this.getScreenInfo({id: this.uuid}),
         this.src = "https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=http://signage.dev.hn/configQR/" + this.idScreen
     },

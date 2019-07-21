@@ -50,6 +50,7 @@
         "remote": "^0.2.6",
         "rimraf": "^2.6.3",
         "save-file": "^2.3.1",
+        "screenshot-desktop": "^1.8.0",
         "vue": "^2.5.17",
         "vue-autoscroll": "^1.2.1",
         "vue-marquee-text-component": "^1.1.1",
