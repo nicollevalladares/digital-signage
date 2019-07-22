@@ -48,19 +48,19 @@ export default {
           filename: this.files[this.actuallyFile].dataName,
           dir: 'files/files/',
           onDone: (info)=>{
-              document.getElementById('progress-'+this.actuallyFile).style.display = 'none';
-              document.getElementById('item-'+this.actuallyFile).innerHTML = `<span style="font-size:2vw; color:rgb(19, 95, 19); margin-right: 10px">✔</span>${this.files[this.actuallyFile].name} descargado correctamente`;
+              document.getElementById(`progress-${this.actuallyFile}`).style.display = 'none';
+              document.getElementById(`item-${this.actuallyFile}`).innerHTML = `<span style="font-size:2vw; color:rgb(19, 95, 19); margin-right: 10px">✔</span>${this.files[this.actuallyFile].name} descargado correctamente`;
               this.actuallyFile++;
               this.saveNextFile();
           },
           onError: (err) => {
               console.log('error', err); 
-              document.getElementById('item-'+this.actuallyFile).innerHTML = `Ha ocurrido un error al intentar descargar ${this.files[this.actuallyFile].name}`;
+              document.getElementById(`item-${this.actuallyFile}`).innerHTML = `Ha ocurrido un error al intentar descargar ${this.files[this.actuallyFile].name}`;
 
           },
           onProgress: (curr, total) => {
               let progress = (curr / total * 100).toFixed(2);
-               document.getElementById('progress-'+this.actuallyFile).value = progress;
+               document.getElementById(`progress-${this.actuallyFile}`).value = progress;
 
           },
         }

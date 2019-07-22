@@ -93,7 +93,7 @@ export default {
           this.videoPlayer2.onerror =  this.playNextFile;
         }
       }else if (this.mediaPlaying == 1){
-          this.$options.interval= setTimeout(this.playNextFile, this.imagesDuration || '10000');
+          this.$options.interval= setTimeout(this.playNextFile, this.imagesDuration * 1000 || '10000');
       }
     },
 
