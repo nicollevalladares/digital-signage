@@ -7,7 +7,7 @@ NPM install
 
 ### Compiles and hot-reloads for development
 ```
-NP serve
+NPM serve
 ```
 
 ### Compiles and minifies for production
