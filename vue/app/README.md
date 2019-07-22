@@ -1,21 +1,21 @@
-# Vue-App
+# DIGITAL SIGNAGE BEANARIO
 
 ## Project setup
 ```
-yarn install
+NPM install
 ```
 
 ### Compiles and hot-reloads for development
 ```
-yarn serve
+NP serve
 ```
 
 ### Compiles and minifies for production
 ```
-yarn build
+NPM build
 ```
 
 ### Same for Electron
 ```
-yarn serve:electron    yarn build:electron
+NPM serve:electron    NPM build:electron
 ```
