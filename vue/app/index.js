@@ -2,18 +2,20 @@ var express = require("express")
 var cors = require('cors')
 const app = express()
 var bodyParser = require("body-parser")
-const http = require('http')
-var server = http.createServer(app)
+// const http = require('http')
+// var server = http.createServer(app)
 const path = require('path')
 const fs = require('fs')
 const rimraf = require("rimraf");
-const save = require('save-file')
-const axios = require('axios')
-app.use(cors())
-app.use(bodyParser.json({limit: '50mb'}))
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true}))
-app.use(express.static(path.join(__dirname, 'files')))
 
+app.use(cors())
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({
+  extended: true
+}))
+
+app.use(express.static(path.join(__dirname, 'files')))
 app.use('files/files/',express.static(__dirname+"files/files/"));
 
 //create folder to save media files
@@ -92,6 +94,40 @@ app.delete("/delete/:fileName",function(req,res){
     }
 })
 
+//delete files aren't in nex playlist
+app.post("/deleteAll", function (req, res){
+  // console.log(req.body.newFiles);
+    var existFile = false;
+    var arrayNewFiles = req.body.newFiles;
+    try {
+      fs.readdir('files/files/', function(err, files) {
+        if (err) 
+          return res.json ({code : 0, data : 'No directory found.'})
+        files.forEach(file => {
+          for (let i = 0; i < arrayNewFiles.length; i++) {
+              if (arrayNewFiles[i].dataName == file)
+                  existFile = true;
+          }
+          if (!existFile){
+            try {
+              fs.unlink('files/files/'+file, (error)=>{
+                if (error)
+                  console.log(error);
+                console.log('file deleted');
+            })
+            } catch (error) {
+              console.log(error);
+            }
+          }else
+            existFile = false;
+        })
+        res.json({code: 1, message: 'Files deleted.'})
+     })
+   } catch (error) {
+      return res.json ({code : 0, data : 'An error ocurred'})
+   }
+})
+
 //file exist?
 app.get("/exist/:fileName",function(req,res){
 var fileName = req.params.fileName
@@ -119,31 +155,21 @@ app.delete("/deleteDefaultVideo",function(req,res){
   })
 })
 
-app.post("/save",function(req,res){
-  axios({
-    method: 'get',
-    url: "http://connect.dev.hn/files/images/1877396290_1562876443534.jpeg",
-    responseType: 'arrayBuffer',
-     onDownloadProgress: (progressEvent) => {
-       console.log('ghjklñ');
-       
-        var percentCompleted = Math.round((progressEvent.loaded / progressEvent.total)* 100);
-        console.log(percentCompleted);
-        
-    },
+app.get("/existDefaultVideo/:fileName",function(req,res){
+  var fileName = req.params.fileName
+    try {
+      fs.exists('files/defaultVideo/'+fileName,function(exists){
+        if(!exists)
+            return res.json ({code : 0 , message : 'File no exist.'})
+        return res.json ({code : 1 , message : 'File exist.'})  
+      })
+    } catch (error) {
+      return res.json ({code : 0 , message : 'An error occurred '})  
+    }
   })
-  .then(response => {
-    // console.log(response.data);
-    
-    // var blob = new Blob([response.data], {type: "image/jpeg"});
-    save(response, 'example.jpeg')
-     
-  })
-  .catch((e) => console.log('error occured '+ e))
-})
-
-server.listen('3333', function () {
+app.listen('3333', function () {
   console.log('FTP Server running');
 })
+
 
 

@@ -10,6 +10,7 @@ export default new Vuex.Store({
     screen: '',
     key: '',
     progress: '',
+    appSelected : '',
     files: [],
     imagesDuration : '',
     idPlaylist: '',
@@ -21,6 +22,7 @@ export default new Vuex.Store({
         list : 'RDRK1K2bCg4J8',
         ytVideoId : 'R2vVrWsis6I'
     },
+    marqueeActive: false,
     marquee : {
       news : 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna.      ',
       backgroundColor: 'blue',
@@ -64,7 +66,7 @@ export default new Vuex.Store({
     getScreenInfo({commit}, payload){
       const uuid = payload.uuid;
       const idScreen = payload.idScreen;
-      axios.post("http://connect.dev.hn/screens", {
+      axios.post("http://connect.beanage.dev.hn/screens", {
         idScreen: idScreen
       })
       .then(response => {
@@ -88,7 +90,7 @@ export default new Vuex.Store({
       })
     },
     getIdScreen({commit}){
-      axios.get("http://connect.dev.hn/screens/generateKey")
+      axios.get("http://connect.beanage.dev.hn/screens/generateKey")
       .then(response => {
         const key = response.data
         commit('setIdScreen', key)
@@ -99,3 +101,4 @@ export default new Vuex.Store({
 
   }
 })
+

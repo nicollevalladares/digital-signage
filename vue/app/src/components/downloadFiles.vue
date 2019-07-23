@@ -41,38 +41,126 @@ export default {
     startDownload(){
       this.totalFiles = this.files.length;
       this.saveNextFile();
+      var files = this.files;
+       axios.post('http://127.0.0.1:3333/deleteAll',{
+           newFiles : files
+        }).then(response => {
+          console.log(respose);  
+        })
     },
     saveNextFile(){
       if (this.actuallyFile <= (this.totalFiles-1)){
-        var option = {
-          filename: this.files[this.actuallyFile].dataName,
-          dir: 'files/files/',
-          onDone: (info)=>{
-              document.getElementById(`progress-${this.actuallyFile}`).style.display = 'none';
-              document.getElementById(`item-${this.actuallyFile}`).innerHTML = `<span style="font-size:2vw; color:rgb(19, 95, 19); margin-right: 10px">✔</span>${this.files[this.actuallyFile].name} descargado correctamente`;
-              this.actuallyFile++;
-              this.saveNextFile();
-          },
-          onError: (err) => {
-              console.log('error', err); 
-              document.getElementById(`item-${this.actuallyFile}`).innerHTML = `Ha ocurrido un error al intentar descargar ${this.files[this.actuallyFile].name}`;
+        axios.get('http://127.0.0.1:3333/exist/'+this.files[this.actuallyFile].dataName)
+        .then(response => {
+           if (response.data.code != 1){
+              var option = {
+                filename: this.files[this.actuallyFile].dataName,
+                dir: 'files/files/',
+                onDone: (info)=>{
+                    document.getElementById(`progress-${this.actuallyFile}`).style.display = 'none';
+                    document.getElementById(`item-${this.actuallyFile}`).innerHTML = `<span style="font-size:2vw; color:rgb(19, 95, 19); margin-right: 10px">✔</span>${this.files[this.actuallyFile].name} descargado correctamente`;
+                    this.actuallyFile++;
+                    this.saveNextFile();
+                },
+                onError: (err) => {
+                    console.log('error', err); 
+                    document.getElementById(`progress-${this.actuallyFile}`).remove();
+                    document.getElementById(`item-${this.actuallyFile}`).remove();
+                    console.log('error', err); 
+                    axios.delete('http://127.0.0.1:3333/delete/'+this.files[this.actuallyFile].dataName)
+                    .then(res =>{
+                        console.log(res);
+                    });
+                    this.saveNextFile(); 
+                },
+                onProgress: (curr, total) => {
+                    let progress = (curr / total * 100).toFixed(2);
+                    document.getElementById(`progress-${this.actuallyFile}`).value = progress;
 
-          },
-          onProgress: (curr, total) => {
-              let progress = (curr / total * 100).toFixed(2);
-               document.getElementById(`progress-${this.actuallyFile}`).value = progress;
+                },
+              }
+              
+              dl(this.files[this.actuallyFile].url, option);
+              document.getElementById('files-progress').innerHTML += 
+                `<h1 id='item-${this.actuallyFile}' style=' color: white; font-size: 1.5vw;margin-top: 2%;margin-bottom: 5px;' class="">Descargando ${this.files[this.actuallyFile].name}</h1>
+                <progress style="width: 30%;background-color:rgb(19, 95, 19);" id='progress-${this.actuallyFile}' value="" max="100">
+                  0%
+                </progress>`
+           }else{
+                console.log('file exist, no downloaded'); 
+                document.getElementById('files-progress').innerHTML += `<h1 id='item-${this.actuallyFile}' style=' color: white; font-size: 1.5vw;margin-top: 2%;margin-bottom: 5px;' class=""><span style="font-size:2vw; color:rgb(19, 95, 19); margin-right: 10px">✔</span>${this.files[this.actuallyFile].name} descargado correctamente</h1>`;
+                this.actuallyFile++;
+                var self = this;
+                setTimeout(function(){
+                    self.saveNextFile();
+                }, 1000);
+                    
+          }
+        })
+      }else{   
+        //download defaultVideo
+        var idScreenTemp = this.key.key.toString();
+        var nameDefault;
+        var urlDefault;
+        var dataNameDefault;
+        console.log(idScreenTemp);
+        axios.post('http://connect.beanage.dev.hn/screens/defaultVideo',{
+          idScreen : idScreenTemp
+        }).then (res=>{
+            if (res.data.data.dataName && res.data.data.url ){
+              nameDefault = res.data.data.name;
+              urlDefault = res.data.data.url;
+              dataNameDefault = res.data.data.dataName;
+            }
+            // console.log(res.data.data.dataName);
+            // console.log(res.data.data.url);
+            axios.get('http://127.0.0.1:3333/existDefaultVideo/'+res.data.data.dataName)
+            .then(res=>{
+                // console.log(res.data.code);
+                if (res.data.code!= 1){
+                    axios.delete('http://127.0.0.1:3333/deleteDefaultVideo')
+                    .then (res=>{
+                      if (res.data.code == 1){
+                          //download default video
+                            document.getElementById('files-progress').innerHTML += 
+                          `<br><h2 style=" color: white; font-size: 1.5vw; letter-spacing: 10px;">Descargando video por defecto</h2><hr><h1 id='item-default' style=' color: white; font-size: 1.5vw;margin-top: 2%;margin-bottom: 5px;' class="">Descargando ${nameDefault}</h1>
+                          <progress style="width: 30%;background-color:rgb(19, 95, 19);" id='progress-default' value="" max="100">
+                            0%
+                          </progress>`;
+                            var option = {
+                            filename: dataNameDefault,
+                            dir: 'files/defaultVideo/',
+                            onDone: (info)=>{
+                                document.getElementById(`progress-default`).style.display = 'none';
+                                document.getElementById(`item-default`).innerHTML = `<span style="font-size:2vw; color:rgb(19, 95, 19); margin-right: 10px">✔</span>${nameDefault} descargado correctamente`;
+                                setTimeout(this.$router.push({name : 'Player'}), 2000);
+                            },
+                            onError: (err) => {
+                                console.log('error', err); 
+                                document.getElementById(`progress-default`).remove();
+                                document.getElementById(`item-default`).remove();
+                                console.log('error', err); 
 
-          },
-        }
-        
-        dl(this.files[this.actuallyFile].url, option);
-        document.getElementById('files-progress').innerHTML += 
-          `<h1 id='item-${this.actuallyFile}' style=' color: white; font-size: 1.5vw;margin-top: 2%;margin-bottom: 5px;' class="">Descargando ${this.files[this.actuallyFile].name}</h1>
-          <progress style="width: 30%;background-color:rgb(19, 95, 19);" id='progress-${this.actuallyFile}' value="" max="100">
-            0%
-          </progress>`
-      }else{
-        setTimeout(this.$router.push({name : 'Player'}), 2000);
+                                axios.delete('http://127.0.0.1:3333/deleteDefaultVideo')
+                                .then(res =>{
+                                    console.log(res);
+                                });
+                            },
+                            onProgress: (curr, total) => {
+                                let progress = (curr / total * 100).toFixed(2);
+                                document.getElementById(`progress-default`).value = progress;
+
+                            },
+                          }
+                          
+                          dl(urlDefault, option);
+                      }
+                    })
+                }else{
+                    setTimeout(this.$router.push({name : 'Player'}), 2000);
+                }
+            })
+        })
       }
   
     }
@@ -113,7 +201,7 @@ export default {
 
   #files-progress{
     overflow-y: scroll;
-    margin-top: 40px;
+    margin-top: 20px;
     height: 500px;
   }
 
@@ -151,3 +239,4 @@ export default {
   background: #d4d4d4;
 }
 </style>
+

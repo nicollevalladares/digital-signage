@@ -8,10 +8,18 @@
 <script>
 
 import Preloader from './components/Preloader.vue'
+import { mapActions, mapState } from 'vuex'
+
 export default {
   name: 'App',
   components: {
     Preloader
+  },
+  created(){
+    
+  },
+  computed: {
+      ...mapState(['key'])
   }
 }
 </script>
@@ -23,7 +31,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  /* margin-top: 60px; */
   overflow: hidden;
   max-height: 100%;
   min-height : 100%;

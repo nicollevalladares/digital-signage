@@ -13,10 +13,8 @@
             </div>
 
             <div v-if="scanned && !configured">
-                <img style="width: 250px; height:250px;" src="../assets/loading.svg">
-                <div style="color: white;" id="output">
-                    <h1>Esperando Configuración</h1>
-                </div>
+                <img class="icon-waiting" src="../assets/loading.svg">
+                    <div class="waiting">Esperando Configuración</div>
             </div>
         </div>
     </v-container>
@@ -63,28 +61,21 @@ export default {
                 console.log('configurado');
                 
                 this.getScreenInfo({uuid: this.uuid, idScreen: this.idScreen})
-                this.$router.push({name: 'DownloadFiles'})
+                this.$router.push({name: this.appSelected || 'DownloadFiles'})
             }
+
+            
             // store.dispatch('updateScreens',{ data })
         }),
         // screenshot({ filename: 'demo.png' })
         // this.getScreenInfo({id: this.uuid}),
-        this.src = "https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=http://signage.dev.hn/configQR/" + this.idScreen
+        this.src = "https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=http://beanage.dev.hn/apps/" + this.idScreen
     },
     updated(){
-        // this.sockets.subscribe(document.getElementById('idScreen').firstChild, (data) => {
-        //     if (data.type=='scanned'){
-        //         this.scanned = true
-        //     }
-        //     else if(data.type=='configured'){
-        //         this.configured = true
-        //         this.$router.push({name: 'DownloadFiles'})
-        //     }
-        //     // store.dispatch('updateScreens',{ data })
-        // })
+     
     },
     computed: {
-      ...mapState(['uuid', 'screen', 'files', 'key'])
+      ...mapState(['uuid', 'screen', 'files', 'key', 'appSelected'])
     }
 }
 </script>
@@ -151,4 +142,16 @@ export default {
         height: 20vw;
     }
 
+    .waiting{
+        font-size: 2.5vw;
+        letter-spacing: 10px;
+        text-align: center
+    }
+
+    .icon-waiting{
+        width: 20vw;
+        height: 20vw;
+    }
+
 </style>
+

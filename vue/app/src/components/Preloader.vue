@@ -29,6 +29,14 @@
       }
 
     },
+    sockets: {
+      connect: function () {
+          // console.log('socket connected')
+      },
+      customEmit: function (data) {
+          // console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+      }
+    },
     methods: {
       ...mapActions(['getIdScreen'])
     },
@@ -49,17 +57,21 @@
               isReachable(['beanar.io', 'https://canihazip.com', 'https://www.bancatlan.hn', 'https://dashboard.resin.io', 'https://status.resin.io']).then(reachable => {
                 axios.get("http://localhost:3333/uuid")
                 .then(response => {
-                    // console.log(response.data);
+                    // console.log('uuid: '+response.data);
                     var uuid = response.data
-                    axios.get("http://connect.dev.hn/screens")
+                    axios.get("http://connect.beanage.dev.hn/screens")
                     .then(response => {
                       // console.log(response.data);
                       response.data.forEach(doc => {
                         // console.log(doc.uuid);
                         if(doc.uuid == uuid){
                           this.state = false;
-                          // this.$router.push({name: 'Player'});
                           this.screen = true
+                          //socket ready
+                          this.sockets.subscribe(doc.idScreen.toString(), (data) => {
+                                console.log('socket en preloader')
+                          })
+                          this.$router.push({name: 'Player'});
                         }
                       })
 
@@ -67,18 +79,21 @@
                     })
 
                     if(this.screen == false){
-                      axios.post("http://connect.dev.hn/screens/addNew",{
+                      axios.post("http://connect.beanage.dev.hn/screens/addNew",{
                         idScreen: this.key.key,
                         uuid: uuid
                       })
                       .then(response => {
                         // console.log(response);
                         this.state = false;
+
                         this.$router.push({name: 'AddScreen', 
                           params: {
                             idScreen: this.key.key
                           }
                         })
+                
+                        // this.$router.push({name: 'Player'});
                       })
                     }
                 })

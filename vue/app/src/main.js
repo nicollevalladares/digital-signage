@@ -36,7 +36,7 @@ new Vue({
 
 Vue.use(new VueSocketIO({
   debug: true,
-  connection: 'http://connect.dev.hn',
+  connection: 'http://connect.beanage.dev.hn',
   vuex: {
       store,
       actionPrefix: 'SOCKET_',
