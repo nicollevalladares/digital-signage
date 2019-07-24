@@ -38,7 +38,7 @@
       }
     },
     methods: {
-      ...mapActions(['getIdScreen'])
+      ...mapActions(['getIdScreen','getScreenInfo'])
     },
     created(){
       this.getIdScreen()
@@ -55,47 +55,51 @@
             this.name = 'DIGITAL SIGNAGE'
             setTimeout(()=>{
               isReachable(['beanar.io', 'https://canihazip.com', 'https://www.bancatlan.hn', 'https://dashboard.resin.io', 'https://status.resin.io']).then(reachable => {
+                  var _idScreen;
+                  var _uuid;
                 axios.get("http://localhost:3333/uuid")
                 .then(response => {
                     // console.log('uuid: '+response.data);
-                    var uuid = response.data
+                    _uuid = response.data
                     axios.get("http://connect.beanage.dev.hn/screens")
                     .then(response => {
                       // console.log(response.data);
                       response.data.forEach(doc => {
                         // console.log(doc.uuid);
-                        if(doc.uuid == uuid){
+                        if(doc.uuid == _uuid){
+                          _idScreen = doc.idScreen;
+                          // console.log(doc.idScreen);
+                          console.log('se encontro uuid');
+      
                           this.state = false;
                           this.screen = true
                           //socket ready
-                          this.sockets.subscribe(doc.idScreen.toString(), (data) => {
-                                console.log('socket en preloader')
-                          })
-                          this.$router.push({name: 'Player'});
+                          
                         }
                       })
 
-                      // console.log('salio');
-                    })
-
-                    if(this.screen == false){
+                      if(this.screen == false){
+                      console.log('no se encontro uuid');
                       axios.post("http://connect.beanage.dev.hn/screens/addNew",{
                         idScreen: this.key.key,
-                        uuid: uuid
+                        uuid: _uuid
                       })
                       .then(response => {
-                        // console.log(response);
+                        console.log(response);
                         this.state = false;
 
-                        this.$router.push({name: 'AddScreen', 
+                          router.push({name: 'AddScreen', 
                           params: {
                             idScreen: this.key.key
                           }
-                        })
-                
-                        // this.$router.push({name: 'Player'});
+                        })                
                       })
-                    }
+                    }else{
+                       this.getScreenInfo({uuid: _uuid, idScreen: _idScreen})
+                    } 
+                      
+                 })
+  
                 })
                 .catch(err => {
                   console.log(err);
@@ -114,7 +118,7 @@
       playlistProgress2.animate(1);
     },
     computed: {
-      ...mapState(['key'])
+      ...mapState(['key','appSelected'])
     }
   }
 </script>

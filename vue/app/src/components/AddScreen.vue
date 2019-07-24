@@ -61,7 +61,8 @@ export default {
                 console.log('configurado');
                 
                 this.getScreenInfo({uuid: this.uuid, idScreen: this.idScreen})
-                this.$router.push({name: this.appSelected || 'DownloadFiles'})
+                
+                // this.$router.push({name: this.appSelected || 'DownloadFiles'})
             }
 
             

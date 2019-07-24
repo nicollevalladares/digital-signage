@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import router from './router'
 
 Vue.use(Vuex)
 
@@ -60,22 +61,38 @@ export default new Vuex.Store({
     setIdPlaylist(state, idPlaylist){
       state.idPlaylist = idPlaylist;
     },
+    setOtherInformation (state, appSelected){
+      state.appSelected = appSelected;
+      router.push({name : appSelected})
+    }
 
   },
   actions: {
     getScreenInfo({commit}, payload){
-      const uuid = payload.uuid;
+      // const uuid = payload.uuid;
       const idScreen = payload.idScreen;
+      console.log('idSCreen desde store '+ idScreen);
+      
       axios.post("http://connect.beanage.dev.hn/screens", {
         idScreen: idScreen
       })
       .then(response => {
-        let files = response.data.data.files;
-        let imagesDuration = response.data.data.imagesDuration;
-        let idPlaylist = response.data.idPlaylist;        
-        commit('setFiles', files)
-        commit('setImagesDuration', imagesDuration)
-        commit('setIdPlaylist', idPlaylist)
+        if (response.data.code ==2) {
+            router.push({name : 'AddScreen',
+                          params: {
+                          idScreen : idScreen
+                        }})
+       }else{
+          let files = response.data.data.files;
+          let imagesDuration = response.data.data.imagesDuration;
+          let idPlaylist = response.data.idPlaylist;  
+          let appSelected = response.data.appSelected || 'DownloadFiles'   
+          commit('setIdScreen', {key: idScreen})
+          commit('setFiles', files)
+          commit('setImagesDuration', imagesDuration)
+          commit('setIdPlaylist', idPlaylist)
+          commit('setOtherInformation', appSelected)
+      }
       })
       .catch(error => {
           console.log(error)
