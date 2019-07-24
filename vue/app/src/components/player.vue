@@ -288,9 +288,16 @@ export default {
   created(){
      this.sockets.subscribe(this.idPlaylist, (data) => {
         if (!this.playingDefaultVideo){
-            console.log('llamado del socket');
+            console.log('Playlist Updated');
             this.updatingPlaylist=true;
         }
+      }),
+      this.sockets.subscribe(this.key.key.toString(), (data) => {
+             if (data.type=='general'){
+                this.getScreenInfo({uuid: this.uuid, idScreen: this.key.key})
+               if(data.data.appSelected != 'DownloadFiles')
+                  this.sockets.unsubscribe(this.key.key.toString());
+            }
       })
   }
 }

@@ -30,11 +30,11 @@
       }
 
     },
-    sockets: {
-      connect: function () {
-          // console.log('socket connected')
-      }
-    },
+    // sockets: {
+    //   connect: function () {
+    //       // console.log('socket connected')
+    //   }
+    // },
     methods: {
       ...mapActions(['getIdScreen','getScreenInfo'])
     },
@@ -64,7 +64,7 @@
                           _idScreen = doc.idScreen;
                           // console.log('se encontro uuid');
                           this.state = false;
-                          this.screen = true
+                          this.screen = true;
                           //socket ready   
                         }
                       })
@@ -78,7 +78,6 @@
                       .then(response => {
                         // console.log(response);
                         this.state = false;
-
                           router.push({name: 'AddScreen', 
                           params: {
                             idScreen: this.key.key
@@ -86,16 +85,14 @@
                         })                
                       })
                     }else{
+                      //  this.sockets.subscribe(_idScreen.toString(), (data) => {
+                      //     if (data.type=='general'){
+                      //         this.getScreenInfo({uuid: _uuid, idScreen: _idScreen})
+                      //     }
+                      //  })
                        this.getScreenInfo({uuid: _uuid, idScreen: _idScreen})
-                        this.sockets.subscribe(_idScreen.toString(), (data) => {
-                          if (data.type=='general'){
-                              this.getScreenInfo({uuid: _uuid, idScreen: _idScreen})
-                          }
-                      })
                     } 
-                      
                  })
-  
                 })
                 .catch(err => {
                   console.log(err);

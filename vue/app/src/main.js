@@ -26,6 +26,7 @@ export const config = tmpConfig
 Vue.use(VuePlayerPlugin, {
   loadComponent : true // create the global player component <vytia-player></vytia-player>
 })
+
 Vue.use(Vuetify)
 new Vue({
   el: '#app',
@@ -42,5 +43,4 @@ Vue.use(new VueSocketIO({
       actionPrefix: 'SOCKET_',
       mutationPrefix: 'SOCKET_'
   },
-  // options: { path: "/my-app/" } //Optional options
 }))

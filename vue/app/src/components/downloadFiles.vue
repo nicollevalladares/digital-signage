@@ -120,7 +120,7 @@ export default {
                       if (res.data.code == 1){
                           //download default video
                             document.getElementById('files-progress').innerHTML += 
-                          `<br><h2 style=" color: white; font-size: 1.5vw; letter-spacing: 10px;">Descargando video por defecto</h2><hr><h1 id='item-default' style=' color: white; font-size: 1.5vw;margin-top: 2%;margin-bottom: 5px;' class="">Descargando ${nameDefault}</h1>
+                          `<br><h2 style="margin-top:10px; color: white; font-size: 1.5vw; letter-spacing: 10px;">Descargando video por defecto</h2><hr><h1 id='item-default' style=' color: white; font-size: 1.5vw;margin-top: 2%;margin-bottom: 5px;' class="">Descargando ${nameDefault}</h1>
                           <progress style="width: 30%;background-color:rgb(19, 95, 19);" id='progress-default' value="" max="100">
                             0%
                           </progress>`;
@@ -163,10 +163,15 @@ export default {
     }
   },
   computed: {
-    ...mapState(['uuid', 'screen', 'files', 'key', 'status',])
+    ...mapState(['uuid', 'screen', 'files', 'key', 'status','appSelected'])
   },
   mounted(){
     this.$options.interval = setTimeout(this.save, 500);
+    // this.sockets.subscribe(this.key.key.toString(), (data) => {
+    //          if (data.type=='general'){
+    //             this.getScreenInfo({uuid: this.uuid, idScreen: this.key.key})
+    //         }
+    //   })
   }
 }
 
@@ -198,7 +203,7 @@ export default {
 
   #files-progress{
     overflow-y: scroll;
-    margin-top: 20px;
+    margin-top: 5px;
     height: 500px;
   }
 
