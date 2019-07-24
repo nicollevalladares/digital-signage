@@ -12,11 +12,7 @@ const router =  new Router({
             name: 'Preloader',
             component: require('@/components/Preloader').default
         },
-        {
-            path: '/landingPage',
-            name: 'LandingPage',
-            component: require('@/components/LandingPage').default
-        },
+
         {
             path: '/addScreen',
             name: 'AddScreen',

@@ -1,22 +1,25 @@
 <template>
-  <div id="div-weather">
-    <div id="div-data">
-      <v-container grid-list-md text-xs-center>
-        <v-layout align-center justify-center>
-          <v-flex xs6>
-            <div id="hour">{{hour}}
-              <span id="m">{{formate}}</span>
-            </div>
-            <div id="minutes">{{minutes}}</div>
-            <h1 id="date"> {{today}}</h1>
-          </v-flex>
-          <v-flex >
-            <h1 id="temp">° C</h1>
-            <h1 id="city"> {{city}}</h1>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </div> 
+  <div>
+      <div id="div-weather">
+        <div id="div-data">
+          <v-container grid-list-md text-xs-center>
+            <v-layout align-center justify-center>
+              <v-flex xs6>
+                <div id="hour">{{hour}}
+                  <span id="m">{{formate}}</span>
+                </div>
+                <div id="minutes">{{minutes}}</div>
+                <h1 id="date"> {{today}}</h1>
+              </v-flex>
+              <v-flex >
+                <h1 id="temp">° C</h1>
+                <h1 id="city"> {{city}}</h1>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </div> 
+      </div>
+      <marquee v-if="this.marqueeActive"/>
   </div>
 </template>
 
@@ -28,11 +31,13 @@ import {mixin as VueTimers} from 'vue-timers'
 import { setInterval, setTimeout } from 'timers'
 import axios from 'axios'
 import weather from 'openweather-apis'
+import marquee from './Marquee'
+
 export default {
     mixins: [VueTimers],
     name: 'Weather',
     components: {
-        
+        marquee
     },
     data(){
         return {
@@ -44,6 +49,11 @@ export default {
           city : 'Tegucigalpa' || 'Honduras'
         }
   },
+   sockets: {
+        connect: function () {
+            // console.log('socket connected')
+        }
+    },
   methods :{
       updateInfo (){
           this.today = moment().format('dddd, D MMMM YYYY');
@@ -62,7 +72,7 @@ export default {
       }
   },
    computed: {
-      ...mapState([''])
+    ...mapState(['marqueeActive'])
   },
   mounted (){
     moment.locale('es');

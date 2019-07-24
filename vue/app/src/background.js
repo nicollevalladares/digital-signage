@@ -9,8 +9,8 @@ var configContent
 
 
 try {
-  fs.statSync('/data/config.json')
-  configContent = fs.readFileSync('/data/config.json', 'utf8')
+  fs.statSync('./config.json')
+  configContent = fs.readFileSync('./config.json', 'utf8')
   console.log('Config found')
 } catch (err) {
   console.log('Error while reading config.json: ', err)

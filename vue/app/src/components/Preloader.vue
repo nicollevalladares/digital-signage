@@ -16,6 +16,7 @@
   import router from '../router'
   import axios from 'axios'
   import { mapActions, mapState } from 'vuex'
+  import servers from '../serverConfig.json'
 
   export default {
     name: 'preloader',
@@ -32,9 +33,6 @@
     sockets: {
       connect: function () {
           // console.log('socket connected')
-      },
-      customEmit: function (data) {
-          // console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
       }
     },
     methods: {
@@ -54,38 +52,31 @@
             document.querySelector('.loader').classList.add('finished');
             this.name = 'DIGITAL SIGNAGE'
             setTimeout(()=>{
-              isReachable(['beanar.io', 'https://canihazip.com', 'https://www.bancatlan.hn', 'https://dashboard.resin.io', 'https://status.resin.io']).then(reachable => {
                   var _idScreen;
                   var _uuid;
-                axios.get("http://localhost:3333/uuid")
+                axios.get(`${servers.FTPServer}/uuid`)
                 .then(response => {
-                    // console.log('uuid: '+response.data);
                     _uuid = response.data
-                    axios.get("http://connect.beanage.dev.hn/screens")
+                    axios.get(`${servers.mainServer}/screens`)
                     .then(response => {
-                      // console.log(response.data);
                       response.data.forEach(doc => {
-                        // console.log(doc.uuid);
                         if(doc.uuid == _uuid){
                           _idScreen = doc.idScreen;
-                          // console.log(doc.idScreen);
-                          console.log('se encontro uuid');
-      
+                          // console.log('se encontro uuid');
                           this.state = false;
                           this.screen = true
-                          //socket ready
-                          
+                          //socket ready   
                         }
                       })
 
                       if(this.screen == false){
-                      console.log('no se encontro uuid');
-                      axios.post("http://connect.beanage.dev.hn/screens/addNew",{
+                      // console.log('no se encontro uuid');
+                      axios.post(`${servers.mainServer}/screens/addNew`,{
                         idScreen: this.key.key,
                         uuid: _uuid
                       })
                       .then(response => {
-                        console.log(response);
+                        // console.log(response);
                         this.state = false;
 
                           router.push({name: 'AddScreen', 
@@ -96,6 +87,11 @@
                       })
                     }else{
                        this.getScreenInfo({uuid: _uuid, idScreen: _idScreen})
+                        this.sockets.subscribe(_idScreen.toString(), (data) => {
+                          if (data.type=='general'){
+                              this.getScreenInfo({uuid: _uuid, idScreen: _idScreen})
+                          }
+                      })
                     } 
                       
                  })
@@ -104,8 +100,7 @@
                 .catch(err => {
                   console.log(err);
                 })
-               
-              });
+           
             },2000)
           } else {
           }

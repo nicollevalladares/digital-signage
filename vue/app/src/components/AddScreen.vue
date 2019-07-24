@@ -59,24 +59,17 @@ export default {
             }
             else if(data.type=='configured'){
                 console.log('configurado');
-                
                 this.getScreenInfo({uuid: this.uuid, idScreen: this.idScreen})
-                
-                // this.$router.push({name: this.appSelected || 'DownloadFiles'})
             }
-
-            
-            // store.dispatch('updateScreens',{ data })
         }),
         // screenshot({ filename: 'demo.png' })
-        // this.getScreenInfo({id: this.uuid}),
         this.src = "https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=http://beanage.dev.hn/apps/" + this.idScreen
     },
     updated(){
      
     },
     computed: {
-      ...mapState(['uuid', 'screen', 'files', 'key', 'appSelected'])
+      ...mapState(['uuid', 'key'])
     }
 }
 </script>

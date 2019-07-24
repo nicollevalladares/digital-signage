@@ -13,6 +13,8 @@ import {mixin as VueTimers} from 'vue-timers'
 import { mapActions, mapState } from 'vuex'
 import marquee from './Marquee'
 import dl from 'download-file-with-progressbar'
+import servers from '../serverConfig.json'
+
 
 export default {
   mixins: [VueTimers],
@@ -170,12 +172,12 @@ export default {
         this.videoPlayer.muted = true;
         this.videoPlayer2.muted = true;
       //get media from FTPserver
-       axios.get("http://127.0.0.1:3333/playlist")
+       axios.get(`${servers.FTPServer}/playlist`)
                 .then(response => {
                     // console.log(response.data.data);
                     this.playList = response.data.data;
                     //get default video
-                     axios.get("http://127.0.0.1:3333/defaultVideo")
+                     axios.get(`${servers.FTPServer}/defaultVideo`)
                           .then(response => {
                                this.defaultVideo = response.data.data;
                                 // start playing media
@@ -214,13 +216,13 @@ export default {
       this.actuallyFileDownloading = 0;
       console.log('downloading files');
       this.getScreenInfo({uuid: this.uuid, idScreen: this.key.key});
-       axios.post("http://connect.beanage.dev.hn/screens", {
+       axios.post(`${servers.mainServer}/screens`, {
         idScreen: this.key.key
       })
       .then(response => {
         this.newFiles = response.data.data.files; 
         var files =  response.data.data.files;
-        axios.post('http://127.0.0.1:3333/deleteAll',{
+        axios.post(`${servers.FTPServer}/deleteAll`,{
            newFiles : files
         }).then(response => {
           console.log(respose);  
@@ -234,7 +236,7 @@ export default {
     },
     downloadNextFile() {
       if (this.actuallyFileDownloading <= (this.newFiles.length-1)) {
-         axios.get('http://127.0.0.1:3333/exist/'+this.newFiles[this.actuallyFileDownloading].dataName)
+         axios.get(`${servers.FTPServer}/exist/${this.newFiles[this.actuallyFileDownloading].dataName}`)
          .then(response => {
             // console.log(response);
              if (response.data.code != 1){
@@ -248,7 +250,7 @@ export default {
                   },
                   onError: (err) => {
                     console.log('error', err); 
-                    axios.delete('http://127.0.0.1:3333/delete/'+this.newFiles[this.actuallyFileDownloading].dataName)
+                    axios.delete(`${servers.FTPServer}/delete/${this.newFiles[this.actuallyFileDownloading].dataNam}`)
                     .then(res =>{
                         console.log(res);
                     });

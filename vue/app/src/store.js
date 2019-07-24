@@ -2,13 +2,13 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import router from './router'
+import servers from './serverConfig.json'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     uuid:'',
-    screen: '',
     key: '',
     progress: '',
     appSelected : '',
@@ -42,57 +42,56 @@ export default new Vuex.Store({
   },
 
   mutations: {
-    setScreenInfo(state, screenInfo){
-      state.screen = screenInfo;
-    },
+ 
     setUUID(state, uuid){
       state.uuid = uuid;
     },
     setIdScreen(state, key){
       state.key = key;
     },
-    setFiles(state, files){
-      state.files = files;
-      state.status = true;
-    },
-    setImagesDuration(state, imagesDuration){
-      state.imagesDuration = imagesDuration;
-    },
-    setIdPlaylist(state, idPlaylist){
-      state.idPlaylist = idPlaylist;
-    },
-    setOtherInformation (state, appSelected){
-      state.appSelected = appSelected;
-      router.push({name : appSelected})
-    }
 
+    setConfiguration (state, conf){
+ 
+          if (conf.data.files){
+            state.files = conf.data.files;
+            state.status = true;
+          }
+
+          if (conf.data.imagesDuration)
+             state.imagesDuration = conf.data.imagesDuration;
+
+          if (conf.idPlaylist)
+             state.idPlaylist = conf.idPlaylist;
+
+          if (conf.otherConf.news != undefined)
+            state.marqueeActive = conf.otherConf.news;
+
+          if (conf.otherConf.appSelected && (conf.otherConf.appSelected != state.appSelected)){
+             state.appSelected = conf.otherConf.appSelected;
+             router.push({name : state.appSelected})
+          }
+    }
   },
   actions: {
+
     getScreenInfo({commit}, payload){
-      // const uuid = payload.uuid;
-      const idScreen = payload.idScreen;
-      console.log('idSCreen desde store '+ idScreen);
-      
-      axios.post("http://connect.beanage.dev.hn/screens", {
+      const idScreen = payload.idScreen;      
+      axios.post(`${servers.mainServer}/screens`, {
         idScreen: idScreen
       })
       .then(response => {
-        if (response.data.code ==2) {
-            router.push({name : 'AddScreen',
-                          params: {
-                          idScreen : idScreen
-                        }})
-       }else{
-          let files = response.data.data.files;
-          let imagesDuration = response.data.data.imagesDuration;
-          let idPlaylist = response.data.idPlaylist;  
-          let appSelected = response.data.appSelected || 'DownloadFiles'   
-          commit('setIdScreen', {key: idScreen})
-          commit('setFiles', files)
-          commit('setImagesDuration', imagesDuration)
-          commit('setIdPlaylist', idPlaylist)
-          commit('setOtherInformation', appSelected)
-      }
+          if (response.data.code ==2) {
+              router.push({name : 'AddScreen',
+                            params: {
+                            idScreen : idScreen
+                          }})
+        }else if(response.data.code == 1){
+            var conf = response.data;
+            var files = response.data.data.files;
+            // commit('setFiles', files)  
+            commit('setIdScreen', {key: idScreen})
+            commit ('setConfiguration', conf);
+        }
       })
       .catch(error => {
           console.log(error)
@@ -100,22 +99,19 @@ export default new Vuex.Store({
     },
    
     getUUID({commit}){
-      axios.get("http://localhost:3333/uuid")
+      axios.get(`${servers.FTPServer}/uuid`)
       .then(response => {
        const uuid = response.data;
        commit('setUUID', uuid)
       })
     },
     getIdScreen({commit}){
-      axios.get("http://connect.beanage.dev.hn/screens/generateKey")
+      axios.get(`${servers.mainServer}/screens/generateKey`)
       .then(response => {
         const key = response.data
         commit('setIdScreen', key)
       })
     },
-  },
-  getters: {
-
   }
 })
 

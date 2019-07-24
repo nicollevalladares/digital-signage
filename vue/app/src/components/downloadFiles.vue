@@ -33,10 +33,7 @@ export default {
   },
   methods: {
     save(){      
-      if(this.status == true){
         this.startDownload()
-        clearTimeout(this.$options.interval);
-      }
     },
     startDownload(){
       this.totalFiles = this.files.length;
@@ -45,7 +42,7 @@ export default {
        axios.post('http://127.0.0.1:3333/deleteAll',{
            newFiles : files
         }).then(response => {
-          console.log(respose);  
+          // console.log(respose);  
         })
     },
     saveNextFile(){
@@ -69,7 +66,7 @@ export default {
                     console.log('error', err); 
                     axios.delete('http://127.0.0.1:3333/delete/'+this.files[this.actuallyFile].dataName)
                     .then(res =>{
-                        console.log(res);
+                        // console.log(res);
                     });
                     this.saveNextFile(); 
                 },
@@ -87,7 +84,7 @@ export default {
                   0%
                 </progress>`
            }else{
-                console.log('file exist, no downloaded'); 
+                // console.log('file exist, no downloaded'); 
                 document.getElementById('files-progress').innerHTML += `<h1 id='item-${this.actuallyFile}' style=' color: white; font-size: 1.5vw;margin-top: 2%;margin-bottom: 5px;' class=""><span style="font-size:2vw; color:rgb(19, 95, 19); margin-right: 10px">✔</span>${this.files[this.actuallyFile].name} descargado correctamente</h1>`;
                 this.actuallyFile++;
                 var self = this;
@@ -103,7 +100,7 @@ export default {
         var nameDefault;
         var urlDefault;
         var dataNameDefault;
-        console.log(idScreenTemp);
+        // console.log(idScreenTemp);
         axios.post('http://connect.beanage.dev.hn/screens/defaultVideo',{
           idScreen : idScreenTemp
         }).then (res=>{
@@ -143,7 +140,7 @@ export default {
 
                                 axios.delete('http://127.0.0.1:3333/deleteDefaultVideo')
                                 .then(res =>{
-                                    console.log(res);
+                                    // console.log(res);
                                 });
                             },
                             onProgress: (curr, total) => {
@@ -169,7 +166,7 @@ export default {
     ...mapState(['uuid', 'screen', 'files', 'key', 'status',])
   },
   mounted(){
-    this.$options.interval = setTimeout(this.save, 5000);
+    this.$options.interval = setTimeout(this.save, 500);
   }
 }
 
