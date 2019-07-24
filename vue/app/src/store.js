@@ -20,8 +20,8 @@ export default new Vuex.Store({
     isDownloading: false,
     youtubeUserConfig : {
         type : 'playlist',
-        list : 'RDRK1K2bCg4J8',
-        ytVideoId : 'R2vVrWsis6I'
+        list : 'RDRK1K2bCg4J8'
+        // ytVideoId : 'R2vVrWsis6I'
     },
     marqueeActive: false,
     marquee : {
@@ -73,7 +73,6 @@ export default new Vuex.Store({
     }
   },
   actions: {
-
     getScreenInfo({commit}, payload){
       const idScreen = payload.idScreen;      
       axios.post(`${servers.mainServer}/screens`, {
@@ -105,6 +104,7 @@ export default new Vuex.Store({
        commit('setUUID', uuid)
       })
     },
+
     getIdScreen({commit}){
       axios.get(`${servers.mainServer}/screens/generateKey`)
       .then(response => {

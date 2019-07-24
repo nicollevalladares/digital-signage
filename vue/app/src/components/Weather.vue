@@ -55,6 +55,8 @@ export default {
         }
     },
   methods :{
+     ...mapActions(['getScreenInfo']),
+
       updateInfo (){
           this.today = moment().format('dddd, D MMMM YYYY');
           this.minutes= moment().format('mm');
@@ -72,7 +74,7 @@ export default {
       }
   },
    computed: {
-    ...mapState(['marqueeActive'])
+    ...mapState(['marqueeActive', 'key'])
   },
   mounted (){
     moment.locale('es');
@@ -84,6 +86,14 @@ export default {
     weather.setCoordinate(14.0932, -87.2013);
     weather.setUnits('metric');
     weather.setAPPID('2259f69889076f587bb92ac8d0d9c046');
+
+      this.sockets.subscribe(this.key.key.toString(), (data) => {
+          if (data.type=='general'){
+            this.getScreenInfo({uuid: this.uuid, idScreen: this.key.key})
+            if(data.data.appSelected != 'Weather')
+              this.sockets.unsubscribe(this.key.key.toString());
+        }
+      })
   }
 }
 
