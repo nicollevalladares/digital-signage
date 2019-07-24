@@ -11,11 +11,10 @@
         'iv_load_policy': 3,
         'showinfo': 0
         }" 
-        width ="200px" 
-        height="200px"
-        ref="yt" 
-        @ready="onPlayerReady">
-
+        :width ="this.$vssWidth" 
+        :height="this.$vssHeight"
+        ref="yt" >
+        <marquee v-if="this.marqueeActive"/>
         </vytia-player> 
         <!-- <iframe id="player" type="text/html" :width="this.$vssWidth" :height="this.$vssHeight"
         src="https://www.youtube.com/embed?autoplay=1&listType=playlist&list=RDRK1K2bCg4J8"
