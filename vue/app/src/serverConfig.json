@@ -1,4 +1,4 @@
 {
     "FTPServer" : "http://127.0.0.1:3333",
-    "mainServer" : "http://127.0.0.1:3331"
+    "mainServer" : "http://connect.beanage.dev.hn"
 }
