@@ -9,12 +9,6 @@ const electron = require('electron')
 
 var configContent
 
- // Load remote compnent that contains the dialog dependency
-// var dialog = remote.require('dialog'); // Load the dialogs component of the OS
-
-// console.log('UUID : ' + process.env.UUID);
-
-
 try {
   fs.statSync('./config.json')
   configContent = fs.readFileSync('./config.json', 'utf8')
@@ -117,7 +111,7 @@ function createMainWindow() {
   // console.log(electronConfig.URL_LAUNCHER_WIDTH + ' * ' + electronConfig.URL_LAUNCHER_HEIGHT);  
 }else{
   electronConfig.URL_LAUNCHER_WIDTH =  electron.screen.getPrimaryDisplay().size.width;
-  electronConfig.URL_LAUNCHER_HEIGHT = electron.screen.getPrimaryDisplay().size.height;
+  electronConfig.URL_LAUNCHER_HEIGHT = electron.screen.getPrimaryDisplay().size.height*2;
 }
 console.log(electron.screen.getPrimaryDisplay().size.width);
   const window = new BrowserWindow({
@@ -181,21 +175,17 @@ app.on('activate', () => {
 
 // create main BrowserWindow when electron is ready
 app.on('ready', async () => {
+
   electron.screen.on('display-added', () => {
       console.log('screnn added');  
-      // app.relaunch({ args: process.argv.slice(1).concat(['--relaunch']) })
-      // app.exit(0);
-      mainWindow = null;
-      mainWindow = createMainWindow()
+      app.relaunch({ args: process.argv.slice(1).concat(['--relaunch']) })
+      app.exit(0);
   })
 
    electron.screen.on('display-removed', () => {
     console.log('screnn removed');    
-    // app.relaunch({ args: process.argv.slice(1).concat(['--relaunch']) })
-    // app.exit(0);
-    // mainWindow = createMainWindow()
-    mainWindow = null;
-    mainWindow = createMainWindow()
+    app.relaunch({ args: process.argv.slice(1).concat(['--relaunch']) })
+    app.exit(0);
   })
 
   if (isDevelopment && !process.env.IS_TEST) {
