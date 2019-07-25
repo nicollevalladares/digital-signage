@@ -4,8 +4,14 @@ import * as path from 'path'
 import { format as formatUrl } from 'url'
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib'
 import fs from 'fs'
+// const {dialog} = require('electron').remote;
 
 var configContent
+
+ // Load remote compnent that contains the dialog dependency
+// var dialog = remote.require('dialog'); // Load the dialogs component of the OS
+
+// console.log('UUID : ' + process.env.UUID);
 
 
 try {
@@ -18,7 +24,6 @@ try {
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
-
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
 let mainWindow
 // simple parameters initialization
@@ -28,8 +33,10 @@ const electronConfig = {
   URL_LAUNCHER_FRAME: process.env.URL_LAUNCHER_FRAME === '1' ? 1 : 0,
   URL_LAUNCHER_KIOSK: process.env.URL_LAUNCHER_KIOSK === '1' ? 1 : 0,
   URL_LAUNCHER_NODE: process.env.URL_LAUNCHER_NODE === '1' ? 1 : 0,
-  URL_LAUNCHER_WIDTH: parseInt(process.env.URL_LAUNCHER_WIDTH || 1920, 10),
-  URL_LAUNCHER_HEIGHT: parseInt(process.env.URL_LAUNCHER_HEIGHT || 1080, 10),
+  // URL_LAUNCHER_WIDTH: parseInt(process.env.URL_LAUNCHER_WIDTH || 1920, 10),
+  // URL_LAUNCHER_HEIGHT: parseInt(process.env.URL_LAUNCHER_HEIGHT || 1080, 10),
+  URL_LAUNCHER_WIDTH : 3840,
+  URL_LAUNCHER_HEIGHT : 1080,
   URL_LAUNCHER_TITLE: process.env.URL_LAUNCHER_TITLE || 'BALENA.IO',
   URL_LAUNCHER_CONSOLE: process.env.URL_LAUNCHER_CONSOLE === '1' ? 1 : 0,
   URL_LAUNCHER_URL:
@@ -62,7 +69,7 @@ if (electronConfig.URL_LAUNCHER_TOUCH_SIMULATE) {
 if (isDevelopment) {
   // Don't load any native (external) modules until the following line is run:
   require('module').globalPaths.push(process.env.NODE_MODULES_PATH)
-  
+
   console.log('Running in development mode')
   Object.assign(electronConfig, {
     URL_LAUNCHER_HEIGHT: 600,

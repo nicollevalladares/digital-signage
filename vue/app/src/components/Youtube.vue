@@ -45,7 +45,7 @@ export default {
   methods :{
     //  ...mapActions(['getScreenInfo']),
      onPlayerReady () {
-      this.$refs.yt.player.playVideo();
+      // this.$refs.yt.player.playVideo();
     }
   },
    computed: {
