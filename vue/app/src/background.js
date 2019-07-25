@@ -4,6 +4,7 @@ import * as path from 'path'
 import { format as formatUrl } from 'url'
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib'
 import fs from 'fs'
+const electron = require('electron')
 // const {dialog} = require('electron').remote;
 
 var configContent
@@ -33,10 +34,8 @@ const electronConfig = {
   URL_LAUNCHER_FRAME: process.env.URL_LAUNCHER_FRAME === '1' ? 1 : 0,
   URL_LAUNCHER_KIOSK: process.env.URL_LAUNCHER_KIOSK === '1' ? 1 : 0,
   URL_LAUNCHER_NODE: process.env.URL_LAUNCHER_NODE === '1' ? 1 : 0,
-  // URL_LAUNCHER_WIDTH: parseInt(process.env.URL_LAUNCHER_WIDTH || 1920, 10),
-  URL_LAUNCHER_WIDTH : 3840,
-  URL_LAUNCHER_HEIGHT : 1080,
-  // URL_LAUNCHER_HEIGHT: parseInt(process.env.URL_LAUNCHER_HEIGHT || 1080, 10),
+  URL_LAUNCHER_WIDTH: parseInt(process.env.URL_LAUNCHER_WIDTH || 1920, 10),
+  URL_LAUNCHER_HEIGHT: parseInt(process.env.URL_LAUNCHER_HEIGHT || 1080, 10),
   URL_LAUNCHER_TITLE: process.env.URL_LAUNCHER_TITLE || 'BALENA.IO',
   URL_LAUNCHER_CONSOLE: process.env.URL_LAUNCHER_CONSOLE === '1' ? 1 : 0,
   URL_LAUNCHER_URL:
@@ -112,6 +111,11 @@ if (electronConfig.ELECTRON_BALENA_UPDATE_LOCK) {
 protocol.registerStandardSchemes(['app'], { secure: true })
 
 function createMainWindow() {
+ if(electron.screen.getAllDisplays().length>1){   
+  electronConfig.URL_LAUNCHER_WIDTH =  parseInt(process.env.URL_LAUNCHER_WIDTH) * 2;
+  electronConfig.URL_LAUNCHER_HEIGHT = parseInt(process.env.URL_LAUNCHER_HEIGHT) * 2;
+  console.log(electronConfig.URL_LAUNCHER_WIDTH + ' * ' + electronConfig.URL_LAUNCHER_HEIGHT);
+}
   const window = new BrowserWindow({
     width: electronConfig.URL_LAUNCHER_WIDTH,
     height: electronConfig.URL_LAUNCHER_HEIGHT,
@@ -153,6 +157,17 @@ app.on('window-all-closed', () => {
   }
 })
 
+
+// electron.screen.on('display-added', () => {
+//   console.log('screnn added');
+  
+// })
+
+// electron.screen.on('display-removed', () => {
+//   console.log('screnn removed');
+  
+// })
+
 app.on('activate', () => {
   // on macOS it is common to re-create a window even after all windows have been closed
   if (mainWindow === null) {
@@ -162,9 +177,25 @@ app.on('activate', () => {
 
 // create main BrowserWindow when electron is ready
 app.on('ready', async () => {
+  electron.screen.on('display-added', () => {
+      console.log('screnn added');  
+      app.relaunch({ args: process.argv.slice(1).concat(['--relaunch']) })
+      app.exit(0);
+      // mainWindow = createMainWindow()
+  })
+
+   electron.screen.on('display-removed', () => {
+    console.log('screnn removed');    
+    app.relaunch({ args: process.argv.slice(1).concat(['--relaunch']) })
+    app.exit(0);
+    // mainWindow = createMainWindow()
+  })
+
   if (isDevelopment && !process.env.IS_TEST) {
     // Install Vue Devtools
     await installVueDevtools()
   }
   mainWindow = createMainWindow()
+  // console.log(electron.screen.events);
 })
+

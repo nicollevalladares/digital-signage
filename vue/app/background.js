@@ -35,8 +35,8 @@ const electronConfig = {
   URL_LAUNCHER_NODE: process.env.URL_LAUNCHER_NODE === '1' ? 1 : 0,
   // URL_LAUNCHER_WIDTH: parseInt(process.env.URL_LAUNCHER_WIDTH || 1920, 10),
   // URL_LAUNCHER_HEIGHT: parseInt(process.env.URL_LAUNCHER_HEIGHT || 1080, 10),
-  URL_LAUNCHER_WIDTH : 3840,
-  URL_LAUNCHER_HEIGHT: 1080,
+  URL_LAUNCHER_WIDTH : parseInt(3840, 10),
+  URL_LAUNCHER_HEIGHT : parseInt(1080,10),
   URL_LAUNCHER_TITLE: process.env.URL_LAUNCHER_TITLE || 'BALENA.IO',
   URL_LAUNCHER_CONSOLE: process.env.URL_LAUNCHER_CONSOLE === '1' ? 1 : 0,
   URL_LAUNCHER_URL:
@@ -158,6 +158,11 @@ app.on('activate', () => {
   if (mainWindow === null) {
     mainWindow = createMainWindow()
   }
+})
+
+app.on('display-added', () => {
+  console.log('screnn added');
+  
 })
 
 // create main BrowserWindow when electron is ready
