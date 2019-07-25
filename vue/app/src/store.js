@@ -84,7 +84,7 @@ export default new Vuex.Store({
                             params: {
                             idScreen : idScreen
                           }})
-        }else if(response.data.code == 1){
+        }else if(response.data.code != 2){
             var conf = response.data;
             var files = response.data.data.files;
             // commit('setFiles', files)  

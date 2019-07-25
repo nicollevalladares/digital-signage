@@ -114,7 +114,10 @@ function createMainWindow() {
  if(electron.screen.getAllDisplays().length>1){   
   electronConfig.URL_LAUNCHER_WIDTH =  electron.screen.getPrimaryDisplay().size.width * 2;
   electronConfig.URL_LAUNCHER_HEIGHT = electron.screen.getPrimaryDisplay().size.height * 2;
-  console.log(electronConfig.URL_LAUNCHER_WIDTH + ' * ' + electronConfig.URL_LAUNCHER_HEIGHT);  
+  // console.log(electronConfig.URL_LAUNCHER_WIDTH + ' * ' + electronConfig.URL_LAUNCHER_HEIGHT);  
+}else{
+  electronConfig.URL_LAUNCHER_WIDTH =  electron.screen.getPrimaryDisplay().size.width;
+  electronConfig.URL_LAUNCHER_HEIGHT = electron.screen.getPrimaryDisplay().size.height;
 }
 console.log(electron.screen.getPrimaryDisplay().size.width);
   const window = new BrowserWindow({
@@ -182,7 +185,8 @@ app.on('ready', async () => {
       console.log('screnn added');  
       // app.relaunch({ args: process.argv.slice(1).concat(['--relaunch']) })
       // app.exit(0);
-      // mainWindow = createMainWindow()
+      mainWindow = null;
+      mainWindow = createMainWindow()
   })
 
    electron.screen.on('display-removed', () => {
@@ -190,6 +194,8 @@ app.on('ready', async () => {
     // app.relaunch({ args: process.argv.slice(1).concat(['--relaunch']) })
     // app.exit(0);
     // mainWindow = createMainWindow()
+    mainWindow = null;
+    mainWindow = createMainWindow()
   })
 
   if (isDevelopment && !process.env.IS_TEST) {
