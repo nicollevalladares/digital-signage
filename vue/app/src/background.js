@@ -112,10 +112,11 @@ protocol.registerStandardSchemes(['app'], { secure: true })
 
 function createMainWindow() {
  if(electron.screen.getAllDisplays().length>1){   
-  electronConfig.URL_LAUNCHER_WIDTH =  parseInt(process.env.URL_LAUNCHER_WIDTH) * 2;
-  electronConfig.URL_LAUNCHER_HEIGHT = parseInt(process.env.URL_LAUNCHER_HEIGHT) * 2;
-  console.log(electronConfig.URL_LAUNCHER_WIDTH + ' * ' + electronConfig.URL_LAUNCHER_HEIGHT);
+  electronConfig.URL_LAUNCHER_WIDTH =  electron.screen.getPrimaryDisplay().size.width * 2;
+  electronConfig.URL_LAUNCHER_HEIGHT = electron.screen.getPrimaryDisplay().size.height * 2;
+  console.log(electronConfig.URL_LAUNCHER_WIDTH + ' * ' + electronConfig.URL_LAUNCHER_HEIGHT);  
 }
+console.log(electron.screen.getPrimaryDisplay().size.width);
   const window = new BrowserWindow({
     width: electronConfig.URL_LAUNCHER_WIDTH,
     height: electronConfig.URL_LAUNCHER_HEIGHT,
@@ -179,15 +180,15 @@ app.on('activate', () => {
 app.on('ready', async () => {
   electron.screen.on('display-added', () => {
       console.log('screnn added');  
-      app.relaunch({ args: process.argv.slice(1).concat(['--relaunch']) })
-      app.exit(0);
+      // app.relaunch({ args: process.argv.slice(1).concat(['--relaunch']) })
+      // app.exit(0);
       // mainWindow = createMainWindow()
   })
 
    electron.screen.on('display-removed', () => {
     console.log('screnn removed');    
-    app.relaunch({ args: process.argv.slice(1).concat(['--relaunch']) })
-    app.exit(0);
+    // app.relaunch({ args: process.argv.slice(1).concat(['--relaunch']) })
+    // app.exit(0);
     // mainWindow = createMainWindow()
   })
 
