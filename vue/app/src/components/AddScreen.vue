@@ -59,7 +59,7 @@ export default {
             }
             else if(data.type=='configured'){
                 console.log('configurado');
-                this.sockets.unsubscribe(this.idScreen.toString());
+                // this.sockets.unsubscribe(this.idScreen.toString());
                 this.getScreenInfo({uuid: this.uuid, idScreen: this.idScreen})
             }
         }),
@@ -146,4 +146,3 @@ export default {
     }
 
 </style>
-

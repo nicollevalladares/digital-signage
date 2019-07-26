@@ -51,14 +51,16 @@ export default new Vuex.Store({
     },
 
     setConfiguration (state, conf){
- 
-          if (conf.data.files){
+ console.log(conf.data);
+        if (conf.data){
+          if (conf.data.files != undefined){
             state.files = conf.data.files;
             state.status = true;
           }
 
           if (conf.data.imagesDuration)
-             state.imagesDuration = conf.data.imagesDuration;
+          state.imagesDuration = conf.data.imagesDuration;
+        }
 
           if (conf.idPlaylist)
              state.idPlaylist = conf.idPlaylist;
@@ -79,14 +81,14 @@ export default new Vuex.Store({
         idScreen: idScreen
       })
       .then(response => {
-          if (response.data.code ==2) {
+          if (response.data.code == 2) {
               router.push({name : 'AddScreen',
                             params: {
                             idScreen : idScreen
                           }})
         }else if(response.data.code != 2){
             var conf = response.data;
-            var files = response.data.data.files;
+            // var files = response.data.data.files;
             // commit('setFiles', files)  
             commit('setIdScreen', {key: idScreen})
             commit ('setConfiguration', conf);
