@@ -3,17 +3,11 @@ services:
   signage:
     restart: always
     build: ./vue
-    volumes:
-      - type: volume
-	source: mydata
-	target: /data
+    volumes: 
+      - data-volume: /data
     privileged: true
     labels:	
       io.balena.features.dbus: '1'
       io.balena.features.kernel-modules: '1'
       io.balena.features.firmware: '1'
       io.balena.features.balena-socket: '1'
-
-volumes:
-  mydata:
-
