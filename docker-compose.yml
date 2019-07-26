@@ -4,7 +4,7 @@ services:
     restart: always
     build: ./vue
     volumes: 
-      - resin-data:/data
+      - 'resin-data:/data'
     privileged: true
     labels:	
       io.balena.features.dbus: '1'
