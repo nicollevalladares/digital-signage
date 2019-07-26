@@ -3,7 +3,7 @@ services:
   signage:
     restart: always
     build: ./vue
-     volumes: 
+    volumes: 
       -./vue/app/files
     privileged: true
     labels:
