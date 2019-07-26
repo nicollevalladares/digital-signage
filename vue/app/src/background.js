@@ -191,6 +191,5 @@ app.on('ready', async () => {
     await installVueDevtools()
   }
   mainWindow = createMainWindow()
-  // console.log(electron.screen.events);
 })
 
