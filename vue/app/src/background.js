@@ -107,11 +107,11 @@ protocol.registerStandardSchemes(['app'], { secure: true })
 function createMainWindow() {
  if(electron.screen.getAllDisplays().length>1){   
   electronConfig.URL_LAUNCHER_WIDTH =  electron.screen.getPrimaryDisplay().size.width * 2;
-  electronConfig.URL_LAUNCHER_HEIGHT = electron.screen.getPrimaryDisplay().size.height * 2;
+  electronConfig.URL_LAUNCHER_HEIGHT = electron.screen.getPrimaryDisplay().size.height;
   // console.log(electronConfig.URL_LAUNCHER_WIDTH + ' * ' + electronConfig.URL_LAUNCHER_HEIGHT);  
 }else{
   electronConfig.URL_LAUNCHER_WIDTH =  electron.screen.getPrimaryDisplay().size.width;
-  electronConfig.URL_LAUNCHER_HEIGHT = electron.screen.getPrimaryDisplay().size.height*2;
+  electronConfig.URL_LAUNCHER_HEIGHT = electron.screen.getPrimaryDisplay().size.height;
 }
 console.log(electron.screen.getPrimaryDisplay().size.width);
   const window = new BrowserWindow({
@@ -156,15 +156,14 @@ app.on('window-all-closed', () => {
 })
 
 
-// electron.screen.on('display-added', () => {
-//   console.log('screnn added');
-  
-// })
+function changeSize(){
+  if(electron.screen.getAllDisplays().length>1){ 
+    mainWindow.setSize((electron.screen.getPrimaryDisplay().size.width * 2),electron.screen.getPrimaryDisplay().size.height, true);
+  }else{
+    mainWindow.setSize(electron.screen.getPrimaryDisplay().size.width, electron.screen.getPrimaryDisplay().size.height, true);
+  }
+}
 
-// electron.screen.on('display-removed', () => {
-//   console.log('screnn removed');
-  
-// })
 
 app.on('activate', () => {
   // on macOS it is common to re-create a window even after all windows have been closed
@@ -178,14 +177,12 @@ app.on('ready', async () => {
 
   electron.screen.on('display-added', () => {
       console.log('screnn added');  
-      app.relaunch({ args: process.argv.slice(1).concat(['--relaunch']) })
-      app.exit(0);
+      changeSize();
   })
 
    electron.screen.on('display-removed', () => {
     console.log('screnn removed');    
-    app.relaunch({ args: process.argv.slice(1).concat(['--relaunch']) })
-    app.exit(0);
+    changeSize();
   })
 
   if (isDevelopment && !process.env.IS_TEST) {
