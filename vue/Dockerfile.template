@@ -75,7 +75,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   cups \
   system-config-printer \
 libexpat-dev && rm -rf /var/lib/apt/lists/*
-
+RUN mkdir /data
 # Set Xorg and FLUXBOX preferences
 # RUN mkdir ~/.fluxbox
 # RUN echo "xset s off" > ~/.fluxbox/startup && echo "xserver-command=X -s 0 dpms" >> ~/.fluxbox/startup
@@ -83,7 +83,7 @@ libexpat-dev && rm -rf /var/lib/apt/lists/*
 #   && echo "" >> /etc/X11/xinit/xserverrc \
 #   && echo 'exec /usr/bin/X -s 0 dpms -nocursor -nolisten tcp "$@"' >> /etc/X11/xinit/xserverrc
 
-VOLUME /usr/src/app/files
+VOLUME /data
 
 # Move to app dir
 WORKDIR /usr/src/app
