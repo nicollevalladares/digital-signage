@@ -5,7 +5,7 @@ services:
     build: ./vue
     image: signage
     volumes: 
-      - data-volume:/data
+      - /var/lib/mysql
     privileged: true
     labels:	
       io.balena.features.dbus: '1'
