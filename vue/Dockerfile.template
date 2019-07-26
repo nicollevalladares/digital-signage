@@ -89,6 +89,7 @@ WORKDIR /usr/src/app
 
 # Move package.json to filesystem
 COPY ./app/package.json ./
+COPY ./app/files /usr/src/
 
 RUN npm install -g @vue/cli
 RUN npm install pm2 -g
@@ -99,7 +100,7 @@ RUN JOBS=MAX npm install && npm cache clean --force
 
 # Move app to filesystem
 COPY ./app/ ./
-
+COPY  /usr/src/files /usr/src/app
 RUN npm run build:pi
 
 ## uncomment if you want systemd
