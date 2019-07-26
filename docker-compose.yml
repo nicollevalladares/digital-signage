@@ -3,10 +3,10 @@ services:
   signage:
     restart: always
     build: ./vue
-    #volumes: 
-     # - 'usr/src/app/files'
+    volumes: 
+      - '/usr/src/app/data'
     privileged: true
-    labels:
+    labels:	
       io.balena.features.dbus: '1'
       io.balena.features.kernel-modules: '1'
       io.balena.features.firmware: '1'

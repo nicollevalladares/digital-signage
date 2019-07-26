@@ -89,7 +89,6 @@ WORKDIR /usr/src/app
 
 # Move package.json to filesystem
 COPY ./app/package.json ./
-COPY ./app/files/ /usr/src/
 
 RUN npm install -g @vue/cli
 RUN npm install pm2 -g
