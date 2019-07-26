@@ -3,6 +3,7 @@ services:
   signage:
     restart: always
     build: ./vue
+    image: signage
     volumes: 
       - data-volume:/data
     privileged: true
