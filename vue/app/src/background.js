@@ -113,7 +113,7 @@ function createMainWindow() {
   electronConfig.URL_LAUNCHER_WIDTH =  electron.screen.getPrimaryDisplay().size.width;
   electronConfig.URL_LAUNCHER_HEIGHT = electron.screen.getPrimaryDisplay().size.height;
 }
-console.log(electron.screen.getPrimaryDisplay().size.width);
+// console.log(electron.screen.getPrimaryDisplay().size.width);
   const window = new BrowserWindow({
     width: electronConfig.URL_LAUNCHER_WIDTH,
     height: electronConfig.URL_LAUNCHER_HEIGHT,
@@ -158,9 +158,10 @@ app.on('window-all-closed', () => {
 
 function changeSize(){
   if(electron.screen.getAllDisplays().length>1){ 
-    mainWindow.setSize((electron.screen.getPrimaryDisplay().size.width * 2),electron.screen.getPrimaryDisplay().size.height, true);
+    mainWindow.setSize((electron.screen.getPrimaryDisplay().size.width * 2), electron.screen.getPrimaryDisplay().size.height);
+    // mainWindow.setSize(100, 100);
   }else{
-    mainWindow.setSize(electron.screen.getPrimaryDisplay().size.width, electron.screen.getPrimaryDisplay().size.height, true);
+    mainWindow.setSize(electron.screen.getPrimaryDisplay().size.width, electron.screen.getPrimaryDisplay().size.height);
   }
 }
 
