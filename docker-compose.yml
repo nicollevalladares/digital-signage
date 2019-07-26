@@ -3,8 +3,8 @@ services:
   signage:
     restart: always
     build: ./vue
-    #volumes: 
-    #  - /usr/src:/files
+    volumes: 
+      - /usr/src/app/fs
     privileged: true
     labels:	
       io.balena.features.dbus: '1'
