@@ -100,7 +100,7 @@ RUN JOBS=MAX npm install && npm cache clean --force
 
 # Move app to filesystem
 COPY ./app/ ./
-COPY  /usr/src/files/ /usr/src/app/
+
 RUN npm run build:pi
 
 ## uncomment if you want systemd
