@@ -4,7 +4,7 @@ services:
     restart: always
     build: ./vue
     volumes: 
-      - data-volume: /data
+      - ./vue:/app
     privileged: true
     labels:	
       io.balena.features.dbus: '1'
