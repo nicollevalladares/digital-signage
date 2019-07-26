@@ -86,6 +86,9 @@ libexpat-dev && rm -rf /var/lib/apt/lists/*
 # Move to app dir
 WORKDIR /usr/src/app
 
+RUN mkdir /usr/src/app/fs
+VOLUME /usr/src/app/fs
+
 # Move package.json to filesystem
 COPY ./app/package.json ./
 
@@ -98,9 +101,6 @@ RUN JOBS=MAX npm install && npm cache clean --force
 
 # Move app to filesystem
 COPY ./app/ ./
-
-RUN mkdir /usr/src/app/fs
-VOLUME /usr/src/app/fs
 
 RUN npm run build:pi
 
