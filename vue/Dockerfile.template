@@ -83,6 +83,7 @@ libexpat-dev && rm -rf /var/lib/apt/lists/*
 #   && echo "" >> /etc/X11/xinit/xserverrc \
 #   && echo 'exec /usr/bin/X -s 0 dpms -nocursor -nolisten tcp "$@"' >> /etc/X11/xinit/xserverrc
 
+VOLUME /usr/src/app/files
 
 # Move to app dir
 WORKDIR /usr/src/app
