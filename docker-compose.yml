@@ -3,9 +3,12 @@ services:
   signage:
     restart: always
     build: ./vue
-    image: signage
-    volumes: 
-      - /var/lib/mysql
+    volumes:
+      - type: volume
+	source: mydata
+	target: /data
+	volume:
+	  nocopy: true
     privileged: true
     labels:	
       io.balena.features.dbus: '1'
