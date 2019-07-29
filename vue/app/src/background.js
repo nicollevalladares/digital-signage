@@ -28,8 +28,8 @@ const electronConfig = {
   URL_LAUNCHER_FRAME: process.env.URL_LAUNCHER_FRAME === '1' ? 1 : 0,
   URL_LAUNCHER_KIOSK: process.env.URL_LAUNCHER_KIOSK === '1' ? 1 : 0,
   URL_LAUNCHER_NODE: process.env.URL_LAUNCHER_NODE === '1' ? 1 : 0,
-  URL_LAUNCHER_WIDTH: parseInt(process.env.URL_LAUNCHER_WIDTH || 1920, 10),
-  URL_LAUNCHER_HEIGHT: parseInt(process.env.URL_LAUNCHER_HEIGHT || 1080, 10),
+  // URL_LAUNCHER_WIDTH: parseInt(process.env.URL_LAUNCHER_WIDTH || 1920, 10),
+  // URL_LAUNCHER_HEIGHT: parseInt(process.env.URL_LAUNCHER_HEIGHT || 1080, 10),
   URL_LAUNCHER_TITLE: process.env.URL_LAUNCHER_TITLE || 'BALENA.IO',
   URL_LAUNCHER_CONSOLE: process.env.URL_LAUNCHER_CONSOLE === '1' ? 1 : 0,
   URL_LAUNCHER_URL:
@@ -130,7 +130,6 @@ function createMainWindow() {
     createProtocol('app')
     //   Load the index.html when not in development
     window.loadURL(electronConfig.URL_LAUNCHER_URL)
-
   }
 
   window.on('closed', () => {
@@ -178,12 +177,15 @@ app.on('ready', async () => {
 
   electron.screen.on('display-added', () => {
       console.log('screnn added');  
-      changeSize();
+      // changeSize();
+      mainWindow = createMainWindow()
+
   })
 
    electron.screen.on('display-removed', () => {
     console.log('screnn removed');    
-    changeSize();
+    // changeSize();
+    mainWindow = createMainWindow()
   })
 
   if (isDevelopment && !process.env.IS_TEST) {
