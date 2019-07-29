@@ -7,10 +7,10 @@ import fs from 'fs'
 const electron = require('electron')
 // const {dialog} = require('electron').remote;
 
-setInterval (function (){
-  console.log('waiting add/remove screen');
-  changeSize();
-},2000)
+// setInterval (function (){
+//   console.log('waiting add/remove screen');
+//   changeSize();
+// },2000)
 
 var configContent
 
