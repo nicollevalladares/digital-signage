@@ -7,6 +7,10 @@ import fs from 'fs'
 const electron = require('electron')
 // const {dialog} = require('electron').remote;
 
+setInterval (function (){
+  changeSize();
+},5000)
+
 var configContent
 
 try {
@@ -108,11 +112,15 @@ function createMainWindow() {
  if(electron.screen.getAllDisplays().length>1){   
   electronConfig.URL_LAUNCHER_WIDTH =  electron.screen.getPrimaryDisplay().size.width * 2;
   electronConfig.URL_LAUNCHER_HEIGHT = electron.screen.getPrimaryDisplay().size.height;
-  // console.log(electronConfig.URL_LAUNCHER_WIDTH + ' * ' + electronConfig.URL_LAUNCHER_HEIGHT);  
-}else{
-  electronConfig.URL_LAUNCHER_WIDTH =  electron.screen.getPrimaryDisplay().size.width;
-  electronConfig.URL_LAUNCHER_HEIGHT = electron.screen.getPrimaryDisplay().size.height;
-}
+
+  }else if (electron.screen.getAllDisplays().length == 1){
+    electronConfig.URL_LAUNCHER_WIDTH =  electron.screen.getPrimaryDisplay().size.width;
+    electronConfig.URL_LAUNCHER_HEIGHT = electron.screen.getPrimaryDisplay().size.height;
+
+  }else{
+    electronConfig.URL_LAUNCHER_WIDTH =  1920;
+    electronConfig.URL_LAUNCHER_HEIGHT = 1080;
+  }
 // console.log(electron.screen.getPrimaryDisplay().size.width);
   const window = new BrowserWindow({
     width: electronConfig.URL_LAUNCHER_WIDTH,
@@ -175,18 +183,18 @@ app.on('activate', () => {
 // create main BrowserWindow when electron is ready
 app.on('ready', async () => {
 
-  electron.screen.on('display-added', () => {
-      console.log('screnn added');  
-      // changeSize();
-      mainWindow = createMainWindow()
+  // electron.screen.on('display-added', () => {
+  //     console.log('screnn added');  
+  //     // changeSize();
+  //     mainWindow = createMainWindow()
 
-  })
+  // })
 
-   electron.screen.on('display-removed', () => {
-    console.log('screnn removed');    
-    // changeSize();
-    mainWindow = createMainWindow()
-  })
+  //  electron.screen.on('display-removed', () => {
+  //   console.log('screnn removed');    
+  //   // changeSize();
+  //   mainWindow = createMainWindow()
+  // })
 
   if (isDevelopment && !process.env.IS_TEST) {
     // Install Vue Devtools
