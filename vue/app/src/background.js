@@ -4,13 +4,13 @@ import * as path from 'path'
 import { format as formatUrl } from 'url'
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib'
 import fs from 'fs'
-const electron = require('electron')
+import electron from 'electron'
 // const {dialog} = require('electron').remote;
 
-// setInterval (function (){
-//   console.log('waiting add/remove screen');
-//   changeSize();
-// },2000)
+setInterval (function (){
+  console.log('waiting add/remove screen');
+  changeSize();
+},2000)
 
 var configContent
 
@@ -165,7 +165,8 @@ app.on('window-all-closed', () => {
 
 
 function changeSize(){
- console.log(electron.screen.getAllDisplays()[1]);
+  var  electron = require ('electron')
+   console.log(electron.screen.getAllDisplays()[1]);
 //  const width = mainWindow.getSize()[0];
 
  if((electron.screen.getAllDisplays()[1] == undefined) && (mainWindow.getSize()[0]>electron.screen.getPrimaryDisplay().size.width))
