@@ -165,7 +165,8 @@ app.on('window-all-closed', () => {
 
 
 function changeSize(){
-  console.log('Num screen :' +electron.screen.getAllDisplays().length);
+  console.log('Screens :' +electron.screen.getAllDisplays());
+  console.log('dimensiones: '+ mainWindow.getSize());
   
   if(electron.screen.getAllDisplays().length>1){
     mainWindow.setSize((electron.screen.getPrimaryDisplay().size.width * 2), electron.screen.getPrimaryDisplay().size.height);
