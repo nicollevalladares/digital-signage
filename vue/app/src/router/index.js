@@ -47,8 +47,13 @@ const router =  new Router({
             name: 'Marquee',
             component: require('@/components/Marquee').default,
             props: true
+        },
+        {
+            path: '/error',
+            name: 'Error',
+            component: require('@/components/error').default,
+            props: true
         }
-
     ]
 })
 

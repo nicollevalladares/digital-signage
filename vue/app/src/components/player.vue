@@ -138,7 +138,10 @@ export default {
             }
             this.loopDefaultVideo();
         }else{
-            this.$router.push({name: 'AddScreen'})
+           if(navigator.onLine) {
+                  this.$router.push({name: 'AddScreen'})
+            } else 
+              this.$router.push({name: 'Error'})
         }
       }
     },

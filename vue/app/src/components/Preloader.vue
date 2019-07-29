@@ -92,7 +92,12 @@
                       //  })
                        this.getScreenInfo({uuid: _uuid, idScreen: _idScreen})
                     } 
-                 })
+                 }).catch(err => {
+                    if(navigator.onLine) {
+                       location.reload();
+                    } else 
+                      router.push({name: 'Player'})
+                })
                 })
                 .catch(err => {
                   console.log(err);
