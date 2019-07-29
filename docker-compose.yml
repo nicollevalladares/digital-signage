@@ -3,7 +3,7 @@ volumes:
   resin-data: {}
 services:
   signage:
-    restart: always
+    #restart: always
     build: ./vue
     volumes: 
       - 'resin-data:/usr/src/app/files'
