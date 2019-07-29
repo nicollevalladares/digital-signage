@@ -165,15 +165,13 @@ app.on('window-all-closed', () => {
 
 
 function changeSize(){
-  console.log('Screens :' +electron.screen.getAllDisplays());
-  console.log('dimensiones: '+ mainWindow.getSize());
-  
-  if(electron.screen.getAllDisplays().length>1){
-    mainWindow.setSize((electron.screen.getPrimaryDisplay().size.width * 2), electron.screen.getPrimaryDisplay().size.height);
-    // mainWindow.setSize(100, 100);
-  }else{
+ console.log(electron.screen.getAllDisplays()[1]);
+//  const width = mainWindow.getSize()[0];
+
+ if((electron.screen.getAllDisplays()[1] == undefined) && (mainWindow.getSize()[0]>electron.screen.getPrimaryDisplay().size.width))
     mainWindow.setSize(electron.screen.getPrimaryDisplay().size.width, electron.screen.getPrimaryDisplay().size.height);
-  }
+ else if ((electron.screen.getAllDisplays()[1] != undefined) && (mainWindow.getSize()[0]==electron.screen.getPrimaryDisplay().size.width))
+  mainWindow.setSize((electron.screen.getPrimaryDisplay().size.width * 2), electron.screen.getPrimaryDisplay().size.height);
 }
 
 
