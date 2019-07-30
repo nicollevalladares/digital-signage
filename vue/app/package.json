@@ -37,6 +37,7 @@
         "electron-download-manager": "^2.1.2",
         "file-saver": "^2.0.2",
         "filedownloader": "^1.2.7",
+        "form-data": "^2.5.0",
         "fs": "0.0.1-security",
         "h5-video-player": "^1.1.2",
         "html5-marquee": "^0.2.0",

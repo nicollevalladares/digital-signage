@@ -2,11 +2,12 @@ var express = require("express")
 var cors = require('cors')
 const app = express()
 var bodyParser = require("body-parser")
-// const http = require('http')
-// var server = http.createServer(app)
 const path = require('path')
 const fs = require('fs')
 const rimraf = require("rimraf");
+const screenshot = require('screenshot-desktop')
+const axios = require ('axios')
+const FormData = require('form-data');
 
 app.use(cors())
 
@@ -16,7 +17,9 @@ app.use(bodyParser.urlencoded({
 }))
 
 app.use(express.static(path.join(__dirname, 'files')))
-app.use('files/files/',express.static(__dirname+"files/files/"));
+app.use('files/files/',express.static(__dirname+"files/files/"))
+app.use(express.static(path.join(__dirname, 'screenshot')))
+
 
 //create folder to save media files
 fs.exists('files',function(exists){
@@ -32,6 +35,11 @@ fs.exists('files/defaultVideo',function(exists){
 fs.exists('files/files',function(exists){
   if(!exists)
       fs.mkdirSync('files/files');
+})
+
+fs.exists('screenshot',function(exists){
+  if(!exists)
+      fs.mkdirSync('screenshot');
 }) 
 
 
@@ -167,6 +175,21 @@ app.get("/existDefaultVideo/:fileName",function(req,res){
       return res.json ({code : 0 , message : 'An error occurred '})  
     }
   })
+
+app.get("/screenshot", function(req,res){
+  var form = new FormData();
+  var respuesta = res;
+  screenshot({ filename: `screenshot/${process.env.RESIN_DEVICE_UUID}_screenshot.png` }).then((imgPath) => {
+    // res.sendFile(path.join(__dirname, './screenshot', 'actuallyScreen.png'))
+    form.append('files', fs.createReadStream(path.join(__dirname, './screenshot', `${process.env.RESIN_DEVICE_UUID}_screenshot.png`)));
+      form.submit('http://localhost:3331/files/uploadScreenshot', function(err, res) {
+          // res – response object (http.IncomingMessage)  //
+          respuesta.json({code : 1 , message: 'File saved'})
+      })
+  })
+})
+
+
 app.listen('3333', function () {
   console.log('FTP Server running');
 })
