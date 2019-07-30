@@ -24,7 +24,7 @@ app.get('/', function (req, res) {
   })
 })
 
-app.listen('8082', function () {
+app.listen('8080', function () {
   // console.log('Screenshot ready');
 })
 
