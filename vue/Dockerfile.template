@@ -73,6 +73,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   fbset \
   alsa-utils \
   cups \
+  imagemagick \
   system-config-printer \
 libexpat-dev && rm -rf /var/lib/apt/lists/*
 

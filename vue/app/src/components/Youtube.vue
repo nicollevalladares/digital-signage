@@ -1,24 +1,21 @@
 <template>
   <div id="div-yt">
        <vytia-player 
-       autoplay 
-       :ytid=" this.youtubeUserConfig.ytVideoId"
-       :playerVars ="{
-        'listType': this.youtubeUserConfig.type, 
-        'list': this.youtubeUserConfig.list,
-        'controls': 0,
-        'modestbranding': 0,
-        'iv_load_policy': 3,
-        'showinfo': 0
-        }" 
-        :width ="this.$vssWidth" 
-        :height="this.$vssHeight"
-        ref="yt" >
-        <marquee v-if="this.marqueeActive"/>
+          :ytid=" this.youtubeUserConfig.ytVideoId"
+          :playerVars ="{
+            'listType': this.youtubeUserConfig.type, 
+            'list': this.youtubeUserConfig.list,
+            'controls': 0,
+            'autoplay' : 1,
+            'modestbranding': 0,
+            'iv_load_policy': 3,
+            'showinfo': 0
+            }" 
+            :width ="this.$vssWidth" 
+            :height="this.$vssHeight"
+            ref="yt" >
         </vytia-player> 
-        <!-- <iframe id="player" type="text/html" :width="this.$vssWidth" :height="this.$vssHeight"
-        src="https://www.youtube.com/embed?autoplay=1&listType=playlist&list=RDRK1K2bCg4J8"
-        frameborder="0"></iframe> -->
+      <marquee v-if="this.marqueeActive"/>
   </div>
 </template>
 

@@ -7,10 +7,10 @@ import fs from 'fs'
 import electron from 'electron'
 // const {dialog} = require('electron').remote;
 
-setInterval (function (){
-  console.log('waiting add/remove screen');
-  changeSize();
-},2000)
+// setInterval (function (){
+//   console.log('waiting add/remove screen');
+//   changeSize();
+// },2000)
 
 var configContent
 
@@ -198,7 +198,6 @@ app.on('ready', async () => {
   //   // changeSize();
   //   mainWindow = createMainWindow()
   // })
-
   if (isDevelopment && !process.env.IS_TEST) {
     // Install Vue Devtools
     await installVueDevtools()
