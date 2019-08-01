@@ -83,6 +83,7 @@ export default {
       var that = this;
         desktopCapturer.getSources({ types:['window', 'screen'] }, async function(error, sources) {
           for (let source of sources) {
+            console.log("Name: " + source.name);
             console.log("Name: " + source.id);
             if (source.name === 'own-vue-sol') {
               try {
