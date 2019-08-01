@@ -46,9 +46,9 @@ export default {
     },
   methods :{
     //  ...mapActions(['getScreenInfo']),
-     onPlayerReady () {
-      // this.$refs.yt.player.playVideo();
-    }
+    //  onPlayerReady () {
+    //   // this.$refs.yt.player.playVideo();
+    // }
   },
    computed: {
       ...mapState(['youtubeUserConfig','key', 'marqueeActive'])
@@ -60,7 +60,7 @@ export default {
                if(data.data.appSelected != 'Youtube')
                   this.sockets.unsubscribe(this.key.key.toString());
             }
-            console.log(this.$refs.yt);
+            // console.log(this.$refs.yt);
             
     })
   }
