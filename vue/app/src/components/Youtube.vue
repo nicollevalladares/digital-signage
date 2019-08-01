@@ -16,9 +16,10 @@
             :height="this.$vssHeight"
              >
         </vytia-player>  -->
-         <iframe id="player" type="text/html" :width="this.$vssWidth" :height="this.$vssHeight"
-            src="http://www.youtube.com/embed?autoplay=1&controls=0&modestbranding=0&iv_load_policy=0&showinfo=0&version=3&listType=playlist&list=RDRK1K2bCg4J8"
-            frameborder="0"/>
+         <!-- <iframe ref="frame" id="player" type="text/html" :width="this.$vssWidth" :height="this.$vssHeight"
+            src="http://www.youtube.com/embed?autoplay=1&controls=0&enablejsapi=1&modestbranding=0&iv_load_policy=0&version=3&showinfo=0&listType=playlist&list=RDRK1K2bCg4J8"
+            frameborder="0" /> -->
+            <video autoplay id="vid"></video>
       <marquee v-if="this.marqueeActive"/>
   </div>
 </template>
@@ -27,11 +28,14 @@
 import { mapActions, mapState } from 'vuex'
 import VueScreenSize from 'vue-screen-size'
 import marquee from './Marquee'
-
+import {mixin as VueTimers} from 'vue-timers'
+import screenshot from 'electron-screenshot'
+import { desktopCapturer }  from 'electron'
+import { log } from 'util';
 
 export default {
     name: 'Youtube',
-    mixins: [VueScreenSize.VueScreenSizeMixin],
+    mixins: [VueScreenSize.VueScreenSizeMixin, VueTimers],
       components: {
         marquee
     },
@@ -48,6 +52,19 @@ export default {
     //  onPlayerReady () {
     //   // this.$refs.yt.player.playVideo();
     // }
+
+   handleStream : function(stream) {
+      console.log('rec stream');
+       const video = document.getElementById('vid')
+       video.srcObject = stream
+       video.onloadedmetadata = (e) => video.play()
+       console.log(stream);
+      
+    },
+
+    handleError (e) {
+      console.log(e)
+  }   
   },
    computed: {
       ...mapState(['youtubeUserConfig','key', 'marqueeActive'])
@@ -59,9 +76,72 @@ export default {
                if(data.data.appSelected != 'Youtube')
                   this.sockets.unsubscribe(this.key.key.toString());
             }
-            // console.log(this.$refs.yt);
-            
-    })
+        })
+    
+    setTimeout(function(){
+      console.log('play');
+      var that = this;
+        desktopCapturer.getSources({ types:['window', 'screen'] }, async function(error, sources) {
+          for (let source of sources) {
+            console.log("Name: " + source.id);
+            if (source.name === 'own-vue-sol') {
+              try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                  audio: false,
+                  video: {
+                    mandatory: {
+                      chromeMediaSource: 'desktop',
+                      chromeMediaSourceId: source.id,
+                      minWidth: 1280,
+                      maxWidth: 1280,
+                      minHeight: 720,
+                      maxHeight: 720
+                    }
+                  }
+                })
+                console.log(stream);
+                const video = document.getElementById('vid')
+                video.srcObject = stream
+                video.onloadedmetadata = (e) => video.play()
+                          
+                // handleStream(stream)
+              } catch (e) {
+                handleError(e)
+              }
+            }
+          }
+        });
+      // desktopCapturer.getSources({ types: ['window', 'screen'] }, function(sources){
+      //   console.log(sources);
+        
+      // })
+      // desktopCapturer.getSources({ types: ['window', 'screen'] }).then(async sources => {
+      //   console.log(sources);
+        // for (const source of sources) {
+        //   if (source.name === 'Electron') {
+        //     try {
+        //       const stream = await navigator.mediaDevices.getUserMedia({
+        //         audio: false,
+        //         video: {
+        //           mandatory: {
+        //             chromeMediaSource: 'desktop',
+        //             chromeMediaSourceId: source.id,
+        //             minWidth: 1280,
+        //             maxWidth: 1280,
+        //             minHeight: 720,
+        //             maxHeight: 720
+        //           }
+        //         }
+        //       })
+        //       that.handleStream(stream)
+        //     } catch (e) {
+        //       handleError(e)
+        //     }
+        //     return
+        //   }
+        // }
+      // })
+    },2000)
   }
 }
 
