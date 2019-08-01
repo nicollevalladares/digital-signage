@@ -14,6 +14,7 @@ import { mapActions, mapState } from 'vuex'
 import marquee from './Marquee'
 import dl from 'download-file-with-progressbar'
 import servers from '../serverConfig.json'
+import screenshot from 'electron-screenshot'
 
 
 export default {
@@ -297,17 +298,25 @@ export default {
       }),
       this.sockets.subscribe(this.key.key.toString(), (data) => {
         console.log('Socket general: '+ data.type);
-        
+
+            if (data.type=='screenshot'){
+              console.log('Haciendo petición de captura a ftp server');
+              
+                // axios.get(`${servers.FTPServer}/screenshot`).then(response=>{
+                //     console.log(res);  
+                // })
+                 var options = {
+                    filename : 'cap.png'
+                  }
+                  screenshot(options, (res)=>{
+                    console.log(res); 
+                  })
+             }
              if (data.type=='general'){
                 this.getScreenInfo({uuid: this.uuid, idScreen: this.key.key})
                if(data.data.appSelected != 'DownloadFiles')
                   this.sockets.unsubscribe(this.key.key.toString());
-            }
-            if (data.type=='screenshot'){
-              axios.get(`${servers.FTPServer}/screenshot`).then(response=>{
-                  console.log(res);  
-              })
-          }
+             }
       })
   }
 }
