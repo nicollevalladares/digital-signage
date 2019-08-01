@@ -9,11 +9,12 @@
             'autoplay' : 1,
             'modestbranding': 0,
             'iv_load_policy': 3,
-            'showinfo': 0
+            'showinfo': 0,
+            'origin' : 'file://'
             }" 
             :width ="this.$vssWidth" 
             :height="this.$vssHeight"
-            ref="yt" >
+             >
         </vytia-player> 
       <marquee v-if="this.marqueeActive"/>
   </div>

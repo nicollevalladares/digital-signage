@@ -316,14 +316,17 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
  #div-player{
-   top: 0;
-   left: 0;
-   position: absolute;
-   overflow: hidden;
-   max-height: 100%;
-   min-height : 100%;
-   max-width: 100%;
-   min-width : 100%;
-   background: black;
+    top: 0;
+    left: 0;
+    position: absolute;
+    overflow: hidden;
+    max-height: 100%;
+    min-height : 100%;
+    max-width: 100%;
+    min-width : 100%;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
  }
 </style>
