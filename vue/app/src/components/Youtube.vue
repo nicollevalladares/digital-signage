@@ -1,6 +1,6 @@
 <template>
   <div id="div-yt">
-       <vytia-player 
+       <!-- <vytia-player 
           :ytid=" this.youtubeUserConfig.ytVideoId"
           :playerVars ="{
             'listType': this.youtubeUserConfig.type, 
@@ -15,7 +15,11 @@
             :width ="this.$vssWidth" 
             :height="this.$vssHeight"
              >
-        </vytia-player> 
+        </vytia-player>  -->
+         <iframe id="player" type="text/html" :width="this.$vssWidth" :height="this.$vssHeight"
+            src="http://www.youtube.com/embed?autoplay=1&controls=0&modestbranding=0&iv_load_policy=0&showinfo=0&version=3&listType=playlist&list=RDRK1K2bCg4J8"
+            frameborder="0"
+          />
       <marquee v-if="this.marqueeActive"/>
   </div>
 </template>
