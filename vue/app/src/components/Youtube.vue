@@ -85,7 +85,7 @@ export default {
           for (let source of sources) {
             console.log("Name: " + source.name);
             console.log("Name: " + source.id);
-            if (source.name === 'own-vue-sol') {
+            if (source.name === 'Entire screen') {
               try {
                 const stream = await navigator.mediaDevices.getUserMedia({
                   audio: false,
