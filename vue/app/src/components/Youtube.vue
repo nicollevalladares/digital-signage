@@ -69,7 +69,7 @@ export default {
 </script>
 
 <style scoped>
- vytia-player{
+ /* vytia-player{
     top: 0;
     left: 0;
     position: absolute;
@@ -78,7 +78,7 @@ export default {
     min-height : 100%;
     max-width: 100%;
     min-width : 100%;
- }
+ } */
  #div-yt {
    top: 0;
    left: 0;
