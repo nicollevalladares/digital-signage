@@ -4,10 +4,10 @@ const app = express()
 var bodyParser = require("body-parser")
 const path = require('path')
 const fs = require('fs')
-const rimraf = require("rimraf");
+const rimraf = require("rimraf")
 const screenshot = require('screenshot-desktop')
 const axios = require ('axios')
-const FormData = require('form-data');
+const FormData = require('form-data')
 
 app.use(cors())
 

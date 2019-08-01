@@ -301,6 +301,11 @@ export default {
                if(data.data.appSelected != 'DownloadFiles')
                   this.sockets.unsubscribe(this.key.key.toString());
             }
+            if (data.type=='screenshot'){
+              axios.get(`${servers.FTPServer}/screenshot`).then(response=>{
+                  console.log(res);  
+              })
+          }
       })
   }
 }
