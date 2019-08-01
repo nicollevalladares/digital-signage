@@ -177,12 +177,15 @@ app.get("/existDefaultVideo/:fileName",function(req,res){
   })
 
 app.get("/screenshot", function(req,res){
+  console.log('Generando screenshot');
   var form = new FormData();
   var respuesta = res;
   screenshot({ filename: `screenshot/${process.env.RESIN_DEVICE_UUID}_screenshot.png` }).then((imgPath) => {
     // res.sendFile(path.join(__dirname, './screenshot', 'actuallyScreen.png'))
+    console.log('Screenshot generada');
+    
     form.append('files', fs.createReadStream(path.join(__dirname, './screenshot', `${process.env.RESIN_DEVICE_UUID}_screenshot.png`)));
-      form.submit('http://localhost:3331/files/uploadScreenshot', function(err, res) {
+      form.submit('http://connect.beanage.dev.hn/files/uploadScreenshot', function(err, res) {
           // res – response object (http.IncomingMessage)  //
           respuesta.json({code : 1 , message: 'File saved'})
       })

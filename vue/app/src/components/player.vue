@@ -296,6 +296,8 @@ export default {
         }
       }),
       this.sockets.subscribe(this.key.key.toString(), (data) => {
+        console.log('Socket general: '+ data.type);
+        
              if (data.type=='general'){
                 this.getScreenInfo({uuid: this.uuid, idScreen: this.key.key})
                if(data.data.appSelected != 'DownloadFiles')
