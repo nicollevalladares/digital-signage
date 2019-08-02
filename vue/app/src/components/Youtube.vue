@@ -16,9 +16,9 @@
             :height="this.$vssHeight"
              >
         </vytia-player>  -->
-         <!-- <iframe ref="frame" id="player" type="text/html" :width="this.$vssWidth" :height="this.$vssHeight"
+         <iframe ref="frame" id="player" type="text/html" width="500" height="300"
             src="http://www.youtube.com/embed?autoplay=1&controls=0&enablejsapi=1&modestbranding=0&iv_load_policy=0&version=3&showinfo=0&listType=playlist&list=RDRK1K2bCg4J8"
-            frameborder="0" /> -->
+            frameborder="0" /> 
             <video autoplay id="vid"></video>
       <marquee v-if="this.marqueeActive"/>
   </div>
