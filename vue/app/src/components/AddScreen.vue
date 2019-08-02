@@ -1,7 +1,7 @@
 <template>
     <v-container>
-        <div id="newScreen" ref="all">
-            <v-btn :to="{name: 'Youtube'}" color="error">Youtube</v-btn>
+        <div id="newScreen">
+            <!-- <v-btn :to="{name: 'Youtube'}" color="error">Youtube</v-btn> -->
             <!-- <v-btn :to="{name: 'Weather'}" color="success">Weather</v-btn>  -->
             <div v-if="!scanned">
                 <div id="newScreenTitle">CONFIGURACIÓN DE NUEVA PANTALLA</div>
@@ -26,13 +26,9 @@
 import axios from 'axios'
 import { mapActions, mapState } from 'vuex'
 // import screenshot from 'screenshot-desktop'
-import html2canvas from 'html2canvas'
-import servers from '../serverConfig.json'
-
 
 export default {
     name: 'AddScreen',
-    mixins : [],
     components: {
     
     },

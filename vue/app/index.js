@@ -5,10 +5,7 @@ var bodyParser = require("body-parser")
 const path = require('path')
 const fs = require('fs')
 const rimraf = require("rimraf")
-// const screenshot = require('screenshot-desktop')
-const screenshot = require('electron-screenshot')
-const axios = require ('axios')
-const FormData = require('form-data')
+
 
 app.use(cors())
 
