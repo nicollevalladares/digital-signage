@@ -1,9 +1,10 @@
 <template>
-  <div id="div-player" >
+  <div id="div-player" ref="all" >
     <video v-show="this.visiblePlayer1" id='player' width="100%"  height="100%" ></video>
     <video v-show="this.visiblePlayer2" id='player2' width="100%"  height="100%" ></video>
     <img v-show="this.visibleImagenViewer" id="img" width="100%"  height="100%">
     <marquee v-if="this.marqueeActive"/>
+
   </div>
 </template>
 
@@ -40,7 +41,8 @@ export default {
       totalFiles : 0,
       actuallyFileDownloading : 0,
       newFiles : [],
-      playingDefaultVideo : false
+      playingDefaultVideo : false,
+      img : null
     }
   },
     sockets: {
@@ -48,6 +50,20 @@ export default {
     },
   methods: {
     ...mapActions(['getUUID', 'getScreenInfo']),
+
+   async print() {
+      const el = this.$refs.all;
+      const options = {
+        type: 'dataURL'
+      }
+        var base = await this.$html2canvas(el, options);
+        // axios.get(`${servers.FTPServer}/screenshot`, {
+        //   base
+        // }).then(response=>{
+        //     console.log(res);  
+        // })
+    },
+
 
     playNextFile : function (){
       if (!this.updatingPlaylist){
@@ -290,6 +306,7 @@ export default {
     ...mapState(['uuid', 'key' ,'imagesDuration', 'idPlaylist', 'marqueeActive'])
   },
   created(){
+    var that = this;
      this.sockets.subscribe(this.idPlaylist, (data) => {
         if (!this.playingDefaultVideo){
             console.log('Playlist Updated');
@@ -300,17 +317,8 @@ export default {
         console.log('Socket general: '+ data.type);
 
             if (data.type=='screenshot'){
-              console.log('Haciendo petición de captura a ftp server');
-              
-                // axios.get(`${servers.FTPServer}/screenshot`).then(response=>{
-                //     console.log(res);  
-                // })
-                 var options = {
-                    filename : 'cap.png'
-                  }
-                  screenshot(options, (res)=>{
-                    console.log(res); 
-                  })
+              console.log('Haciendo petición de captura a ftp server');             
+              that.print();
              }
              if (data.type=='general'){
                 this.getScreenInfo({uuid: this.uuid, idScreen: this.key.key})

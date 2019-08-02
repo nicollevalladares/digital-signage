@@ -177,7 +177,12 @@ app.get("/existDefaultVideo/:fileName",function(req,res){
     }
   })
 
-app.get("/screenshot", function(req,res){
+app.post("/screenshot", function(req,res){
+  // console.log(req.body.base);
+  // var base64Data = req.body.base.replace(/^data:image\/png;base64,/, "");
+  // require("fs").writeFile("out.png", base64Data, 'base64', function(err) {
+  //   console.log(err);
+  // });
   // console.log('Generando screenshot');
   // var form = new FormData();
   // var respuesta = res;
@@ -191,7 +196,7 @@ app.get("/screenshot", function(req,res){
   //         respuesta.json({code : 1 , message: 'File saved'})
   //     })
   // })
- 
+
 })
 
 
