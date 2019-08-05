@@ -1,23 +1,23 @@
 <template>
   <div id="div-yt">
-       <vytia-player 
+       <!-- <vytia-player ref="yt"
           :ytid=" this.youtubeUserConfig.ytVideoId"
           :playerVars ="{
             'listType': this.youtubeUserConfig.type, 
             'list': this.youtubeUserConfig.list,
             'controls': 0,
-            'autoplay' : 1,
             'modestbranding': 0,
             'iv_load_policy': 3,
-            'showinfo': 0
+            'showinfo': 0,
+            'autoplay': 1
             }" 
             :width ="this.$vssWidth" 
             :height="this.$vssHeight"
+            @ready="onPlayerReady"
+            @error ="handleError"
              >
-        </vytia-player> 
-         <!-- <iframe ref="frame" type="text/html" width="500" height="300"
-            src="http://www.youtube.com/embed?autoplay=1&controls=0&enablejsapi=1&modestbranding=0&iv_load_policy=0&version=3&showinfo=0&listType=playlist&list=RDRK1K2bCg4J8"
-            frameborder="0" />  -->
+        </vytia-player>  -->
+        <youtube-playlist ref="yt" :videos="arrayOfVideos" aspect-ratio="100:50"/>
       <marquee v-if="this.marqueeActive"/>
   </div>
 </template>
@@ -26,30 +26,53 @@
 import { mapActions, mapState } from 'vuex'
 import VueScreenSize from 'vue-screen-size'
 import marquee from './Marquee'
-import {mixin as VueTimers} from 'vue-timers'
-import screenshot from 'electron-screenshot'
-import { desktopCapturer }  from 'electron'
-import { log } from 'util';
 import axios from 'axios'
-import { setTimeout } from 'timers';
 
 export default {
     name: 'Youtube',
-    mixins: [VueScreenSize.VueScreenSizeMixin, VueTimers],
+    mixins: [VueScreenSize.VueScreenSizeMixin],
       components: {
         marquee
     },
     data(){
         return {
-            
+            arrayOfVideos : [
+                {
+                    url: 'https://www.youtube.com/watch?v=6JLs8M153Uw',
+                    config: {
+                        autoplay: 1,
+                        color: 'white',
+                        // You can use any params from https://developers.google.com/youtube/player_parameters#Manual_IFrame_Embeds
+                    }
+                }
+            ]
         }
   },
   sockets: {
 
     },
    methods :{
-  
+     onPlayerReady () {
+      //  console.log(this.$refs.yt.player);
+       var that = this;
+        setTimeout (function(){
+          that.$refs.btn.click(); 
+        },3000)
+      // you have access to the ref here
+      // this.$refs.yt.player.playVideo();
 
+    
+      // you can see the full list of methods available here
+      // https://developers.google.com/youtube/iframe_api_reference?hl=fr#Playback_controls
+    },
+    handleError (e){
+        console.log('ssssssssssssss');
+        
+    },
+    play (){
+       this.$refs.yt.player.playVideo();
+ 
+    }
   },
    computed: {
       ...mapState(['youtubeUserConfig','key', 'marqueeActive'])
@@ -63,6 +86,11 @@ export default {
             }
         })
   },
+
+  mounted (){
+    console.log(this.$refs.yt.$refs);
+    
+  }
 }
 
 </script>

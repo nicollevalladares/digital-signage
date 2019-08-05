@@ -51,20 +51,6 @@ export default {
   methods: {
     ...mapActions(['getUUID', 'getScreenInfo']),
 
-   async print() {
-      const el = this.$refs.all;
-      const options = {
-        type: 'dataURL'
-      }
-        var base = await this.$html2canvas(el, options);
-        // axios.get(`${servers.FTPServer}/screenshot`, {
-        //   base
-        // }).then(response=>{
-        //     console.log(res);  
-        // })
-    },
-
-
     playNextFile : function (){
       if (!this.updatingPlaylist){
         if (this.playList.length ==1){
@@ -314,17 +300,25 @@ export default {
         }
       }),
       this.sockets.subscribe(this.key.key.toString(), (data) => {
-        console.log('Socket general: '+ data.type);
-
-            if (data.type=='screenshot'){
-              console.log('Haciendo petición de captura a ftp server');             
-              that.print();
-             }
-             if (data.type=='general'){
-                this.getScreenInfo({uuid: this.uuid, idScreen: this.key.key})
-               if(data.data.appSelected != 'DownloadFiles')
-                  this.sockets.unsubscribe(this.key.key.toString());
-             }
+        console.log('Socket general: ');
+        console.log(data.data.configuration.defaultPlaylist);
+        
+        if((data.data.configuration.defaultPlaylist != this.idPlaylist) && (data.type=='general')){
+            console.log('Playlist changed');
+            this.sockets.unsubscribe(this.idPlaylist);
+             this.sockets.subscribe(data.data.configuration.defaultPlaylist, (data) => {
+              if (!this.playingDefaultVideo){
+                  console.log('Playlist Updated');
+                  this.updatingPlaylist=true;
+              }
+             })
+            this.updatingPlaylist=true;
+        }
+        if (data.type=='general'){
+        this.getScreenInfo({uuid: this.uuid, idScreen: this.key.key})
+          if(data.data.appSelected != 'DownloadFiles')
+            this.sockets.unsubscribe(this.key.key.toString());
+        }
       })
   }
 }

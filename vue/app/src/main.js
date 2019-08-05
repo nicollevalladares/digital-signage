@@ -4,7 +4,7 @@ import jsonconfig from '../config.json'
 import router from './router'
 import store from './store'
 import VueSocketIO from 'vue-socket.io'
-import VuePlayerPlugin from 'vue-youtube-iframe-api'
+import YouTubePlaylist from 'vue-youtube-playlist'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
 
@@ -23,9 +23,7 @@ if (ELECTRON_DETECTED) {
 }
 export const config = tmpConfig
 
-Vue.use(VuePlayerPlugin, {
-  loadComponent : true // create the global player component <vytia-player></vytia-player>
-})
+Vue.component('youtube-playlist', YouTubePlaylist);
  
 Vue.use(Vuetify)
 new Vue({
