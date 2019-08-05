@@ -15,8 +15,6 @@ import { mapActions, mapState } from 'vuex'
 import marquee from './Marquee'
 import dl from 'download-file-with-progressbar'
 import servers from '../serverConfig.json'
-import screenshot from 'electron-screenshot'
-
 
 export default {
   mixins: [VueTimers],
@@ -300,22 +298,23 @@ export default {
         }
       }),
       this.sockets.subscribe(this.key.key.toString(), (data) => {
-        console.log('Socket general: ');
-        console.log(data.data.configuration.defaultPlaylist);
-        
-        if((data.data.configuration.defaultPlaylist != this.idPlaylist) && (data.type=='general')){
-            console.log('Playlist changed');
-            this.sockets.unsubscribe(this.idPlaylist);
-             this.sockets.subscribe(data.data.configuration.defaultPlaylist, (data) => {
-              if (!this.playingDefaultVideo){
-                  console.log('Playlist Updated');
-                  this.updatingPlaylist=true;
-              }
-             })
-            this.updatingPlaylist=true;
-        }
         if (data.type=='general'){
-        this.getScreenInfo({uuid: this.uuid, idScreen: this.key.key})
+        //  console.log(data.data.configuration);
+         
+          if((data.data.configuration.defaultPlaylist != this.idPlaylist)){
+              console.log('Playlist changed');
+              this.sockets.unsubscribe(this.idPlaylist);
+              this.sockets.subscribe(data.data.configuration.defaultPlaylist, (data) => {
+
+                if (!this.playingDefaultVideo){
+                    console.log('Playlist Updated');
+                    this.updatingPlaylist=true;
+                }
+              })
+              this.updatingPlaylist=true;
+          }
+
+          this.getScreenInfo({uuid: this.uuid, idScreen: this.key.key})
           if(data.data.appSelected != 'DownloadFiles')
             this.sockets.unsubscribe(this.key.key.toString());
         }

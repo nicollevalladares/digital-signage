@@ -51,7 +51,7 @@ export default new Vuex.Store({
     },
 
     setConfiguration (state, conf){
- console.log(conf.data);
+//  console.log(conf.data);
         if (conf.data){
           if (conf.data.files != undefined){
             state.files = conf.data.files;

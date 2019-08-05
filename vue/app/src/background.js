@@ -5,12 +5,6 @@ import { format as formatUrl } from 'url'
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib'
 import fs from 'fs'
 import electron from 'electron'
-// const {dialog} = require('electron').remote;
-
-// setInterval (function (){
-//   console.log('waiting add/remove screen');
-//   changeSize();
-// },2000)
 
 var configContent
 

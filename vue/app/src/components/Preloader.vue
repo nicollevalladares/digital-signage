@@ -11,7 +11,6 @@
 </template>
 
 <script>
-  const isReachable = require('is-reachable')
   import ProgressBar from 'progressbar.js'
   import router from '../router'
   import axios from 'axios'
