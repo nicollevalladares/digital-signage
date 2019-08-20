@@ -64,7 +64,7 @@ export default {
             }
         }),
         // screenshot({ filename: 'demo.png' })
-        this.src = "https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=http://beanage.dev.hn/apps/" + this.idScreen
+        this.src = "https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=http://beanage.dev.hn/configQR/" + this.idScreen
     },
     computed: {
       ...mapState(['uuid', 'key'])
